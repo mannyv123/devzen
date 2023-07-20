@@ -7,7 +7,7 @@ const Clock = () => {
 
     //Function to get the current time in "hh:mm" format
     function getTime() {
-        return new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+        return new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }).slice(0, -3);
     }
 
     //Update the current time state every minute using setInterval
@@ -20,7 +20,11 @@ const Clock = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    return <div suppressHydrationWarning>{currentTime}</div>;
+    return (
+        <div suppressHydrationWarning className="text-6xl md:text-9xl text-white">
+            {currentTime}
+        </div>
+    );
 };
 
 export default Clock;

@@ -10,7 +10,7 @@ export default function Home() {
             <div className="absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout">
                 <div></div>
                 <div></div>
-                <div>
+                <div className="flex justify-center">
                     <Clock />
                 </div>
                 <div></div>
