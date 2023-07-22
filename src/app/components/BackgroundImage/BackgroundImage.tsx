@@ -1,25 +1,18 @@
-"use client";
-
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const BackgroundImage = () => {
-    const [image, setImage] = useState("");
+let API_URL = process.env.URL;
 
-    const getImage = async () => {
-        const result = await fetch("/api/image", {
-            method: "GET",
-        });
+const getImage = async () => {
+    //Relative API urls only working using client component in nextjs; however using server side component which requires absolute url
+    const result = await fetch(`${API_URL}/api/image/`, {
+        method: "GET",
+    });
+    return await result.json();
+};
 
-        const data = await result.json();
-        setImage(data);
-    };
-
-    useEffect(() => {
-        getImage();
-    }, []);
-
-    //TODO: add loading animation for background
+const BackgroundImage = async () => {
+    let image = await getImage();
 
     return (
         <div className="relative h-full w-full">
