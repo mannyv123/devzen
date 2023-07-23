@@ -2,8 +2,8 @@ import React from "react";
 
 const ChatGpt = () => {
     return (
-        <div className="flex flex-col md:flex-row gap-2 md:gap-4 text-white">
-            <div className="flex items-center border border-white rounded-full md:opacity-40 hover:opacity-100 hover:pr-2 group">
+        <div className="flex flex-col lg:flex-row gap-2 md:gap-4 text-white">
+            <div className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group">
                 <div className="w-10 h-10 p-2">
                     <svg
                         className="object-contain w-full h-full"
@@ -17,10 +17,12 @@ const ChatGpt = () => {
                         />
                     </svg>
                 </div>
-                <p className="overflow-hidden w-0 h-0 group-hover:w-fit group-hover:h-fit">Time Complexity</p>
+                <p className="whitespace-nowrap overflow-hidden transition-width duration-300 text-center w-[7.5rem] lg:w-0 lg:h-0 group-hover:w-[7.5rem] group-hover:h-fit">
+                    Time Complexity
+                </p>
             </div>
 
-            <div className="flex items-center border border-white rounded-full md:opacity-40 hover:opacity-100 hover:pr-2 group">
+            <div className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group">
                 <div className="w-10 h-10 p-2">
                     <svg
                         className="object-contain w-full h-full"
@@ -34,10 +36,12 @@ const ChatGpt = () => {
                         />
                     </svg>
                 </div>
-                <p className="overflow-hidden w-0 h-0 group-hover:w-fit group-hover:h-fit">Find Bugs</p>
+                <p className="whitespace-nowrap overflow-hidden transition-width duration-300 text-center flex-1 lg:w-0 lg:h-0 group-hover:w-[4.4375rem] group-hover:h-fit">
+                    Find Bugs
+                </p>
             </div>
 
-            <div className="flex items-center border border-white rounded-full md:opacity-40 hover:opacity-100 hover:pr-2 group">
+            <div className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group">
                 <div className="w-10 h-10 p-2">
                     <svg
                         className="object-contain w-full h-full"
@@ -51,7 +55,9 @@ const ChatGpt = () => {
                         />
                     </svg>
                 </div>
-                <p className="overflow-hidden w-0 h-0 group-hover:w-fit group-hover:h-fit">Explain Code</p>
+                <p className="whitespace-nowrap overflow-hidden transition-width duration-300 text-center flex-1 lg:w-0 lg:h-0 group-hover:w-[5.8125rem] group-hover:h-fit">
+                    Explain Code
+                </p>
             </div>
         </div>
     );
