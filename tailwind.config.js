@@ -13,6 +13,12 @@ module.exports = {
             transitionProperty: {
                 width: "width",
             },
+            width: {
+                modal: "60vw",
+            },
+            height: {
+                modal: "70vh",
+            },
         },
     },
     plugins: [],
