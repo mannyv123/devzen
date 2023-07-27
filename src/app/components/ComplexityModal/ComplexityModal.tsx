@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, RefObject, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, RefObject, useEffect, useRef, useState } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
 
 interface Message {
@@ -28,13 +28,27 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
     const [inputValues, setInputValues] = useState(initialValues);
 
     const infoRef = useRef<HTMLDialogElement>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            // messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+            const lastMessage = messagesEndRef.current.lastElementChild;
+            if (lastMessage) {
+                lastMessage.scrollIntoView({ behavior: "smooth" });
+            }
+            // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const handleInputs = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.currentTarget;
         setInputValues({ ...inputValues, [name]: value });
     };
-
-    console.log(inputValues);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -64,7 +78,7 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
             >
                 <MdClose size={"1.5rem"} />
             </div>
-            <div>
+            <div className="flex flex-col h-full">
                 <div className="flex gap-3 items-baseline">
                     <h1 className="text-2xl">Calculate Time and Space Complexity</h1>
                     <MdInfoOutline onClick={() => infoRef.current?.show()} className="cursor-pointer" />
@@ -78,7 +92,7 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
                         </p>
                     </dialog>
                 </div>
-                <div>
+                <div ref={messagesEndRef} className="flex-1 border overflow-y-auto">
                     {messages.map((message, index) => (
                         <div key={index}>
                             <p>Role: {message.role}</p>
@@ -115,7 +129,7 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
                         <textarea
                             name="code"
                             id="code"
-                            className="border resize-none"
+                            className="border resize-none h-32"
                             onChange={handleInputs}
                             value={inputValues.code}
                         ></textarea>
