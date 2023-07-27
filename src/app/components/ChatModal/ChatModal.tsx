@@ -77,13 +77,19 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
     };
 
     return (
-        <dialog ref={modalRef} className="w-modal h-modal rounded-lg p-6">
-            <div className="absolute right-7 cursor-pointer" onClick={() => modalRef.current?.close()}>
+        <dialog
+            ref={modalRef}
+            className="w-full h-full max-h-full max-w-full lg:w-modal lg:h-modal rounded-lg p-2 md:p-6"
+        >
+            <div
+                className="absolute right-2 md:right-7 cursor-pointer"
+                onClick={() => modalRef.current?.close()}
+            >
                 <MdClose size={"1.5rem"} />
             </div>
             <div className="flex flex-col gap-4 h-full">
-                <div className="flex gap-3 items-baseline">
-                    <h1 className="text-2xl">{content.title}</h1>
+                <div className="flex flex-col md:flex-row gap-3 items-baseline">
+                    <h1 className="md:text-2xl">{content.title}</h1>
                     <MdInfoOutline onClick={() => infoRef.current?.show()} className="cursor-pointer" />
                     <dialog ref={infoRef} className="w-3/5 h-fit border border-black top-14 p-6 rounded-lg">
                         <div className="absolute top-2 right-2 cursor-pointer">
@@ -101,7 +107,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
                             key={index}
                             className={`${
                                 message.role === "chatbot" ? "bg-[#d7f2fb]" : "bg-[#eeecec]"
-                            } flex w-fit rounded-lg`}
+                            } flex w-fit rounded-lg text-sm md:text-base`}
                         >
                             <p className="w-14 p-2 border-r-[.0625rem] border-[#cccac9] text-center">
                                 {message.role === "chatbot" ? "AI" : "User"}
@@ -111,7 +117,11 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
                     ))}
                 </div>
                 <div>
-                    <form action="submit" onSubmit={handleSubmit} className="flex flex-col gap-2">
+                    <form
+                        action="submit"
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-2 text-sm md:text-base"
+                    >
                         <label htmlFor="language">Language:</label>
                         <select
                             name="language"
