@@ -3,13 +3,23 @@
 import React, { ChangeEvent, FormEvent, RefObject, useEffect, useRef, useState } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
 
+//TODO: disable submit while waiting for api response
+//TODO: message timestamps
+//TODO: hover states
+//TODO: form validation
+
 interface Message {
     role: "user" | "chatbot";
     content: string;
 }
 
-interface ComplexityModalProps {
-    complexityModalRef: RefObject<HTMLDialogElement>;
+interface ChatModalProps {
+    modalRef: RefObject<HTMLDialogElement>;
+    apiRoute: string;
+    content: {
+        title: string;
+        desc: string;
+    };
 }
 
 const initialValues = {
@@ -17,11 +27,11 @@ const initialValues = {
     code: "",
 };
 
-const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
+const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
     const [messages, setMessages] = useState<Message[]>([
         {
             role: "chatbot",
-            content: "Welcome! Please enter your function and language.",
+            content: "Welcome! Please enter your code and language.",
         },
     ]);
 
@@ -32,12 +42,10 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            // messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
             const lastMessage = messagesEndRef.current.lastElementChild;
             if (lastMessage) {
                 lastMessage.scrollIntoView({ behavior: "smooth" });
             }
-            // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
         }
     };
 
@@ -53,11 +61,9 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        //TODO: add input/form validation
-
         setMessages((prevMessages) => [...prevMessages, { role: "user", content: inputValues.code }]);
 
-        const result = await fetch("/api/chatgpt/complexity", {
+        const result = await fetch(`/api/chatgpt/${apiRoute}`, {
             method: "POST",
             body: JSON.stringify({
                 inputFunc: inputValues.code,
@@ -71,25 +77,19 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
     };
 
     return (
-        <dialog ref={complexityModalRef} className="w-modal h-modal rounded-lg p-6">
-            <div
-                className="absolute right-7 cursor-pointer"
-                onClick={() => complexityModalRef.current?.close()}
-            >
+        <dialog ref={modalRef} className="w-modal h-modal rounded-lg p-6">
+            <div className="absolute right-7 cursor-pointer" onClick={() => modalRef.current?.close()}>
                 <MdClose size={"1.5rem"} />
             </div>
             <div className="flex flex-col gap-4 h-full">
                 <div className="flex gap-3 items-baseline">
-                    <h1 className="text-2xl">Calculate Time and Space Complexity</h1>
+                    <h1 className="text-2xl">{content.title}</h1>
                     <MdInfoOutline onClick={() => infoRef.current?.show()} className="cursor-pointer" />
                     <dialog ref={infoRef} className="w-3/5 h-fit border border-black top-14 p-6 rounded-lg">
                         <div className="absolute top-2 right-2 cursor-pointer">
                             <MdClose onClick={() => infoRef.current?.close()} />
                         </div>
-                        <p className="text-sm">
-                            Provide a function and the corresponding language it's written in and the ChatGPT
-                            API will determine the function's time and space complexity with explanations.
-                        </p>
+                        <p className="text-sm">{content.desc}</p>
                     </dialog>
                 </div>
                 <div
@@ -157,4 +157,4 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
     );
 };
 
-export default ComplexityModal;
+export default ChatModal;

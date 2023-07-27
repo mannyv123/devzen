@@ -1,13 +1,32 @@
 "use client";
 
 import React, { useRef } from "react";
-import ComplexityModal from "../ComplexityModal/ComplexityModal";
+import ChatModal from "../ChatModal/ChatModal";
+
+const complexity = {
+    title: "Calculate Time and Space Complexity",
+    desc: "Provide a function and the corresponding language it's written in and the ChatGPT API will determine the function's time and space complexity with explanations.",
+};
+
+const bug = {
+    title: "Find and Fix Bugs",
+    desc: "Provide code and the corresponding language it's written in and the ChatGPT API will determine if there are any bugs in the code and how to fix them.",
+};
+
+const explain = {
+    title: "Code Explanation",
+    desc: "Provide code and the corresponding language it's written in and the ChatGPT API will help provide a description of what the code does.",
+};
 
 const ChatGpt = () => {
     const complexityModalRef = useRef<HTMLDialogElement>(null);
+    const bugModalRef = useRef<HTMLDialogElement>(null);
+    const explainModalRef = useRef<HTMLDialogElement>(null);
     return (
         <>
-            <ComplexityModal complexityModalRef={complexityModalRef} />
+            <ChatModal modalRef={complexityModalRef} apiRoute="complexity" content={complexity} />
+            <ChatModal modalRef={bugModalRef} apiRoute="bug" content={bug} />
+            <ChatModal modalRef={explainModalRef} apiRoute="explain" content={explain} />
             <div className="flex flex-col lg:flex-row gap-2 md:gap-4 text-white">
                 <div
                     className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group"
@@ -31,7 +50,10 @@ const ChatGpt = () => {
                     </p>
                 </div>
 
-                <div className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group">
+                <div
+                    className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group"
+                    onClick={() => bugModalRef.current?.showModal()}
+                >
                     <div className="w-10 h-10 p-2">
                         <svg
                             className="object-contain w-full h-full"
@@ -50,7 +72,10 @@ const ChatGpt = () => {
                     </p>
                 </div>
 
-                <div className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group">
+                <div
+                    className="cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group"
+                    onClick={() => explainModalRef.current?.showModal()}
+                >
                     <div className="w-10 h-10 p-2">
                         <svg
                             className="object-contain w-full h-full"
