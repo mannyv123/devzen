@@ -34,12 +34,26 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
         setInputValues({ ...inputValues, [name]: value });
     };
 
+    console.log(inputValues);
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         //TODO: add input/form validation
 
         setMessages((prevMessages) => [...prevMessages, { role: "user", content: inputValues.code }]);
+
+        const result = await fetch("/api/chatgpt/complexity", {
+            method: "POST",
+            body: JSON.stringify({
+                inputFunc: inputValues.code,
+                language: inputValues.language,
+            }),
+        });
+
+        const chatbotMessage: string = await result.json();
+
+        setMessages((prevMessages) => [...prevMessages, { role: "chatbot", content: chatbotMessage }]);
     };
 
     return (
@@ -75,7 +89,7 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
                 <div>
                     <form action="submit" onSubmit={handleSubmit} className="flex flex-col">
                         <label htmlFor="language">Language:</label>
-                        <select name="language" id="language" className="border">
+                        <select name="language" id="language" className="border" onChange={handleInputs}>
                             <option>Select a language</option>
                             <option value="c++">C++</option>
                             <option value="java">Java</option>
