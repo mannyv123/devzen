@@ -78,7 +78,7 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
             >
                 <MdClose size={"1.5rem"} />
             </div>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col gap-4 h-full">
                 <div className="flex gap-3 items-baseline">
                     <h1 className="text-2xl">Calculate Time and Space Complexity</h1>
                     <MdInfoOutline onClick={() => infoRef.current?.show()} className="cursor-pointer" />
@@ -92,18 +92,33 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
                         </p>
                     </dialog>
                 </div>
-                <div ref={messagesEndRef} className="flex-1 border overflow-y-auto">
+                <div
+                    ref={messagesEndRef}
+                    className="flex-1 flex flex-col gap-2 overflow-y-auto bg-[#f8f7f7] p-3 rounded-lg"
+                >
                     {messages.map((message, index) => (
-                        <div key={index}>
-                            <p>Role: {message.role}</p>
-                            <p>Message: {message.content}</p>
+                        <div
+                            key={index}
+                            className={`${
+                                message.role === "chatbot" ? "bg-[#d7f2fb]" : "bg-[#eeecec]"
+                            } flex w-fit rounded-lg`}
+                        >
+                            <p className="w-14 p-2 border-r-[.0625rem] border-[#cccac9] text-center">
+                                {message.role === "chatbot" ? "AI" : "User"}
+                            </p>
+                            <p className="p-2 flex-1">{message.content}</p>
                         </div>
                     ))}
                 </div>
                 <div>
-                    <form action="submit" onSubmit={handleSubmit} className="flex flex-col">
+                    <form action="submit" onSubmit={handleSubmit} className="flex flex-col gap-2">
                         <label htmlFor="language">Language:</label>
-                        <select name="language" id="language" className="border" onChange={handleInputs}>
+                        <select
+                            name="language"
+                            id="language"
+                            className="border w-fit rounded-md p-[.125rem]"
+                            onChange={handleInputs}
+                        >
                             <option>Select a language</option>
                             <option value="c++">C++</option>
                             <option value="java">Java</option>
@@ -125,15 +140,16 @@ const ComplexityModal = ({ complexityModalRef }: ComplexityModalProps) => {
                             <option value="elixir">Elixir</option>
                             <option value="dart">Dart</option>
                         </select>
-                        <label htmlFor="code">Code:</label>
+                        <label htmlFor="code">Function:</label>
                         <textarea
                             name="code"
                             id="code"
-                            className="border resize-none h-32"
+                            className="border resize-none h-32 rounded-lg p-2"
                             onChange={handleInputs}
                             value={inputValues.code}
+                            placeholder="Enter a function here"
                         ></textarea>
-                        <button>Submit</button>
+                        <button className="border rounded-lg p-2 w-fit">Submit</button>
                     </form>
                 </div>
             </div>

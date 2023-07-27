@@ -14,10 +14,10 @@ module.exports = {
                 width: "width",
             },
             width: {
-                modal: "80vw",
+                modal: "60vw",
             },
             height: {
-                modal: "80vh",
+                modal: "85vh",
             },
         },
     },
