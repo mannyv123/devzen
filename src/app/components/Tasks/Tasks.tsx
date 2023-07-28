@@ -31,7 +31,7 @@ const Tasks = () => {
                 <div className="h-full w-full bg-white rounded-lg bg-opacity-90"></div>
             </dialog>
             <div
-                className={`relative w-fit flex justify-center items-center ml-4 mt-3 cursor-pointer text-white border rounded-full pr-2 lg:pr-0 hover:pr-2  hover:opacity-100 group ${
+                className={`relative w-fit flex justify-center items-center ml-4 mt-3 cursor-pointer text-white border rounded-full pr-2 lg:pr-0 hover:pr-2 hover:opacity-100 group ${
                     expanded ? "lg:pr-2 lg:opacity-100" : "lg:pr-0 lg:opacity-40"
                 }`}
                 onClick={handleDialogToggle}
