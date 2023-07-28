@@ -10,6 +10,15 @@ module.exports = {
             gridTemplateRows: {
                 layout: "5rem minmax(0, 18rem) auto minmax(auto, 1fr) auto",
             },
+            transitionProperty: {
+                width: "width",
+            },
+            width: {
+                modal: "60vw",
+            },
+            height: {
+                modal: "85vh",
+            },
         },
     },
     plugins: [],

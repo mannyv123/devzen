@@ -17,6 +17,9 @@ export const GET = async () => {
                 headers: {
                     Authorization: "Client-ID " + ACCESS_KEY,
                 },
+                next: {
+                    revalidate: 3600,
+                },
             }
         );
 
@@ -28,7 +31,10 @@ export const GET = async () => {
         }
 
         const data: UnsplashResponse = await result.json();
-        return NextResponse.json(data.urls.full, { status: 200 });
+
+        return NextResponse.json(data.urls.full, {
+            status: 200,
+        });
     } catch (err) {
         console.log(err);
         return NextResponse.json(`Error occurred ${err}`, { status: 500 });

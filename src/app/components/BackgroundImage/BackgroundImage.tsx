@@ -8,6 +8,7 @@ const getImage = async () => {
     const result = await fetch(`${API_URL}/api/image/`, {
         method: "GET",
     });
+
     return await result.json();
 };
 
@@ -16,7 +17,13 @@ const BackgroundImage = async () => {
 
     return (
         <div className="relative h-full w-full">
-            <Image src={`${image}`} fill={true} alt="background" className="object-cover object-center" />
+            <Image
+                priority
+                src={`${image}`}
+                fill={true}
+                alt="background"
+                className="object-cover object-center"
+            />
         </div>
     );
 };
