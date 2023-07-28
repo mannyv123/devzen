@@ -1,6 +1,7 @@
 import BackgroundImage from "./components/BackgroundImage/BackgroundImage";
 import ChatGpt from "./components/ChatGpt/ChatGpt";
 import Clock from "./components/Clock/Clock";
+import Tasks from "./components/Tasks/Tasks";
 
 export default function Home() {
     return (
@@ -9,7 +10,9 @@ export default function Home() {
                 <BackgroundImage />
             </div>
             <div className="absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout">
-                <div></div>
+                <div>
+                    <Tasks />
+                </div>
                 <div></div>
                 <div className="flex flex-col w-full justify-center items-center gap-2">
                     <Clock />
