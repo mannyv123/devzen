@@ -12,6 +12,7 @@ module.exports = {
             },
             transitionProperty: {
                 width: "width",
+                height: "height",
             },
             width: {
                 modal: "60vw",
