@@ -24,7 +24,7 @@ const Tasks = () => {
         <>
             <dialog
                 ref={tasksRef}
-                className={`max-h-full w-1/4 ml-0 bg-transparent pb-6 pt-16 pl-4 focus:outline-none overflow-hidden transition-height duration-700 ease-in-out ${
+                className={`max-h-full w-full lg:w-1/4 ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-height duration-700 ease-in-out ${
                     expanded ? "h-1/2" : "h-0"
                 }`}
             >
