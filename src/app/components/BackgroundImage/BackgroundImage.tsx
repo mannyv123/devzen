@@ -24,6 +24,7 @@ const BackgroundImage = async () => {
                 alt="background"
                 className="object-cover object-center"
             />
+            <div className="absolute inset-x-0 inset-y-0 bg-black opacity-[15%]"></div>
         </div>
     );
 };
