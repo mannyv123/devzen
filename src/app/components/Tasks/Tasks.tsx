@@ -51,11 +51,22 @@ const Tasks = () => {
         <>
             <dialog
                 ref={tasksRef}
-                className={`max-h-full w-full lg:w-1/4 ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-height duration-700 ease-in-out ${
-                    expanded ? "h-1/2" : "h-0"
+                className={`w-full lg:w-1/4  ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-height duration-700 ease-in-out ${
+                    expanded ? "h-full" : "h-0"
                 }`}
             >
-                <div className="h-full w-full bg-white rounded-lg bg-opacity-90 p-4">
+                <div className="h-full w-full bg-white rounded-lg bg-opacity-90">
+                    {/* <h3>Todo</h3>
+                    <ul>
+                        {sampleData.map((task) => (
+                            <li key={task.id} className="border-b-2 last:border-none">
+                                {task.task}
+                            </li>
+                        ))}
+                    </ul> */}
+                </div>
+                {/* <div className="h-full w-full bg-white rounded-lg bg-opacity-90 p-4">
+                    <h3>Completed</h3>
                     <ul>
                         {sampleData.map((task) => (
                             <li key={task.id} className="border-b-2 last:border-none">
@@ -63,7 +74,7 @@ const Tasks = () => {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div> */}
             </dialog>
             <div
                 className={`relative w-fit flex justify-center items-center ml-4 mt-3 cursor-pointer text-white border rounded-full pr-2 lg:pr-0 hover:pr-2 hover:opacity-100 group ${
