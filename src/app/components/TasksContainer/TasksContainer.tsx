@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { MdTaskAlt } from "react-icons/md";
 
 //TODO: figure out why task dialog element doesn't have a smooth transition
@@ -31,10 +31,12 @@ const sampleData: Task[] = [
 ];
 
 const TasksContainer = () => {
+    const [newTask, setNewTask] = useState("");
     const [expanded, setExpanded] = useState(false);
     const tasksRef = useRef<HTMLDialogElement>(null);
 
-    const handleDialogToggle = () => {
+    //handles expanding and closing the task dialog
+    const handleTaskOpenToggle = () => {
         if (tasksRef.current) {
             setExpanded(!expanded);
             if (!expanded) {
@@ -47,6 +49,22 @@ const TasksContainer = () => {
         }
     };
 
+    //handles input of new task
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewTask(e.target.value);
+    };
+
+    //handles new task submission
+    const handleNewTaskSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        sampleData.push({
+            id: `${sampleData.length + 1}`,
+            task: newTask,
+            timestamp: Date.now(),
+        });
+        setNewTask("");
+    };
+
     return (
         <>
             <dialog
@@ -57,11 +75,18 @@ const TasksContainer = () => {
             >
                 <div className="h-full w-full bg-white rounded-lg bg-opacity-90 overflow-hidden">
                     <div className="flex flex-col gap-4 p-4">
-                        <section className="flex justify-between">
-                            <h3>Tasks</h3>
-                            <div className="rounded-full bg-slate-500">
-                                <p>Add Task</p>
-                            </div>
+                        <section>
+                            <form action="submit" onSubmit={handleNewTaskSubmit}>
+                                <input
+                                    className="rounded-lg w-full p-1"
+                                    placeholder="New task ..."
+                                    type="text"
+                                    name="newTask"
+                                    id="newTask"
+                                    onChange={handleInputChange}
+                                    value={newTask}
+                                />
+                            </form>
                         </section>
                         <section className="">
                             <ul>
@@ -89,7 +114,7 @@ const TasksContainer = () => {
                 className={`relative w-fit flex justify-center items-center ml-4 mt-3 cursor-pointer text-white border rounded-full pr-2 lg:pr-0 hover:pr-2 hover:opacity-100 group ${
                     expanded ? "lg:pr-2 lg:opacity-100" : "lg:pr-0 lg:opacity-40"
                 }`}
-                onClick={handleDialogToggle}
+                onClick={handleTaskOpenToggle}
             >
                 <div className="w-10 h-10 p-2">
                     <MdTaskAlt size={"1.5rem"} />
