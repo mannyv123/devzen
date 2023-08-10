@@ -30,7 +30,7 @@ const sampleData: Task[] = [
     },
 ];
 
-const Tasks = () => {
+const TasksContainer = () => {
     const [expanded, setExpanded] = useState(false);
     const tasksRef = useRef<HTMLDialogElement>(null);
 
@@ -55,26 +55,35 @@ const Tasks = () => {
                     expanded ? "h-full" : "h-0"
                 }`}
             >
-                <div className="h-full w-full bg-white rounded-lg bg-opacity-90">
-                    {/* <h3>Todo</h3>
-                    <ul>
-                        {sampleData.map((task) => (
-                            <li key={task.id} className="border-b-2 last:border-none">
-                                {task.task}
-                            </li>
-                        ))}
-                    </ul> */}
+                <div className="h-full w-full bg-white rounded-lg bg-opacity-90 overflow-hidden">
+                    <div className="flex flex-col gap-4 p-4">
+                        <section className="flex justify-between">
+                            <h3>Tasks</h3>
+                            <div className="rounded-full bg-slate-500">
+                                <p>Add Task</p>
+                            </div>
+                        </section>
+                        <section className="">
+                            <ul>
+                                {sampleData.map((task) => (
+                                    <li key={task.id} className="border-b-2 last:border-none">
+                                        {task.task}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                        <section className="">
+                            <h3>Completed</h3>
+                            <ul>
+                                {sampleData.map((task) => (
+                                    <li key={task.id} className="border-b-2 last:border-none">
+                                        {task.task}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    </div>
                 </div>
-                {/* <div className="h-full w-full bg-white rounded-lg bg-opacity-90 p-4">
-                    <h3>Completed</h3>
-                    <ul>
-                        {sampleData.map((task) => (
-                            <li key={task.id} className="border-b-2 last:border-none">
-                                {task.task}
-                            </li>
-                        ))}
-                    </ul>
-                </div> */}
             </dialog>
             <div
                 className={`relative w-fit flex justify-center items-center ml-4 mt-3 cursor-pointer text-white border rounded-full pr-2 lg:pr-0 hover:pr-2 hover:opacity-100 group ${
@@ -97,4 +106,4 @@ const Tasks = () => {
     );
 };
 
-export default Tasks;
+export default TasksContainer;
