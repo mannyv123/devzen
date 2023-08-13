@@ -2,6 +2,7 @@
 
 import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { MdTaskAlt } from "react-icons/md";
+import Task from "../Task/Task";
 
 //TODO: figure out why task dialog element doesn't have a smooth transition
 
@@ -92,7 +93,7 @@ const TasksContainer = () => {
                             <ul>
                                 {sampleData.map((task) => (
                                     <li key={task.id} className="border-b-2 last:border-none">
-                                        {task.task}
+                                        <Task id={task.id} task={task.task} />
                                     </li>
                                 ))}
                             </ul>
