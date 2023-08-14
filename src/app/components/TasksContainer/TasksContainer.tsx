@@ -1,32 +1,28 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, use, useRef, useState } from "react";
 import { MdTaskAlt } from "react-icons/md";
-import Task from "../Task/Task";
-
-//TODO: figure out why task dialog element doesn't have a smooth transition
-
-interface Task {
-    id: string;
-    task: string;
-    timestamp: number;
-}
+import TaskItem from "../TaskItem/TaskItem";
+import { Task } from "@/utils/types";
 
 //temporary
 const sampleData: Task[] = [
     {
         id: "1",
         task: "this is task number 1",
+        completed: true,
         timestamp: 1690774802633,
     },
     {
         id: "2",
         task: "this is task number 2. this is task number 2. this is task number 2. this is task number 2. this is task number 2",
+        completed: false,
         timestamp: 1690774802633,
     },
     {
         id: "3",
         task: "this is task number 3",
+        completed: true,
         timestamp: 1690774802633,
     },
 ];
@@ -34,7 +30,11 @@ const sampleData: Task[] = [
 const TasksContainer = () => {
     const [newTask, setNewTask] = useState("");
     const [expanded, setExpanded] = useState(false);
+    const [taskData, setTaskData] = useState(sampleData);
     const tasksRef = useRef<HTMLDialogElement>(null);
+
+    const completedTasks = taskData.filter((task) => task.completed);
+    const uncompletedTasks = taskData.filter((task) => !task.completed);
 
     //handles expanding and closing the task dialog
     const handleTaskOpenToggle = () => {
@@ -58,28 +58,38 @@ const TasksContainer = () => {
     //handles new task submission
     const handleNewTaskSubmit = (e: FormEvent) => {
         e.preventDefault();
-        sampleData.push({
-            id: `${sampleData.length + 1}`,
+        taskData.push({
+            id: `${taskData.length + 1}`,
             task: newTask,
+            completed: false,
             timestamp: Date.now(),
         });
         setNewTask("");
+    };
+
+    //handle task completion change
+    const handleTaskCompletion = (taskId: string) => {
+        const updatedTasks = taskData.map((taskObj) =>
+            taskObj.id === taskId ? { ...taskObj, completed: !taskObj.completed } : taskObj
+        );
+
+        setTaskData(updatedTasks);
     };
 
     return (
         <>
             <dialog
                 ref={tasksRef}
-                className={`w-full lg:w-1/4  ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-height duration-700 ease-in-out ${
-                    expanded ? "h-full" : "h-0"
+                className={`w-full lg:w-1/4  ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-taskContainer duration-500 ease-in-out ${
+                    expanded ? "h-full opacity-100" : "h-0 opacity-0"
                 }`}
             >
-                <div className="h-full w-full bg-white rounded-lg bg-opacity-90 overflow-hidden">
+                <div className="h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto">
                     <div className="flex flex-col gap-4 p-4">
                         <section>
                             <form action="submit" onSubmit={handleNewTaskSubmit}>
                                 <input
-                                    className="rounded-lg w-full p-1"
+                                    className="rounded-lg w-full px-2 py-1"
                                     placeholder="New task ..."
                                     type="text"
                                     name="newTask"
@@ -91,9 +101,9 @@ const TasksContainer = () => {
                         </section>
                         <section className="">
                             <ul>
-                                {sampleData.map((task) => (
+                                {uncompletedTasks.map((task) => (
                                     <li key={task.id} className="border-b-2 last:border-none">
-                                        <Task id={task.id} task={task.task} />
+                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
                                     </li>
                                 ))}
                             </ul>
@@ -101,9 +111,9 @@ const TasksContainer = () => {
                         <section className="">
                             <h3>Completed</h3>
                             <ul>
-                                {sampleData.map((task) => (
+                                {completedTasks.map((task) => (
                                     <li key={task.id} className="border-b-2 last:border-none">
-                                        {task.task}
+                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
                                     </li>
                                 ))}
                             </ul>
