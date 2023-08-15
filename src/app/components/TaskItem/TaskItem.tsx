@@ -5,6 +5,7 @@ import {
     MdPauseCircleOutline,
     MdRemoveCircleOutline,
     MdOutlineTimer,
+    MdOutlineTimerOff,
 } from "react-icons/md";
 
 interface TaskProps {
@@ -13,6 +14,8 @@ interface TaskProps {
 }
 
 const TaskItem = ({ task, handleTaskCompletion }: TaskProps) => {
+    const [timerOn, setTimerOn] = useState<boolean>(true);
+
     return (
         <div className="flex justify-between items-center group">
             <div className="flex items-start gap-2">
@@ -28,8 +31,15 @@ const TaskItem = ({ task, handleTaskCompletion }: TaskProps) => {
                     {task.task}
                 </label>
             </div>
-            <div>
-                <div className="bg-white lg:w-0 group-hover:w-12 flex gap-2 transition-width duration-300 ease-in-out">
+            <div className="flex items-center gap-2">
+                {timerOn && (
+                    <div className="flex items-center gap-2">
+                        <p>0:00:00</p>
+                    </div>
+                )}
+                {/* <div className="lg:w-0 group-hover:w-16 flex gap-2 transition-width duration-300 ease-in-out"> */}
+                <div className="w-16 flex gap-2 transition-width duration-300 ease-in-out">
+                    {timerOn && <MdOutlineTimerOff />}
                     <MdOutlineTimer />
                     <MdRemoveCircleOutline />
                 </div>
