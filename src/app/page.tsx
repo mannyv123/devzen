@@ -1,9 +1,31 @@
-import BackgroundImage from "./components/BackgroundImage/BackgroundImage";
-import ChatGpt from "./components/ChatGpt/ChatGpt";
-import Clock from "./components/Clock/Clock";
-import TasksContainer from "./components/TasksContainer/TasksContainer";
+import { connectToDb, disconnectFromDb } from "@/utils/db";
+import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
+import ChatGpt from "../components/ChatGpt/ChatGpt";
+import Clock from "../components/Clock/Clock";
+import TasksContainer from "../components/TasksContainer/TasksContainer";
 
-export default function Home() {
+export default async function Home() {
+    //Connect to the db when the application starts
+    try {
+        await connectToDb();
+        console.log("Connected to the database");
+    } catch (err) {
+        console.error(`Error connecting to the database: ${err}`);
+    }
+
+    const handleAppExit = async () => {
+        try {
+            await disconnectFromDb();
+            console.log("Disconnected from the database");
+        } catch (err) {
+            console.error(`Error disconnecting from the database: ${err}`);
+        }
+    };
+
+    process.on("exit", handleAppExit);
+    process.on("SIGINT", handleAppExit);
+    process.on("SIGTERM", handleAppExit);
+
     return (
         <main>
             <div className="absolute inset-x-0 inset-y-0 z-0">
