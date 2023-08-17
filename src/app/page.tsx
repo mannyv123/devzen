@@ -8,7 +8,6 @@ export default async function Home() {
     //Connect to the db when the application starts
     try {
         await connectToDb();
-        console.log("Connected to the database");
     } catch (err) {
         console.error(`Error connecting to the database: ${err}`);
     }

@@ -10,6 +10,7 @@ let dbConnection: mongoose.Connection | null = null;
 
 const connectToDb = async () => {
     if (dbConnection) {
+        console.log("Existing connection to database");
         return dbConnection;
     }
 
@@ -18,6 +19,7 @@ const connectToDb = async () => {
         const connection = await mongoose.connect(MONGODB_URI);
 
         dbConnection = connection.connection;
+        console.log("Connected to the database");
         return dbConnection;
     } catch (err) {
         console.log(err);
