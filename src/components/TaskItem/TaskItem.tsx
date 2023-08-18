@@ -1,7 +1,6 @@
 import { Task } from "@/utils/types";
 import React, { useState } from "react";
 import {
-    MdPlayCircleOutline,
     MdPauseCircleOutline,
     MdRemoveCircleOutline,
     MdOutlineTimer,
@@ -22,12 +21,12 @@ const TaskItem = ({ task, handleTaskCompletion }: TaskProps) => {
                 <input
                     type="checkbox"
                     name="task"
-                    id={task.id}
+                    id={task._id}
                     checked={task.completed}
                     className="mt-[.3rem]"
-                    onChange={() => handleTaskCompletion(task.id)}
+                    onChange={() => handleTaskCompletion(task._id)}
                 />
-                <label htmlFor={task.id} className="">
+                <label htmlFor={task._id} className="">
                     {task.task}
                 </label>
             </div>

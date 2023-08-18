@@ -1,40 +1,20 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { MdTaskAlt } from "react-icons/md";
 import TaskItem from "../TaskItem/TaskItem";
 import { Task } from "@/utils/types";
-
-//temporary
-const sampleData: Task[] = [
-    {
-        id: "1",
-        task: "this is task number 1",
-        completed: true,
-        timestamp: 1690774802633,
-    },
-    {
-        id: "2",
-        task: "this is task number 2. this is task number 2. this is task number 2. this is task number 2. this is task number 2",
-        completed: false,
-        timestamp: 1690774802633,
-    },
-    {
-        id: "3",
-        task: "this is task number 3",
-        completed: true,
-        timestamp: 1690774802633,
-    },
-];
+import { createTask, getTasks } from "@/utils/api";
 
 const TasksContainer = () => {
-    const [newTask, setNewTask] = useState("");
-    const [expanded, setExpanded] = useState(false);
-    const [taskData, setTaskData] = useState(sampleData);
+    const [newTask, setNewTask] = useState<string>("");
+    const [expanded, setExpanded] = useState<boolean>(false);
+    const [taskData, setTaskData] = useState<Task[]>([]);
+
     const tasksRef = useRef<HTMLDialogElement>(null);
 
-    const completedTasks = taskData.filter((task) => task.completed);
-    const uncompletedTasks = taskData.filter((task) => !task.completed);
+    const completedTasks = taskData?.filter((task) => task.completed);
+    const uncompletedTasks = taskData?.filter((task) => !task.completed);
 
     //handles expanding and closing the task dialog
     const handleTaskOpenToggle = () => {
@@ -50,27 +30,34 @@ const TasksContainer = () => {
         }
     };
 
+    // Get tasks on load
+    useEffect(() => {
+        getAllTasks();
+    }, []);
+
+    // handle getting tasks
+    const getAllTasks = async () => {
+        const result = await getTasks();
+        setTaskData(result);
+    };
+
     //handles input of new task
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.target.value);
     };
 
     //handles new task submission
-    const handleNewTaskSubmit = (e: FormEvent) => {
+    const handleNewTaskSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        taskData.push({
-            id: `${taskData.length + 1}`,
-            task: newTask,
-            completed: false,
-            timestamp: Date.now(),
-        });
+        await createTask(newTask);
+        await getAllTasks();
         setNewTask("");
     };
 
     //handle task completion change
     const handleTaskCompletion = (taskId: string) => {
         const updatedTasks = taskData.map((taskObj) =>
-            taskObj.id === taskId ? { ...taskObj, completed: !taskObj.completed } : taskObj
+            taskObj._id === taskId ? { ...taskObj, completed: !taskObj.completed } : taskObj
         );
 
         setTaskData(updatedTasks);
@@ -101,8 +88,8 @@ const TasksContainer = () => {
                         </section>
                         <section className="">
                             <ul>
-                                {uncompletedTasks.map((task) => (
-                                    <li key={task.id} className="border-b-2 last:border-none">
+                                {uncompletedTasks?.map((task) => (
+                                    <li key={task._id} className="border-b-2 last:border-none">
                                         <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
                                     </li>
                                 ))}
@@ -111,8 +98,8 @@ const TasksContainer = () => {
                         <section className="">
                             <h3>Completed</h3>
                             <ul>
-                                {completedTasks.map((task) => (
-                                    <li key={task.id} className="border-b-2 last:border-none">
+                                {completedTasks?.map((task) => (
+                                    <li key={task._id} className="border-b-2 last:border-none">
                                         <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
                                     </li>
                                 ))}

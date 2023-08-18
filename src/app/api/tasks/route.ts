@@ -13,15 +13,15 @@ export const GET = async () => {
 
 //Post a new task
 export const POST = async (req: NextRequest) => {
-    const taskContent = await req.json();
+    const task = await req.json();
 
-    if (!taskContent) {
+    if (!task) {
         return new NextResponse("Incomplete fields", { status: 400 });
     }
 
     try {
         const newTask = new Task({
-            task: taskContent,
+            task: task.taskData,
             completed: false,
         });
 
