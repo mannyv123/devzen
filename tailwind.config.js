@@ -12,6 +12,8 @@ module.exports = {
             },
             transitionProperty: {
                 width: "width",
+                height: "height",
+                taskContainer: "height, opacity",
             },
             width: {
                 modal: "60vw",
