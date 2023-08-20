@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "reac
 import { MdTaskAlt } from "react-icons/md";
 import TaskItem from "../TaskItem/TaskItem";
 import { Task } from "@/utils/types";
-import { createTask, getTasks } from "@/utils/api";
+import { createTask, deleteTask, getTasks } from "@/utils/api";
 
 const TasksContainer = () => {
     const [newTask, setNewTask] = useState<string>("");
@@ -65,6 +65,16 @@ const TasksContainer = () => {
         setNewTask("");
     };
 
+    //handle task deletion
+    const handleTaskDelete = async (taskId: string) => {
+        try {
+            await deleteTask(taskId);
+            await getAllTasks();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     //handle task completion change
     const handleTaskCompletion = (taskId: string) => {
         const updatedTasks = taskData.map((taskObj) =>
@@ -103,7 +113,11 @@ const TasksContainer = () => {
                             <ul>
                                 {uncompletedTasks?.map((task) => (
                                     <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
+                                        <TaskItem
+                                            task={task}
+                                            handleTaskCompletion={handleTaskCompletion}
+                                            handleTaskDelete={handleTaskDelete}
+                                        />
                                     </li>
                                 ))}
                             </ul>
@@ -113,7 +127,11 @@ const TasksContainer = () => {
                             <ul>
                                 {completedTasks?.map((task) => (
                                     <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
+                                        <TaskItem
+                                            task={task}
+                                            handleTaskCompletion={handleTaskCompletion}
+                                            handleTaskDelete={handleTaskDelete}
+                                        />
                                     </li>
                                 ))}
                             </ul>

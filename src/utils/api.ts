@@ -51,3 +51,18 @@ export const createTask = async (taskData: string) => {
         console.error(err);
     }
 };
+
+//Delete a task
+export const deleteTask = async (taskId: string) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}`, {
+            method: "DELETE",
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

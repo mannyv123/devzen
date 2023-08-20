@@ -10,9 +10,10 @@ import {
 interface TaskProps {
     task: Task;
     handleTaskCompletion: (taskId: string) => void;
+    handleTaskDelete: (taskId: string) => void;
 }
 
-const TaskItem = ({ task, handleTaskCompletion }: TaskProps) => {
+const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) => {
     const [timerOn, setTimerOn] = useState<boolean>(true);
 
     return (
@@ -40,7 +41,7 @@ const TaskItem = ({ task, handleTaskCompletion }: TaskProps) => {
                 <div className="w-16 flex gap-2 transition-width duration-300 ease-in-out">
                     {timerOn && <MdOutlineTimerOff />}
                     <MdOutlineTimer />
-                    <MdRemoveCircleOutline />
+                    <MdRemoveCircleOutline onClick={() => handleTaskDelete(task._id)} />
                 </div>
             </div>
         </div>

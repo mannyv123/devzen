@@ -2,8 +2,9 @@ import Task from "@/models/Task";
 import { NextRequest, NextResponse } from "next/server";
 
 //Delete a single task
-export const DELETE = async ({ params }: { params: { id: string } }) => {
-    const taskId = params;
+export const DELETE = async (_req: NextRequest, { params }: { params: { id: string } }) => {
+    const taskId = params.id;
+
     if (!taskId) {
         return new NextResponse("No task id provided", { status: 400 });
     }
