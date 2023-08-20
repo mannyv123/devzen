@@ -66,3 +66,18 @@ export const deleteTask = async (taskId: string) => {
         console.error(err);
     }
 };
+
+//Update task completion status
+export const updateTaskStatus = async (taskId: string) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}`, {
+            method: "PUT",
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

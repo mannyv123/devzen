@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "reac
 import { MdTaskAlt } from "react-icons/md";
 import TaskItem from "../TaskItem/TaskItem";
 import { Task } from "@/utils/types";
-import { createTask, deleteTask, getTasks } from "@/utils/api";
+import { createTask, deleteTask, getTasks, updateTaskStatus } from "@/utils/api";
 
 const TasksContainer = () => {
     const [newTask, setNewTask] = useState<string>("");
@@ -76,12 +76,13 @@ const TasksContainer = () => {
     };
 
     //handle task completion change
-    const handleTaskCompletion = (taskId: string) => {
-        const updatedTasks = taskData.map((taskObj) =>
-            taskObj._id === taskId ? { ...taskObj, completed: !taskObj.completed } : taskObj
-        );
-
-        setTaskData(updatedTasks);
+    const handleTaskCompletion = async (taskId: string) => {
+        try {
+            await updateTaskStatus(taskId);
+            await getAllTasks();
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
