@@ -10,6 +10,7 @@ const TasksContainer = () => {
     const [newTask, setNewTask] = useState<string>("");
     const [expanded, setExpanded] = useState<boolean>(false);
     const [taskData, setTaskData] = useState<Task[]>([]);
+    const [isBlank, setIsBlank] = useState<boolean>(false);
 
     const tasksRef = useRef<HTMLDialogElement>(null);
 
@@ -44,11 +45,21 @@ const TasksContainer = () => {
     //handles input of new task
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.target.value);
+
+        if (isBlank) {
+            setIsBlank(false);
+        }
     };
 
     //handles new task submission
     const handleNewTaskSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        //input validation
+        if (newTask === "") {
+            return setIsBlank(true);
+        }
+
         await createTask(newTask);
         await getAllTasks();
         setNewTask("");
@@ -76,7 +87,9 @@ const TasksContainer = () => {
                         <section>
                             <form action="submit" onSubmit={handleNewTaskSubmit}>
                                 <input
-                                    className="rounded-lg w-full px-2 py-1"
+                                    className={`rounded-lg w-full px-2 py-1 focus:outline-none ${
+                                        isBlank ? "ring-2 ring-red-600" : "focus:ring-2"
+                                    }`}
                                     placeholder="New task ..."
                                     type="text"
                                     name="newTask"
