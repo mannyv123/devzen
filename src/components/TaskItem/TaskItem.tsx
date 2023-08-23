@@ -2,12 +2,7 @@ import { updateElapsedTime } from "@/utils/api";
 import { Task } from "@/utils/types";
 import { formatTime } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
-import {
-    MdPauseCircleOutline,
-    MdRemoveCircleOutline,
-    MdOutlineTimer,
-    MdOutlineTimerOff,
-} from "react-icons/md";
+import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";
 
 interface TaskProps {
     task: Task;
@@ -70,17 +65,17 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
     };
 
     return (
-        <div className="flex justify-between items-center group">
+        <div className="flex justify-between items-center group my-2 lg:my-0">
             <div className="flex items-start gap-2">
                 <input
                     type="checkbox"
                     name="task"
                     id={task._id}
                     checked={task.completed}
-                    className="mt-[.3rem]"
+                    className="cursor-pointer mt-[.3rem]"
                     onChange={() => handleTaskCompletion(task._id)}
                 />
-                <label htmlFor={task._id} className="">
+                <label htmlFor={task._id} className="cursor-pointer">
                     {task.task}
                 </label>
             </div>
@@ -90,15 +85,26 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
                         <p>{formatTime(elapsedTime)}</p>
                     </div>
                 )}
-                {/* <div className="lg:w-0 group-hover:w-16 flex gap-2 transition-width duration-300 ease-in-out"> */}
-                <div className="w-16 flex gap-2 transition-width duration-300 ease-in-out">
-                    {timerRunning ? (
-                        <MdOutlineTimerOff onClick={toggleTimer} />
-                    ) : (
-                        <MdOutlineTimer onClick={toggleTimer} />
-                    )}
-                    <MdRemoveCircleOutline onClick={() => handleTaskDelete(task._id)} />
-                </div>
+                {!task.completed && (
+                    <div className="lg:w-0 lg:group-hover:w-12 flex gap-2 transition-width duration-300 ease-in-out">
+                        {/* <div className="w-[5.5rem] lg:w-12 flex gap-2 transition-width duration-300 ease-in-out"> */}
+                        {timerRunning ? (
+                            <MdOutlineTimerOff
+                                onClick={toggleTimer}
+                                className="cursor-pointer w-10 lg:w-5 h-10 lg:h-5"
+                            />
+                        ) : (
+                            <MdOutlineTimer
+                                onClick={toggleTimer}
+                                className="cursor-pointer w-10 lg:w-5 h-10 lg:h-5"
+                            />
+                        )}
+                        <MdRemoveCircleOutline
+                            onClick={() => handleTaskDelete(task._id)}
+                            className="cursor-pointer w-10 lg:w-5 h-10 lg:h-5"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
