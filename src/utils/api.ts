@@ -81,3 +81,21 @@ export const updateTaskStatus = async (taskId: string) => {
         console.error(err);
     }
 };
+
+//Update elapsed time of task
+export const updateElapsedTime = async (taskId: string, elapsedTime: number) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}/timer`, {
+            method: "PUT",
+            body: JSON.stringify({
+                elapsedTime: elapsedTime,
+            }),
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

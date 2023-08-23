@@ -1,3 +1,4 @@
+import { updateElapsedTime } from "@/utils/api";
 import { Task } from "@/utils/types";
 import { formatTime } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
@@ -18,17 +19,22 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
     const [timerRunning, setTimerRunning] = useState<boolean>(false);
     const [elapsedTime, setElapsedTime] = useState<number>(0);
 
-    //Load saved timer from local storage
-    // useEffect(() => {
-    //     const savedTimerJSON = localStorage.getItem(`timer+${task._id}`);
-    //     const savedTimer = savedTimerJSON ? JSON.parse(savedTimerJSON) : { running: false, startTime: 0 };
-    //     if (savedTimer && savedTimer.running) {
-    //         setTimerRunning(true);
-    //         const currentTime = new Date().getTime();
-    //         const elapsedTime = Math.floor((currentTime - savedTimer.startTime) / 1000);
-    //         setElapsedTime(elapsedTime);
-    //     }
-    // }, []);
+    // Load saved timer from local storage
+    useEffect(() => {
+        const savedTimerJSON = localStorage.getItem(`timer_${task._id}`);
+        const savedTimerLocal = savedTimerJSON
+            ? JSON.parse(savedTimerJSON)
+            : { running: false, startTime: 0, elapsedTime: task.elapsedTime };
+        if (savedTimerLocal && savedTimerLocal.running) {
+            setTimerRunning(true);
+            const currentTime = new Date().getTime();
+            const elapsedTimeTotal =
+                Math.floor((currentTime - savedTimerLocal.startTime) / 1000) + savedTimerLocal.elapsedTime;
+            setElapsedTime(elapsedTimeTotal);
+        } else {
+            setElapsedTime(task.elapsedTime);
+        }
+    }, []);
 
     //Start timer when timer state changes
     useEffect(() => {
@@ -47,16 +53,19 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
     const toggleTimer = async () => {
         setTimerRunning((prevTimerRunning) => !prevTimerRunning); //starts or stops the timer
         if (!timerRunning) {
-            //runs after timer is started
-            //1) post start time to db
-            //2) Record start time in local storage
-            // const startTime = new Date().getTime();
-            // localStorage.setItem(`timer_${task._id}`, JSON.stringify({ running: true, startTime }));
+            //Runs after timer is started
+            //Record start time in local storage
+            const startTime = new Date().getTime();
+            localStorage.setItem(
+                `timer_${task._id}`,
+                JSON.stringify({ running: true, startTime, elapsedTime: task.elapsedTime })
+            );
         } else {
-            //runs after timer is stopped
-            //1) post end time to db
-            //2) Remove timer from local storage
-            //localStorage.removeItem(`timer_${task._id}`);
+            //Runs after timer is stopped
+            //Post end time to db
+            await updateElapsedTime(task._id, elapsedTime);
+            //Remove timer from local storage
+            localStorage.removeItem(`timer_${task._id}`);
         }
     };
 
