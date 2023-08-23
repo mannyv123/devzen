@@ -23,7 +23,6 @@ export const POST = async (req: NextRequest) => {
     try {
         const newTask: TaskDocument = new TaskModel({
             task: task.taskData,
-            completed: false,
         });
 
         await newTask.save();

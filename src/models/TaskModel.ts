@@ -1,5 +1,5 @@
 import { TaskDocument } from "@/utils/types";
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
 const taskSchema = new Schema(
     {
@@ -10,6 +10,12 @@ const taskSchema = new Schema(
         completed: {
             type: Boolean,
             required: true,
+            default: false,
+        },
+        elapsedTime: {
+            type: Number,
+            required: true,
+            default: 0,
         },
     },
     { timestamps: true }
