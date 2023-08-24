@@ -110,32 +110,45 @@ const TasksContainer = () => {
                                 />
                             </form>
                         </section>
-                        <section className="">
-                            <ul>
-                                {uncompletedTasks?.map((task) => (
-                                    <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem
-                                            task={task}
-                                            handleTaskCompletion={handleTaskCompletion}
-                                            handleTaskDelete={handleTaskDelete}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
+                        <section>
+                            {uncompletedTasks.length > 0 ? (
+                                <ul>
+                                    {uncompletedTasks?.map((task) => (
+                                        <li key={task._id} className="border-b-2 last:border-none">
+                                            <TaskItem
+                                                task={task}
+                                                handleTaskCompletion={handleTaskCompletion}
+                                                handleTaskDelete={handleTaskDelete}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div>
+                                    <p className="text-slate-500">No tasks yet...</p>
+                                </div>
+                            )}
                         </section>
-                        <section className="">
-                            <h3>Completed</h3>
-                            <ul>
-                                {completedTasks?.map((task) => (
-                                    <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem
-                                            task={task}
-                                            handleTaskCompletion={handleTaskCompletion}
-                                            handleTaskDelete={handleTaskDelete}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
+
+                        <section className="text-slate-500">
+                            {completedTasks.length > 0 ? (
+                                <>
+                                    <h3>Completed</h3>
+                                    <ul>
+                                        {completedTasks?.map((task) => (
+                                            <li key={task._id} className="border-b-2 last:border-none">
+                                                <TaskItem
+                                                    task={task}
+                                                    handleTaskCompletion={handleTaskCompletion}
+                                                    handleTaskDelete={handleTaskDelete}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            ) : (
+                                ""
+                            )}
                         </section>
                     </div>
                 </div>

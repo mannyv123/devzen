@@ -65,7 +65,7 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
     };
 
     return (
-        <div className="flex justify-between items-center group my-2 lg:my-0">
+        <div className="flex justify-between items-center group my-2 lg:my-1">
             <div className="flex items-start gap-2">
                 <input
                     type="checkbox"
