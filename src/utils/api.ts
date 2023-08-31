@@ -51,3 +51,51 @@ export const createTask = async (taskData: string) => {
         console.error(err);
     }
 };
+
+//Delete a task
+export const deleteTask = async (taskId: string) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}`, {
+            method: "DELETE",
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+//Update task completion status
+export const updateTaskStatus = async (taskId: string) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}`, {
+            method: "PUT",
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+//Update elapsed time of task
+export const updateElapsedTime = async (taskId: string, elapsedTime: number) => {
+    if (!taskId) {
+        throw new Error("No task ID provided.");
+    }
+
+    try {
+        await fetch(`/api/tasks/${taskId}/timer`, {
+            method: "PUT",
+            body: JSON.stringify({
+                elapsedTime: elapsedTime,
+            }),
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

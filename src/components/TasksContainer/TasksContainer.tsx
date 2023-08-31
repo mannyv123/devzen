@@ -4,12 +4,13 @@ import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "reac
 import { MdTaskAlt } from "react-icons/md";
 import TaskItem from "../TaskItem/TaskItem";
 import { Task } from "@/utils/types";
-import { createTask, getTasks } from "@/utils/api";
+import { createTask, deleteTask, getTasks, updateTaskStatus } from "@/utils/api";
 
 const TasksContainer = () => {
     const [newTask, setNewTask] = useState<string>("");
     const [expanded, setExpanded] = useState<boolean>(false);
     const [taskData, setTaskData] = useState<Task[]>([]);
+    const [isBlank, setIsBlank] = useState<boolean>(false);
 
     const tasksRef = useRef<HTMLDialogElement>(null);
 
@@ -44,23 +45,44 @@ const TasksContainer = () => {
     //handles input of new task
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.target.value);
+
+        if (isBlank) {
+            setIsBlank(false);
+        }
     };
 
     //handles new task submission
     const handleNewTaskSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        //input validation
+        if (newTask === "") {
+            return setIsBlank(true);
+        }
+
         await createTask(newTask);
         await getAllTasks();
         setNewTask("");
     };
 
-    //handle task completion change
-    const handleTaskCompletion = (taskId: string) => {
-        const updatedTasks = taskData.map((taskObj) =>
-            taskObj._id === taskId ? { ...taskObj, completed: !taskObj.completed } : taskObj
-        );
+    //handle task deletion
+    const handleTaskDelete = async (taskId: string) => {
+        try {
+            await deleteTask(taskId);
+            await getAllTasks();
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-        setTaskData(updatedTasks);
+    //handle task completion change
+    const handleTaskCompletion = async (taskId: string) => {
+        try {
+            await updateTaskStatus(taskId);
+            await getAllTasks();
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -76,7 +98,9 @@ const TasksContainer = () => {
                         <section>
                             <form action="submit" onSubmit={handleNewTaskSubmit}>
                                 <input
-                                    className="rounded-lg w-full px-2 py-1"
+                                    className={`rounded-lg w-full px-2 py-1 focus:outline-none ${
+                                        isBlank ? "ring-2 ring-red-600" : "focus:ring-2"
+                                    }`}
                                     placeholder="New task ..."
                                     type="text"
                                     name="newTask"
@@ -86,24 +110,45 @@ const TasksContainer = () => {
                                 />
                             </form>
                         </section>
-                        <section className="">
-                            <ul>
-                                {uncompletedTasks?.map((task) => (
-                                    <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
-                                    </li>
-                                ))}
-                            </ul>
+                        <section>
+                            {uncompletedTasks.length > 0 ? (
+                                <ul>
+                                    {uncompletedTasks?.map((task) => (
+                                        <li key={task._id} className="border-b-2 last:border-none">
+                                            <TaskItem
+                                                task={task}
+                                                handleTaskCompletion={handleTaskCompletion}
+                                                handleTaskDelete={handleTaskDelete}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div>
+                                    <p className="text-slate-500">No tasks yet...</p>
+                                </div>
+                            )}
                         </section>
-                        <section className="">
-                            <h3>Completed</h3>
-                            <ul>
-                                {completedTasks?.map((task) => (
-                                    <li key={task._id} className="border-b-2 last:border-none">
-                                        <TaskItem task={task} handleTaskCompletion={handleTaskCompletion} />
-                                    </li>
-                                ))}
-                            </ul>
+
+                        <section className="text-slate-500">
+                            {completedTasks.length > 0 ? (
+                                <>
+                                    <h3>Completed</h3>
+                                    <ul>
+                                        {completedTasks?.map((task) => (
+                                            <li key={task._id} className="border-b-2 last:border-none">
+                                                <TaskItem
+                                                    task={task}
+                                                    handleTaskCompletion={handleTaskCompletion}
+                                                    handleTaskDelete={handleTaskDelete}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            ) : (
+                                ""
+                            )}
                         </section>
                     </div>
                 </div>

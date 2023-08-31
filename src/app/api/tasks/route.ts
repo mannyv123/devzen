@@ -1,10 +1,11 @@
-import Task from "@/models/Task";
+import TaskModel from "@/models/TaskModel";
+import { TaskDocument } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 
 //Get all tasks
 export const GET = async () => {
     try {
-        const result = await Task.find().sort({ updatedAt: "desc" });
+        const result: TaskDocument[] = await TaskModel.find().sort({ updatedAt: "desc" });
         return new NextResponse(JSON.stringify(result), { status: 200 });
     } catch (err) {
         return new NextResponse(`Error getting tasks: ${err}`, { status: 500 });
@@ -20,9 +21,8 @@ export const POST = async (req: NextRequest) => {
     }
 
     try {
-        const newTask = new Task({
+        const newTask: TaskDocument = new TaskModel({
             task: task.taskData,
-            completed: false,
         });
 
         await newTask.save();

@@ -10,3 +10,18 @@ body {
     padding: 0;
     margin: 0;
 }
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    background: #cacaca55;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #999999;
+    -webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-corner {
+    background: #cacaca55;
+}
