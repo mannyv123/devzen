@@ -1,42 +1,44 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 interface UnsplashResponse {
-    urls: {
-        full: string;
-    };
+   urls: {
+      full: string;
+   };
 }
 
 export const GET = async () => {
-    try {
-        const result = await fetch(
-            "https://api.unsplash.com/photos/random?orientation=landscape&query=nature",
+   try {
+      const result = await fetch(
+         "https://api.unsplash.com/photos/random?orientation=landscape&query=nature",
+         {
+            method: "GET",
+            headers: {
+               Authorization: "Client-ID " + ACCESS_KEY,
+            },
+            next: {
+               revalidate: 3600,
+            },
+         },
+      );
+
+      if (!result.ok) {
+         const errorMessage = await result.text();
+         return NextResponse.json(
+            `Unsplash error: ${result.statusText}, ${errorMessage}`,
             {
-                method: "GET",
-                headers: {
-                    Authorization: "Client-ID " + ACCESS_KEY,
-                },
-                next: {
-                    revalidate: 3600,
-                },
-            }
-        );
+               status: result.status,
+            },
+         );
+      }
 
-        if (!result.ok) {
-            const errorMessage = await result.text();
-            return NextResponse.json(`Unsplash error: ${result.statusText}, ${errorMessage}`, {
-                status: result.status,
-            });
-        }
+      const data: UnsplashResponse = await result.json();
 
-        const data: UnsplashResponse = await result.json();
-
-        return NextResponse.json(data.urls.full, {
-            status: 200,
-        });
-    } catch (err) {
-        console.log(err);
-        return NextResponse.json(`Error occurred ${err}`, { status: 500 });
-    }
+      return NextResponse.json(data.urls.full, {
+         status: 200,
+      });
+   } catch (err) {
+      return NextResponse.json(`Error occurred ${err}`, { status: 500 });
+   }
 };
