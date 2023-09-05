@@ -1,8 +1,7 @@
 import { deleteTask, getTasks, updateTaskStatus } from "@/utils/api";
 import { Task } from "@/utils/types";
 import React, { RefObject, useEffect, useState } from "react";
-import TaskItem from "../TaskItem/TaskItem";
-import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
+import TaskListUI from "../TaskListUI/TaskListUI";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -13,7 +12,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    const [taskData, setTaskData] = useState<Task[]>([]);
 
    const completedTasks = taskData?.filter((task) => task.completed);
-   const uncompletedTasks = taskData?.filter((task) => !task.completed);
+   const incompleteTasks = taskData?.filter((task) => !task.completed);
 
    // handle getting tasks
    const getAllTasks = async () => {
@@ -53,53 +52,13 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
             expanded ? "h-full opacity-100" : "h-0 opacity-0"
          }`}
       >
-         <div className='h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto'>
-            <div className='flex flex-col gap-4 p-4'>
-               <section>
-                  <AddTaskFeature getAllTasks={getAllTasks} />
-               </section>
-               <section>
-                  {uncompletedTasks.length > 0 ? (
-                     <ul>
-                        {uncompletedTasks?.map((task) => (
-                           <li key={task._id} className='border-b-2 last:border-none'>
-                              <TaskItem
-                                 task={task}
-                                 handleTaskCompletion={handleTaskCompletion}
-                                 handleTaskDelete={handleTaskDelete}
-                              />
-                           </li>
-                        ))}
-                     </ul>
-                  ) : (
-                     <div>
-                        <p className='text-slate-500'>No tasks yet...</p>
-                     </div>
-                  )}
-               </section>
-
-               <section className='text-slate-500'>
-                  {completedTasks.length > 0 ? (
-                     <>
-                        <h3>Completed</h3>
-                        <ul>
-                           {completedTasks?.map((task) => (
-                              <li key={task._id} className='border-b-2 last:border-none'>
-                                 <TaskItem
-                                    task={task}
-                                    handleTaskCompletion={handleTaskCompletion}
-                                    handleTaskDelete={handleTaskDelete}
-                                 />
-                              </li>
-                           ))}
-                        </ul>
-                     </>
-                  ) : (
-                     ""
-                  )}
-               </section>
-            </div>
-         </div>
+         <TaskListUI
+            incompleteTasks={incompleteTasks}
+            completedTasks={completedTasks}
+            getAllTasks={getAllTasks}
+            handleTaskCompletion={handleTaskCompletion}
+            handleTaskDelete={handleTaskDelete}
+         />
       </dialog>
    );
 }
