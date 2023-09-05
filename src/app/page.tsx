@@ -1,7 +1,7 @@
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGpt from "../components/ChatGpt/ChatGpt";
 import Clock from "../components/Clock/Clock";
-import TasksContainer from "../components/TasksContainer/TasksContainer";
+import TasksFeature from "../components/TasksFeature/TasksFeature";
 
 //TODO: use redux for global state management
 //TODO: use react context for dark mode
@@ -15,7 +15,7 @@ export default function Home() {
          </div>
          <div className='absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout'>
             <div>
-               <TasksContainer />
+               <TasksFeature />
             </div>
             <div></div>
             <div className='flex flex-col w-full justify-center items-center gap-2'>
