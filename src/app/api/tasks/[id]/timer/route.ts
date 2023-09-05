@@ -3,10 +3,7 @@ import { TaskDocument } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 
 //Change elapsed time for a specific task
-export const PUT = async (
-   req: NextRequest,
-   { params }: { params: { id: string } },
-) => {
+export const PUT = async (req: NextRequest, { params }: { params: { id: string } }) => {
    const taskId = params.id;
    const body: { elapsedTime: number } = await req.json();
 

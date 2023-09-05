@@ -83,10 +83,7 @@ export const updateTaskStatus = async (taskId: string) => {
 };
 
 //Update elapsed time of task
-export const updateElapsedTime = async (
-   taskId: string,
-   elapsedTime: number,
-) => {
+export const updateElapsedTime = async (taskId: string, elapsedTime: number) => {
    if (!taskId) {
       throw new Error("No task ID provided.");
    }

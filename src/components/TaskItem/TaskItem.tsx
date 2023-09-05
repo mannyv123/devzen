@@ -2,11 +2,7 @@ import { updateElapsedTime } from "@/utils/api";
 import { Task } from "@/utils/types";
 import { formatTime } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
-import {
-   MdRemoveCircleOutline,
-   MdOutlineTimer,
-   MdOutlineTimerOff,
-} from "react-icons/md";
+import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";
 
 interface TaskProps {
    task: Task;
@@ -14,11 +10,7 @@ interface TaskProps {
    handleTaskDelete: (taskId: string) => void;
 }
 
-const TaskItem = ({
-   task,
-   handleTaskCompletion,
-   handleTaskDelete,
-}: TaskProps) => {
+const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) => {
    const [timerRunning, setTimerRunning] = useState<boolean>(false);
    const [elapsedTime, setElapsedTime] = useState<number>(0);
 

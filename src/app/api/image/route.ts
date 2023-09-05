@@ -25,12 +25,9 @@ export const GET = async () => {
 
       if (!result.ok) {
          const errorMessage = await result.text();
-         return NextResponse.json(
-            `Unsplash error: ${result.statusText}, ${errorMessage}`,
-            {
-               status: result.status,
-            },
-         );
+         return NextResponse.json(`Unsplash error: ${result.statusText}, ${errorMessage}`, {
+            status: result.status,
+         });
       }
 
       const data: UnsplashResponse = await result.json();

@@ -24,17 +24,9 @@ const ChatGpt = () => {
    const explainModalRef = useRef<HTMLDialogElement>(null);
    return (
       <>
-         <ChatModal
-            modalRef={complexityModalRef}
-            apiRoute='complexity'
-            content={complexity}
-         />
+         <ChatModal modalRef={complexityModalRef} apiRoute='complexity' content={complexity} />
          <ChatModal modalRef={bugModalRef} apiRoute='bug' content={bug} />
-         <ChatModal
-            modalRef={explainModalRef}
-            apiRoute='explain'
-            content={explain}
-         />
+         <ChatModal modalRef={explainModalRef} apiRoute='explain' content={explain} />
          <div className='flex flex-col lg:flex-row gap-2 md:gap-4 text-white'>
             <div
                className='cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group'

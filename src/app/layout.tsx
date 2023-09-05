@@ -11,11 +11,7 @@ export const metadata: Metadata = {
    description: "DevZen App",
 };
 
-export default async function RootLayout({
-   children,
-}: {
-   children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
    //Connect to the db when the application starts
    try {
       await connectToDb();

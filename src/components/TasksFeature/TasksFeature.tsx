@@ -28,10 +28,7 @@ const TasksFeature = () => {
    return (
       <>
          <TaskListFeature tasksRef={tasksRef} expanded={expanded} />
-         <TasksHeaderUI
-            expanded={expanded}
-            handleTaskOpenToggle={handleTaskOpenToggle}
-         />
+         <TasksHeaderUI expanded={expanded} handleTaskOpenToggle={handleTaskOpenToggle} />
       </>
    );
 };

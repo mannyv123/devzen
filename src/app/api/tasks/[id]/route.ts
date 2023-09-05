@@ -3,10 +3,7 @@ import { TaskDocument } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 
 //Delete a single task
-export const DELETE = async (
-   _req: NextRequest,
-   { params }: { params: { id: string } },
-) => {
+export const DELETE = async (_req: NextRequest, { params }: { params: { id: string } }) => {
    const taskId = params.id;
 
    if (!taskId) {
@@ -21,10 +18,7 @@ export const DELETE = async (
 };
 
 //Change completion status of a specific task
-export const PUT = async (
-   _req: NextRequest,
-   { params }: { params: { id: string } },
-) => {
+export const PUT = async (_req: NextRequest, { params }: { params: { id: string } }) => {
    const taskId = params.id;
 
    if (!taskId) {

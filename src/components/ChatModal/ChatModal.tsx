@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-   ChangeEvent,
-   FormEvent,
-   RefObject,
-   useEffect,
-   useRef,
-   useState,
-} from "react";
+import React, { ChangeEvent, FormEvent, RefObject, useEffect, useRef, useState } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
 
 //TODO: disable submit while waiting for api response
@@ -60,9 +53,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
       scrollToBottom();
    }, [messages]);
 
-   const handleInputs = (
-      e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>,
-   ) => {
+   const handleInputs = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.currentTarget;
       setInputValues({ ...inputValues, [name]: value });
    };
@@ -70,10 +61,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
    const handleSubmit = async (e: FormEvent) => {
       e.preventDefault();
 
-      setMessages((prevMessages) => [
-         ...prevMessages,
-         { role: "user", content: inputValues.code },
-      ]);
+      setMessages((prevMessages) => [...prevMessages, { role: "user", content: inputValues.code }]);
 
       const result = await fetch(`/api/chatgpt/${apiRoute}`, {
          method: "POST",
@@ -105,10 +93,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
          <div className='flex flex-col gap-4 h-full'>
             <div className='flex flex-col md:flex-row gap-3 items-baseline'>
                <h1 className='md:text-2xl'>{content.title}</h1>
-               <MdInfoOutline
-                  onClick={() => infoRef.current?.show()}
-                  className='cursor-pointer'
-               />
+               <MdInfoOutline onClick={() => infoRef.current?.show()} className='cursor-pointer' />
                <dialog
                   ref={infoRef}
                   className='w-3/5 h-fit border border-black top-14 p-6 rounded-lg'
@@ -127,9 +112,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
                   <div
                      key={index}
                      className={`${
-                        message.role === "chatbot"
-                           ? "bg-[#d7f2fb]"
-                           : "bg-[#eeecec]"
+                        message.role === "chatbot" ? "bg-[#d7f2fb]" : "bg-[#eeecec]"
                      } flex w-fit rounded-lg text-sm md:text-base`}
                   >
                      <p className='w-14 p-2 border-r-[.0625rem] border-[#cccac9] text-center'>
@@ -182,9 +165,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
                      value={inputValues.code}
                      placeholder='Enter a function here'
                   ></textarea>
-                  <button className='border rounded-lg p-2 w-fit'>
-                     Submit
-                  </button>
+                  <button className='border rounded-lg p-2 w-fit'>Submit</button>
                </form>
             </div>
          </div>
