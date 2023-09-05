@@ -1,5 +1,6 @@
 import { createTask } from "@/utils/api";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import InputUI from "../InputUI/InputUI";
 
 interface AddTaskFeatureProps {
    getAllTasks: () => Promise<void>;
@@ -34,16 +35,12 @@ function AddTaskFeature({ getAllTasks }: AddTaskFeatureProps) {
 
    return (
       <form action='submit' onSubmit={handleNewTaskSubmit}>
-         <input
-            className={`rounded-lg w-full px-2 py-1 focus:outline-none ${
-               isBlank ? "ring-2 ring-red-600" : "focus:ring-2"
-            }`}
-            placeholder='New task ...'
-            type='text'
-            name='newTask'
-            id='newTask'
-            onChange={handleInputChange}
-            value={newTask}
+         <InputUI
+            isBlank={isBlank}
+            handleInputChange={handleInputChange}
+            inputValue={newTask}
+            identifier='newTask'
+            placeholderText='New task ...'
          />
       </form>
    );
