@@ -1,18 +1,8 @@
-import {
-   createTask,
-   deleteTask,
-   getTasks,
-   updateTaskStatus,
-} from "@/utils/api";
+import { deleteTask, getTasks, updateTaskStatus } from "@/utils/api";
 import { Task } from "@/utils/types";
-import React, {
-   ChangeEvent,
-   FormEvent,
-   RefObject,
-   useEffect,
-   useState,
-} from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import TaskItem from "../TaskItem/TaskItem";
+import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -20,8 +10,6 @@ interface TaskListFeatureProps {
 }
 
 function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
-   const [newTask, setNewTask] = useState<string>("");
-   const [isBlank, setIsBlank] = useState<boolean>(false);
    const [taskData, setTaskData] = useState<Task[]>([]);
 
    const completedTasks = taskData?.filter((task) => task.completed);
@@ -37,29 +25,6 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    useEffect(() => {
       getAllTasks();
    }, []);
-
-   //handles input of new task
-   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setNewTask(e.target.value);
-
-      if (isBlank) {
-         setIsBlank(false);
-      }
-   };
-
-   //handles new task submission
-   const handleNewTaskSubmit = async (e: FormEvent) => {
-      e.preventDefault();
-
-      //input validation
-      if (newTask === "") {
-         return setIsBlank(true);
-      }
-
-      await createTask(newTask);
-      await getAllTasks();
-      setNewTask("");
-   };
 
    //handle task deletion
    const handleTaskDelete = async (taskId: string) => {
@@ -91,28 +56,13 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
          <div className='h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto'>
             <div className='flex flex-col gap-4 p-4'>
                <section>
-                  <form action='submit' onSubmit={handleNewTaskSubmit}>
-                     <input
-                        className={`rounded-lg w-full px-2 py-1 focus:outline-none ${
-                           isBlank ? "ring-2 ring-red-600" : "focus:ring-2"
-                        }`}
-                        placeholder='New task ...'
-                        type='text'
-                        name='newTask'
-                        id='newTask'
-                        onChange={handleInputChange}
-                        value={newTask}
-                     />
-                  </form>
+                  <AddTaskFeature getAllTasks={getAllTasks} />
                </section>
                <section>
                   {uncompletedTasks.length > 0 ? (
                      <ul>
                         {uncompletedTasks?.map((task) => (
-                           <li
-                              key={task._id}
-                              className='border-b-2 last:border-none'
-                           >
+                           <li key={task._id} className='border-b-2 last:border-none'>
                               <TaskItem
                                  task={task}
                                  handleTaskCompletion={handleTaskCompletion}
@@ -134,10 +84,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
                         <h3>Completed</h3>
                         <ul>
                            {completedTasks?.map((task) => (
-                              <li
-                                 key={task._id}
-                                 className='border-b-2 last:border-none'
-                              >
+                              <li key={task._id} className='border-b-2 last:border-none'>
                                  <TaskItem
                                     task={task}
                                     handleTaskCompletion={handleTaskCompletion}
