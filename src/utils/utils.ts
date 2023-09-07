@@ -4,7 +4,20 @@ export const formatTime = (timeInSeconds: number) => {
    const minutes = Math.floor((timeInSeconds % 3600) / 60);
    const seconds = timeInSeconds % 60;
 
-   return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
+   let formattedTime = "";
+   let secondsLetter = true;
+
+   if (hours > 0) {
+      formattedTime += `${hours.toString().padStart(2, "0")}:`;
+      secondsLetter = false;
+   }
+
+   if (minutes > 0 || hours > 0) {
+      formattedTime += `${minutes.toString().padStart(2, "0")}:`;
+      secondsLetter = false;
+   }
+
+   formattedTime += `${seconds.toString().padStart(2, "0")}${secondsLetter ? "s" : ""}`;
+
+   return formattedTime;
 };
