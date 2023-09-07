@@ -1,4 +1,4 @@
-import { deleteTask, getTasks, updateTaskStatus } from "@/utils/api";
+import { getTasks } from "@/utils/api";
 import { Task } from "@/utils/types";
 import React, { RefObject, useEffect, useState } from "react";
 import TaskListUI from "../TaskListUI/TaskListUI";
@@ -25,26 +25,6 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
       getAllTasks();
    }, []);
 
-   //handle task deletion
-   const handleTaskDelete = async (taskId: string) => {
-      try {
-         await deleteTask(taskId);
-         await getAllTasks();
-      } catch (err) {
-         console.error(err);
-      }
-   };
-
-   //handle task completion change
-   const handleTaskCompletion = async (taskId: string) => {
-      try {
-         await updateTaskStatus(taskId);
-         await getAllTasks();
-      } catch (err) {
-         console.error(err);
-      }
-   };
-
    return (
       <dialog
          ref={tasksRef}
@@ -56,8 +36,6 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}
             getAllTasks={getAllTasks}
-            handleTaskCompletion={handleTaskCompletion}
-            handleTaskDelete={handleTaskDelete}
          />
       </dialog>
    );

@@ -1,16 +1,14 @@
-import { updateElapsedTime } from "@/utils/api";
+import { deleteTask, updateElapsedTime, updateTaskStatus } from "@/utils/api";
 import { Task } from "@/utils/types";
-import { formatTime } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
-import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";
+import TaskItemUI from "../TaskItemUI/TaskItemUI";
 
-interface TaskProps {
+interface TaskItemFeatureProps {
    task: Task;
-   handleTaskCompletion: (taskId: string) => void;
-   handleTaskDelete: (taskId: string) => void;
+   getAllTasks: () => Promise<void>;
 }
 
-const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) => {
+const TaskItemFeature = ({ task, getAllTasks }: TaskItemFeatureProps) => {
    const [timerRunning, setTimerRunning] = useState<boolean>(false);
    const [elapsedTime, setElapsedTime] = useState<number>(0);
 
@@ -41,7 +39,6 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
             setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
          }, 1000);
       }
-
       return () => clearInterval(interval);
    }, [timerRunning]);
 
@@ -69,50 +66,38 @@ const TaskItem = ({ task, handleTaskCompletion, handleTaskDelete }: TaskProps) =
       }
    };
 
+   //handle task completion change
+   const handleTaskCompletion = async (taskId: string) => {
+      try {
+         await updateTaskStatus(taskId);
+         await getAllTasks();
+      } catch (err) {
+         console.error(err);
+      }
+   };
+
+   //handle task deletion
+   const handleTaskDelete = async (taskId: string) => {
+      try {
+         await deleteTask(taskId);
+         await getAllTasks();
+      } catch (err) {
+         console.error(err);
+      }
+   };
+
    return (
-      <div className='flex justify-between items-center group my-2 lg:my-1'>
-         <div className='flex items-start gap-2'>
-            <input
-               type='checkbox'
-               name='task'
-               id={task._id}
-               checked={task.completed}
-               className='cursor-pointer mt-[.3rem]'
-               onChange={() => handleTaskCompletion(task._id)}
-            />
-            <label htmlFor={task._id} className='cursor-pointer'>
-               {task.task}
-            </label>
-         </div>
-         <div className='flex items-center gap-2'>
-            {elapsedTime > 0 && (
-               <div className='flex items-center gap-2'>
-                  <p>{formatTime(elapsedTime)}</p>
-               </div>
-            )}
-            {!task.completed && (
-               <div className='lg:w-0 lg:group-hover:w-12 flex gap-2 transition-width duration-300 ease-in-out'>
-                  {/* <div className="w-[5.5rem] lg:w-12 flex gap-2 transition-width duration-300 ease-in-out"> */}
-                  {timerRunning ? (
-                     <MdOutlineTimerOff
-                        onClick={toggleTimer}
-                        className='cursor-pointer w-10 lg:w-5 h-10 lg:h-5'
-                     />
-                  ) : (
-                     <MdOutlineTimer
-                        onClick={toggleTimer}
-                        className='cursor-pointer w-10 lg:w-5 h-10 lg:h-5'
-                     />
-                  )}
-                  <MdRemoveCircleOutline
-                     onClick={() => handleTaskDelete(task._id)}
-                     className='cursor-pointer w-10 lg:w-5 h-10 lg:h-5'
-                  />
-               </div>
-            )}
-         </div>
-      </div>
+      <>
+         <TaskItemUI
+            task={task}
+            handleTaskCompletion={handleTaskCompletion}
+            handleTaskDelete={handleTaskDelete}
+            toggleTimer={toggleTimer}
+            timerRunning={timerRunning}
+            elapsedTime={elapsedTime}
+         />
+      </>
    );
 };
 
-export default TaskItem;
+export default TaskItemFeature;

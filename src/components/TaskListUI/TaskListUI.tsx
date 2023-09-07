@@ -1,23 +1,15 @@
 import React from "react";
 import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
 import { Task } from "@/utils/types";
-import TaskItem from "../TaskItem/TaskItem";
+import TaskItemFeature from "../TaskItemFeature/TaskItemFeature";
 
 interface TaskListUIProps {
    incompleteTasks: Task[];
    completedTasks: Task[];
    getAllTasks: () => Promise<void>;
-   handleTaskCompletion: (taskId: string) => Promise<void>;
-   handleTaskDelete: (taskId: string) => Promise<void>;
 }
 
-function TaskListUI({
-   incompleteTasks,
-   completedTasks,
-   getAllTasks,
-   handleTaskCompletion,
-   handleTaskDelete,
-}: TaskListUIProps) {
+function TaskListUI({ incompleteTasks, completedTasks, getAllTasks }: TaskListUIProps) {
    return (
       <div className='h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto'>
          <div className='flex flex-col gap-4 p-4'>
@@ -29,11 +21,7 @@ function TaskListUI({
                   <ul>
                      {incompleteTasks?.map((task) => (
                         <li key={task._id} className='border-b-2 last:border-none'>
-                           <TaskItem
-                              task={task}
-                              handleTaskCompletion={handleTaskCompletion}
-                              handleTaskDelete={handleTaskDelete}
-                           />
+                           <TaskItemFeature task={task} getAllTasks={getAllTasks} />
                         </li>
                      ))}
                   </ul>
@@ -51,18 +39,12 @@ function TaskListUI({
                      <ul>
                         {completedTasks?.map((task) => (
                            <li key={task._id} className='border-b-2 last:border-none'>
-                              <TaskItem
-                                 task={task}
-                                 handleTaskCompletion={handleTaskCompletion}
-                                 handleTaskDelete={handleTaskDelete}
-                              />
+                              <TaskItemFeature task={task} getAllTasks={getAllTasks} />
                            </li>
                         ))}
                      </ul>
                   </>
-               ) : (
-                  ""
-               )}
+               ) : null}
             </section>
          </div>
       </div>
