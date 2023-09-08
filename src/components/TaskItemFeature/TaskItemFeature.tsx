@@ -1,19 +1,33 @@
-import { deleteTask, updateElapsedTime, updateTaskStatus } from "@/utils/api";
 import { Task } from "@/utils/types";
 import React, { useEffect, useState } from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 
-interface TaskItemFeatureProps {
+interface CommonTaskProps {
    task: Task;
-   getAllTasks: () => Promise<void>;
+   updateTaskCompletion: (taskId: string) => Promise<void>;
+   removeTask: (taskId: string) => Promise<void>;
 }
 
-const TaskItemFeature = ({ task, getAllTasks }: TaskItemFeatureProps) => {
+interface IncompleteTask extends CommonTaskProps {
+   status: "incomplete";
+   updateTaskElapsedTime: (taskId: string, elapsedTime: number) => Promise<void>;
+}
+
+interface CompleteTask extends CommonTaskProps {
+   status: "complete";
+}
+
+type TaskItemFeatureProps = IncompleteTask | CompleteTask;
+
+const TaskItemFeature = (props: TaskItemFeatureProps) => {
+   const { task, updateTaskCompletion, removeTask, status } = props;
+
    const [timerRunning, setTimerRunning] = useState<boolean>(false);
    const [elapsedTime, setElapsedTime] = useState<number>(0);
 
-   // Load saved timer from local storage
+   // Load and manage saved timer from local storage for the task item
    useEffect(() => {
+      // Load saved timer data when the component mounts
       const savedTimerJSON = localStorage.getItem(`timer_${task._id}`);
       const savedTimerLocal = savedTimerJSON
          ? JSON.parse(savedTimerJSON)
@@ -60,29 +74,12 @@ const TaskItemFeature = ({ task, getAllTasks }: TaskItemFeatureProps) => {
       } else {
          //Runs after timer is stopped
          //Post end time to db
-         await updateElapsedTime(task._id, elapsedTime);
+         // If the task is incomplete, update the elapsed time in the database
+         if (status === "incomplete") {
+            await props.updateTaskElapsedTime(task._id, elapsedTime);
+         }
          //Remove timer from local storage
          localStorage.removeItem(`timer_${task._id}`);
-      }
-   };
-
-   //handle task completion change
-   const handleTaskCompletion = async (taskId: string) => {
-      try {
-         await updateTaskStatus(taskId);
-         await getAllTasks();
-      } catch (err) {
-         console.error(err);
-      }
-   };
-
-   //handle task deletion
-   const handleTaskDelete = async (taskId: string) => {
-      try {
-         await deleteTask(taskId);
-         await getAllTasks();
-      } catch (err) {
-         console.error(err);
       }
    };
 
@@ -90,8 +87,8 @@ const TaskItemFeature = ({ task, getAllTasks }: TaskItemFeatureProps) => {
       <>
          <TaskItemUI
             task={task}
-            handleTaskCompletion={handleTaskCompletion}
-            handleTaskDelete={handleTaskDelete}
+            handleTaskCompletion={updateTaskCompletion}
+            handleTaskDelete={removeTask}
             toggleTimer={toggleTimer}
             timerRunning={timerRunning}
             elapsedTime={elapsedTime}

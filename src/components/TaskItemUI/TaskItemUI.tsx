@@ -3,6 +3,8 @@ import { formatTime } from "@/utils/utils";
 import React from "react";
 import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";
 
+// TODO: add delete option to completed tasks
+
 interface TaskItemUIProps {
    task: Task;
    handleTaskCompletion: (taskId: string) => Promise<void>;

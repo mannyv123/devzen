@@ -1,12 +1,11 @@
-import { createTask } from "@/utils/api";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import InputUI from "../InputUI/InputUI";
 
 interface AddTaskFeatureProps {
-   getAllTasks: () => Promise<void>;
+   addTask: (newTask: string) => Promise<void>;
 }
 
-function AddTaskFeature({ getAllTasks }: AddTaskFeatureProps) {
+function AddTaskFeature({ addTask }: AddTaskFeatureProps) {
    const [newTask, setNewTask] = useState<string>("");
    const [isBlank, setIsBlank] = useState<boolean>(false);
 
@@ -28,8 +27,7 @@ function AddTaskFeature({ getAllTasks }: AddTaskFeatureProps) {
          return setIsBlank(true);
       }
 
-      await createTask(newTask);
-      await getAllTasks();
+      await addTask(newTask);
       setNewTask("");
    };
 

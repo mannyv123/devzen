@@ -1,7 +1,6 @@
-import { getTasks } from "@/utils/api";
-import { Task } from "@/utils/types";
-import React, { RefObject, useEffect, useState } from "react";
+import React, { RefObject } from "react";
 import TaskListUI from "../TaskListUI/TaskListUI";
+import { useTaskManager } from "@/hooks/useTaskManager";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -9,21 +8,11 @@ interface TaskListFeatureProps {
 }
 
 function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
-   const [taskData, setTaskData] = useState<Task[]>([]);
+   const { tasks, addTask, updateTaskCompletion, removeTask, updateTaskElapsedTime } =
+      useTaskManager();
 
-   const completedTasks = taskData?.filter((task) => task.completed);
-   const incompleteTasks = taskData?.filter((task) => !task.completed);
-
-   // handle getting tasks
-   const getAllTasks = async () => {
-      const result = await getTasks();
-      setTaskData(result);
-   };
-
-   // Get tasks on load
-   useEffect(() => {
-      getAllTasks();
-   }, []);
+   const completedTasks = tasks?.filter((task) => task.completed);
+   const incompleteTasks = tasks?.filter((task) => !task.completed);
 
    return (
       <dialog
@@ -35,7 +24,10 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
          <TaskListUI
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}
-            getAllTasks={getAllTasks}
+            addTask={addTask}
+            updateTaskCompletion={updateTaskCompletion}
+            removeTask={removeTask}
+            updateTaskElapsedTime={updateTaskElapsedTime}
          />
       </dialog>
    );
