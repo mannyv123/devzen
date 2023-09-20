@@ -1,11 +1,13 @@
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGpt from "../components/ChatGpt/ChatGpt";
-import Clock from "../components/Clock/Clock";
+import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 
 //TODO: use redux for global state management
 //TODO: use react context for dark mode
 //TODO: use next-auth for authentication
+//TODO: display current timers in the corner
+//TODO: figure out bug where it could be 40min in for timer but shows only 4min
 
 export default function Home() {
    return (
@@ -19,7 +21,7 @@ export default function Home() {
             </div>
             <div></div>
             <div className='flex flex-col w-full justify-center items-center gap-2'>
-               <Clock />
+               <ClockFeature />
                <ChatGpt />
             </div>
             <div></div>
