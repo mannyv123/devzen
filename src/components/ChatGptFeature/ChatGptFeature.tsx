@@ -12,15 +12,11 @@ function ChatGptFeature() {
 
    const handleModal = (option: ModalOption) => {
       if (option === "complexity") {
-         setIsComplexityModal(true);
+         setIsComplexityModal((prev) => !prev);
       } else if (option === "bug") {
-         setIsBugModal(true);
+         setIsBugModal((prev) => !prev);
       } else if (option === "explain") {
-         setIsExplainModal(true);
-      } else {
-         setIsComplexityModal(false);
-         setIsBugModal(false);
-         setIsExplainModal(false);
+         setIsExplainModal((prev) => !prev);
       }
    };
 

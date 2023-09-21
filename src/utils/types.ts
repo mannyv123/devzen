@@ -9,12 +9,17 @@ export interface Task {
    updatedAt: Date;
 }
 
-export type ModalOption = "complexity" | "bug" | "explain" | false;
+export type ModalOption = "complexity" | "bug" | "explain";
 
 export interface ModalDetails {
    option: ModalOption;
    title: string;
    desc: string;
+}
+
+export interface Message {
+   role: "user" | "chatbot";
+   content: string;
 }
 
 //API TYPES
