@@ -5,7 +5,7 @@ import ClockUI from "../ClockUI/ClockUI";
 
 const CLOCK_UPDATE_INTERVAL = 60000; //60000 ms = 1 min
 
-const Clock = () => {
+const ClockFeature = () => {
    const [currentTime, setCurrentTime] = useState(getTime());
 
    //Function to get the current time in "hh:mm" format
@@ -32,4 +32,4 @@ const Clock = () => {
    );
 };
 
-export default Clock;
+export default ClockFeature;

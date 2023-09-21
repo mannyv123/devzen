@@ -9,6 +9,14 @@ export interface Task {
    updatedAt: Date;
 }
 
+export type ModalOption = "complexity" | "bug" | "explain" | false;
+
+export interface ModalDetails {
+   option: ModalOption;
+   title: string;
+   desc: string;
+}
+
 //API TYPES
 export interface TaskDocument extends Document {
    task: string;

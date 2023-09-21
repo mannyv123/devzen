@@ -1,12 +1,33 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, RefObject, useEffect, useRef, useState } from "react";
+import { ModalDetails, ModalOption } from "@/utils/types";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
 
 //TODO: disable submit while waiting for api response
 //TODO: message timestamps
 //TODO: hover states
 //TODO: form validation
+//TODO: feature to save conversations
+//TODO: feature to reset conversations
+
+const modalInfo: ModalDetails[] = [
+   {
+      option: "complexity",
+      title: "Calculate Time and Space Complexity",
+      desc: "Provide a function and the corresponding language it's written in and the ChatGPT API will determine the function's time and space complexity with explanations.",
+   },
+   {
+      option: "bug",
+      title: "Find and Fix Bugs",
+      desc: "Provide code and the corresponding language it's written in and the ChatGPT API will determine if there are any bugs in the code and how to fix them.",
+   },
+   {
+      option: "explain",
+      title: "Code Explanation",
+      desc: "Provide code and the corresponding language it's written in and the ChatGPT API will help provide a description of what the code does.",
+   },
+];
 
 interface Message {
    role: "user" | "chatbot";
@@ -14,12 +35,9 @@ interface Message {
 }
 
 interface ChatModalProps {
-   modalRef: RefObject<HTMLDialogElement>;
-   apiRoute: string;
-   content: {
-      title: string;
-      desc: string;
-   };
+   handleModal: (option: ModalOption) => void;
+   selectedModal: ModalOption;
+   isModalOpen: boolean;
 }
 
 const initialValues = {
@@ -27,13 +45,30 @@ const initialValues = {
    code: "",
 };
 
-const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
+const ChatModalFeature = ({ handleModal, selectedModal, isModalOpen }: ChatModalProps) => {
    const [messages, setMessages] = useState<Message[]>([
       {
          role: "chatbot",
          content: "Welcome! Please enter your code and language.",
       },
    ]);
+
+   const currentModalDetails =
+      selectedModal === "complexity"
+         ? modalInfo[0]
+         : selectedModal === "bug"
+         ? modalInfo[1]
+         : modalInfo[2];
+
+   const modalRef = useRef<HTMLDialogElement>(null);
+
+   useEffect(() => {
+      if (isModalOpen === false) {
+         modalRef.current?.close();
+      } else {
+         modalRef.current?.showModal();
+      }
+   }, [isModalOpen]);
 
    const [inputValues, setInputValues] = useState(initialValues);
 
@@ -63,7 +98,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
 
       setMessages((prevMessages) => [...prevMessages, { role: "user", content: inputValues.code }]);
 
-      const result = await fetch(`/api/chatgpt/${apiRoute}`, {
+      const result = await fetch(`/api/chatgpt/${currentModalDetails.option}`, {
          method: "POST",
          body: JSON.stringify({
             inputFunc: inputValues.code,
@@ -86,13 +121,13 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
       >
          <div
             className='absolute right-2 md:right-7 cursor-pointer'
-            onClick={() => modalRef.current?.close()}
+            onClick={() => handleModal(false)}
          >
             <MdClose size={"1.5rem"} />
          </div>
          <div className='flex flex-col gap-4 h-full'>
             <div className='flex flex-col md:flex-row gap-3 items-baseline'>
-               <h1 className='md:text-2xl'>{content.title}</h1>
+               <h1 className='md:text-2xl'>{currentModalDetails.title}</h1>
                <MdInfoOutline onClick={() => infoRef.current?.show()} className='cursor-pointer' />
                <dialog
                   ref={infoRef}
@@ -101,7 +136,7 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
                   <div className='absolute top-2 right-2 cursor-pointer'>
                      <MdClose onClick={() => infoRef.current?.close()} />
                   </div>
-                  <p className='text-sm'>{content.desc}</p>
+                  <p className='text-sm'>{currentModalDetails?.desc}</p>
                </dialog>
             </div>
             <div
@@ -173,4 +208,4 @@ const ChatModal = ({ modalRef, apiRoute, content }: ChatModalProps) => {
    );
 };
 
-export default ChatModal;
+export default ChatModalFeature;

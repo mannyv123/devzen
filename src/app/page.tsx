@@ -1,5 +1,5 @@
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
-import ChatGpt from "../components/ChatGpt/ChatGpt";
+import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 
@@ -22,7 +22,7 @@ export default function Home() {
             <div></div>
             <div className='flex flex-col w-full justify-center items-center gap-2'>
                <ClockFeature />
-               <ChatGpt />
+               <ChatGptFeature />
             </div>
             <div></div>
             <div></div>
