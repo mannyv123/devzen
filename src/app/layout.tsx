@@ -2,7 +2,6 @@ import { connectToDb, disconnectFromDb } from "@/utils/db";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Provider from "@/utils/reactQuery/provider";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -37,9 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
    return (
       <html lang='en'>
-         <body className={roboto.className}>
-            <Provider>{children}</Provider>
-         </body>
+         <body className={roboto.className}>{children}</body>
       </html>
    );
 }
