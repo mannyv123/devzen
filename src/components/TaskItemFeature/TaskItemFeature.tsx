@@ -21,7 +21,6 @@ type TaskItemFeatureProps = IncompleteTask | CompleteTask;
 
 const TaskItemFeature = (props: TaskItemFeatureProps) => {
    const { task, updateTaskCompletion, removeTask, status } = props;
-
    const [timerRunning, setTimerRunning] = useState<boolean>(false);
    const [elapsedTime, setElapsedTime] = useState<number>(0);
 
@@ -83,12 +82,24 @@ const TaskItemFeature = (props: TaskItemFeatureProps) => {
       }
    };
 
+   const handleTaskDelete = async (taskId: string) => {
+      await toggleTimer();
+      await removeTask(taskId);
+   };
+
+   const handleTaskCompletion = async (taskId: string) => {
+      if (task.completed === false && timerRunning === true) {
+         await toggleTimer();
+      }
+      await updateTaskCompletion(taskId);
+   };
+
    return (
       <>
          <TaskItemUI
             task={task}
-            handleTaskCompletion={updateTaskCompletion}
-            handleTaskDelete={removeTask}
+            handleTaskCompletion={handleTaskCompletion}
+            handleTaskDelete={handleTaskDelete}
             toggleTimer={toggleTimer}
             timerRunning={timerRunning}
             elapsedTime={elapsedTime}
