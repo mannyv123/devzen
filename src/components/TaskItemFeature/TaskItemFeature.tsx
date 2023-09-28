@@ -83,7 +83,9 @@ const TaskItemFeature = (props: TaskItemFeatureProps) => {
    };
 
    const handleTaskDelete = async (taskId: string) => {
-      await toggleTimer();
+      if (task.completed === false && timerRunning === true) {
+         await toggleTimer();
+      }
       await removeTask(taskId);
    };
 
