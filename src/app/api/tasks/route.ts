@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async () => {
    try {
       const result: TaskDocument[] = await TaskModel.find().sort({
-         updatedAt: "desc",
+         createdAt: "desc",
       });
       return new NextResponse(JSON.stringify(result), { status: 200 });
    } catch (err) {
