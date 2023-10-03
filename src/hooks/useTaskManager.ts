@@ -2,6 +2,8 @@ import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus }
 import { Task } from "@/utils/types";
 import { useEffect, useState } from "react";
 
+//TODO: add error state where results revert back to previous data if error
+
 const fetchTasks = async () => {
    try {
       const result = await getTasks();
