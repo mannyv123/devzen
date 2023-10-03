@@ -4,7 +4,6 @@ import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 
 //TODO: use redux for global state management
-//TODO: use react context for dark mode
 //TODO: use next-auth for authentication
 //TODO: display current timers in the corner
 //TODO: figure out bug where it could be 40min in for timer but shows only 4min

@@ -52,12 +52,14 @@ export function useTaskManager() {
    };
 
    //Update task completion status
-   const updateTaskCompletion = async (taskId: string) => {
+   const updateTaskCompletion = async (taskId: string, elapsedTime: number) => {
       try {
          //optimistic update
          const previousTasks = [...tasks];
          const updatedTasks = previousTasks.map((task) =>
-            taskId === task._id ? { ...task, completed: !task.completed } : task,
+            taskId === task._id
+               ? { ...task, completed: !task.completed, elapsedTime: elapsedTime }
+               : task,
          );
          setTasks(updatedTasks);
 

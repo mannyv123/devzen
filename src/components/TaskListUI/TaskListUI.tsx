@@ -7,7 +7,7 @@ interface TaskListUIProps {
    incompleteTasks: Task[];
    completedTasks: Task[];
    addTask: (newTask: string) => Promise<void>;
-   updateTaskCompletion: (taskId: string) => Promise<void>;
+   updateTaskCompletion: (taskId: string, elapsedTime: number) => Promise<void>;
    removeTask: (taskId: string) => Promise<void>;
    updateTaskElapsedTime: (taskId: string, elapsedTime: number) => Promise<void>;
 }
@@ -33,7 +33,6 @@ function TaskListUI({
                         <li key={task._id} className='border-b-2 last:border-none'>
                            <TaskItemFeature
                               task={task}
-                              status='incomplete'
                               updateTaskCompletion={updateTaskCompletion}
                               removeTask={removeTask}
                               updateTaskElapsedTime={updateTaskElapsedTime}
@@ -57,9 +56,9 @@ function TaskListUI({
                            <li key={task._id} className='border-b-2 last:border-none'>
                               <TaskItemFeature
                                  task={task}
-                                 status='complete'
                                  updateTaskCompletion={updateTaskCompletion}
                                  removeTask={removeTask}
+                                 updateTaskElapsedTime={updateTaskElapsedTime}
                               />
                            </li>
                         ))}
