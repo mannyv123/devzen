@@ -9,7 +9,7 @@ interface TaskItemUIProps {
    task: Task;
    handleTaskCompletion: (taskId: string) => Promise<void>;
    handleTaskDelete: (taskId: string) => Promise<void>;
-   toggleTimer: () => Promise<void>;
+   toggleTimer: () => void;
    timerRunning: boolean;
    elapsedTime: number;
 }

@@ -2,6 +2,8 @@ import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus }
 import { Task } from "@/utils/types";
 import { useEffect, useState } from "react";
 
+//TODO: add error state where results revert back to previous data if error
+
 const fetchTasks = async () => {
    try {
       const result = await getTasks();
@@ -52,12 +54,14 @@ export function useTaskManager() {
    };
 
    //Update task completion status
-   const updateTaskCompletion = async (taskId: string) => {
+   const updateTaskCompletion = async (taskId: string, elapsedTime: number) => {
       try {
          //optimistic update
          const previousTasks = [...tasks];
          const updatedTasks = previousTasks.map((task) =>
-            taskId === task._id ? { ...task, completed: !task.completed } : task,
+            taskId === task._id
+               ? { ...task, completed: !task.completed, elapsedTime: elapsedTime }
+               : task,
          );
          setTasks(updatedTasks);
 
