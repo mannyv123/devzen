@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import InputUI from "../InputUI/InputUI";
+import { addTask } from "@/redux/features/tasksSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
-interface AddTaskFeatureProps {
-   addTask: (newTask: string) => Promise<void>;
-}
-
-function AddTaskFeature({ addTask }: AddTaskFeatureProps) {
+function AddTaskFeature() {
    const [newTask, setNewTask] = useState<string>("");
    const [isBlank, setIsBlank] = useState<boolean>(false);
+
+   const dispatch = useAppDispatch();
 
    //handles input of new task
    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,8 @@ function AddTaskFeature({ addTask }: AddTaskFeatureProps) {
          return setIsBlank(true);
       }
 
-      await addTask(newTask);
+      await dispatch(addTask(newTask));
+
       setNewTask("");
    };
 

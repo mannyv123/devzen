@@ -10,8 +10,8 @@ export const DELETE = async (_req: NextRequest, { params }: { params: { id: stri
       return new NextResponse("No task id provided", { status: 400 });
    }
    try {
-      const response = await TaskModel.deleteOne({ _id: taskId });
-      return new NextResponse(JSON.stringify(response), { status: 200 });
+      await TaskModel.deleteOne({ _id: taskId });
+      return new NextResponse(JSON.stringify({ taskId }), { status: 200 });
    } catch (err) {
       return new NextResponse(`Error deleting task: ${err}`, { status: 500 });
    }

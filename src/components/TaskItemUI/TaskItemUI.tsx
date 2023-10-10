@@ -18,8 +18,8 @@ function TaskItemUI({
    task,
    handleTaskCompletion,
    handleTaskDelete,
-   toggleTimer,
    timerRunning,
+   toggleTimer,
    elapsedTime,
 }: TaskItemUIProps) {
    return (
