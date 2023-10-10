@@ -2,34 +2,35 @@ import { Task } from "@/utils/types";
 import React from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";
+import { useAppDispatch } from "@/redux/hooks";
+import { removeTask, updateStatus, updateTaskElapsedTime } from "@/redux/features/tasksSlice";
 
 interface TaskItemFeatureProps {
    task: Task;
-   updateTaskCompletion: (taskId: string, elapsedTime: number) => Promise<void>;
-   removeTask: (taskId: string) => Promise<void>;
-   updateTaskElapsedTime: (taskId: string, elapsedTime: number) => Promise<void>;
 }
 
-const TaskItemFeature = ({
-   task,
-   updateTaskCompletion,
-   removeTask,
-   updateTaskElapsedTime,
-}: TaskItemFeatureProps) => {
-   const { toggleTimer, elapsedTime, isTimerRunning } = useTimer({ task, updateTaskElapsedTime });
+const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
+   const dispatch = useAppDispatch();
+
+   const handleElapsedTimeUpdate = async (taskDetails: { taskId: string; elapsedTime: number }) => {
+      await dispatch(updateTaskElapsedTime(taskDetails));
+   };
+
+   const { toggleTimer, elapsedTime, isTimerRunning } = useTimer({ task, handleElapsedTimeUpdate });
 
    const handleTaskDelete = async (taskId: string) => {
       if (task.completed === false && isTimerRunning === true) {
          await toggleTimer();
       }
-      await removeTask(taskId);
+      await dispatch(removeTask(taskId));
    };
 
    const handleTaskCompletion = async (taskId: string) => {
       if (task.completed === false && isTimerRunning === true) {
          await toggleTimer();
       }
-      await updateTaskCompletion(taskId, elapsedTime);
+
+      await dispatch(updateStatus(taskId));
    };
 
    return (

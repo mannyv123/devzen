@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 
 interface TimerProps {
    task: Task;
-   updateTaskElapsedTime: (taskId: string, elapsedTime: number) => Promise<void>;
+   handleElapsedTimeUpdate: (taskDetails: { taskId: string; elapsedTime: number }) => Promise<void>;
 }
 
-function useTimer({ task, updateTaskElapsedTime }: TimerProps) {
+function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
    const [isTimerRunning, setIsTimerRunning] = useState(false);
    const [elapsedTime, setElapsedTime] = useState(task.elapsedTime);
 
@@ -45,7 +45,11 @@ function useTimer({ task, updateTaskElapsedTime }: TimerProps) {
          setIsTimerRunning(false);
 
          //Update elapsed time state and DB
-         await updateTaskElapsedTime(task._id, elapsedTime);
+         const taskDetails = {
+            taskId: task._id,
+            elapsedTime: elapsedTime,
+         };
+         await handleElapsedTimeUpdate(taskDetails);
 
          //Remove timer from local storage
          localStorage.removeItem(`timer_${task._id}`);

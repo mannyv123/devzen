@@ -1,3 +1,5 @@
+import { Task } from "./types";
+
 const API_URL = process.env.URL;
 
 //Get background image
@@ -36,7 +38,7 @@ export const createTask = async (taskData: string) => {
       throw new Error("No task content provided.");
    }
    try {
-      const result = await fetch("/api/tasks", {
+      const response = await fetch("/api/tasks", {
          method: "POST",
          body: JSON.stringify({
             taskData,
@@ -46,9 +48,15 @@ export const createTask = async (taskData: string) => {
          },
       });
 
-      return result;
+      if (!response.ok) {
+         throw new Error("Failed to create task.");
+      }
+
+      const result = await response.json();
+
+      return result as Task;
    } catch (err) {
-      console.error(err);
+      console.log(err);
    }
 };
 
@@ -59,9 +67,17 @@ export const deleteTask = async (taskId: string) => {
    }
 
    try {
-      await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`/api/tasks/${taskId}`, {
          method: "DELETE",
       });
+
+      if (!response.ok) {
+         throw new Error("Failed to create task.");
+      }
+
+      const result = await response.json();
+
+      return result as { taskId: Task["_id"] };
    } catch (err) {
       console.error(err);
    }
@@ -74,9 +90,17 @@ export const updateTaskStatus = async (taskId: string) => {
    }
 
    try {
-      await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`/api/tasks/${taskId}`, {
          method: "PUT",
       });
+
+      if (!response.ok) {
+         throw new Error("Failed to update task.");
+      }
+
+      const result = await response.json();
+
+      return result as Task;
    } catch (err) {
       console.error(err);
    }

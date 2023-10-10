@@ -2,6 +2,7 @@ import { connectToDb, disconnectFromDb } from "@/utils/db";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { Providers } from "@/redux/provider";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -36,7 +37,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
    return (
       <html lang='en'>
-         <body className={roboto.className}>{children}</body>
+         <Providers>
+            <body className={roboto.className}>{children}</body>
+         </Providers>
       </html>
    );
 }

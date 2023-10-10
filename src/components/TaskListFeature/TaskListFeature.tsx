@@ -1,6 +1,7 @@
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect } from "react";
 import TaskListUI from "../TaskListUI/TaskListUI";
-import { useTaskManager } from "@/hooks/useTaskManager";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksSlice";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -8,11 +9,20 @@ interface TaskListFeatureProps {
 }
 
 function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
-   const { tasks, addTask, updateTaskCompletion, removeTask, updateTaskElapsedTime } =
-      useTaskManager();
+   const dispatch = useAppDispatch();
+   const tasks = useAppSelector(selectAllTasks);
+   const tasksCurrentStatus = useAppSelector(tasksStatus);
 
-   const completedTasks = tasks?.filter((task) => task.completed);
-   const incompleteTasks = tasks?.filter((task) => !task.completed);
+   useEffect(() => {
+      if (tasksCurrentStatus === "idle") {
+         dispatch(fetchTasks());
+      }
+   }, [tasksCurrentStatus, dispatch]);
+
+   const completedTasks = tasks.filter((task) => task.completed);
+   const incompleteTasks = tasks
+      .filter((task) => !task.completed)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
    return (
       <dialog
@@ -21,14 +31,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
             expanded ? "h-full opacity-100" : "h-0 opacity-0"
          }`}
       >
-         <TaskListUI
-            incompleteTasks={incompleteTasks}
-            completedTasks={completedTasks}
-            addTask={addTask}
-            updateTaskCompletion={updateTaskCompletion}
-            removeTask={removeTask}
-            updateTaskElapsedTime={updateTaskElapsedTime}
-         />
+         <TaskListUI incompleteTasks={incompleteTasks} completedTasks={completedTasks} />
       </dialog>
    );
 }
