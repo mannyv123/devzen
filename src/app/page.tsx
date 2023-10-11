@@ -1,3 +1,4 @@
+import AuthTest from "@/components/AuthTest/AuthTest";
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 import ClockFeature from "../components/ClockFeature/ClockFeature";
@@ -15,8 +16,14 @@ export default function Home() {
             <BackgroundImage />
          </div>
          <div className='absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout'>
-            <div>
-               <TasksFeature />
+            <div className='flex justify-between'>
+               <div>
+                  <TasksFeature />
+               </div>
+
+               <div>
+                  <AuthTest />
+               </div>
             </div>
             <div></div>
             <div className='flex flex-col w-full justify-center items-center gap-2'>

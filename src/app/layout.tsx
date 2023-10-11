@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Providers } from "@/redux/provider";
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/SessionProvider/SessionProvider";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -13,6 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+   const session = await getServerSession();
+
    //Connect to the db when the application starts
    try {
       await connectToDb();
@@ -38,7 +42,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
    return (
       <html lang='en'>
          <Providers>
-            <body className={roboto.className}>{children}</body>
+            <SessionProvider session={session}>
+               <body className={roboto.className}>{children}</body>
+            </SessionProvider>
          </Providers>
       </html>
    );
