@@ -28,3 +28,10 @@ export interface TaskDocument extends Document {
    completed: boolean;
    elapsedTime: number;
 }
+
+export interface UserDocument extends Document {
+   name: string;
+   email: string;
+   password?: string;
+   accountType: "credentials" | "oauth";
+}
