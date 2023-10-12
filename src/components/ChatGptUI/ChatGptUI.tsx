@@ -3,7 +3,7 @@ import timeComplexityIcon from "public/icons/timecomplexity.svg";
 import bugIcon from "public/icons/bug.svg";
 import explainIcon from "public/icons/explain.svg";
 import Image from "next/image";
-import { ModalOption } from "@/utils/types";
+import { ModalOption } from "@/types/types";
 
 interface ChatGPTUIProps {
    handleModal: (option: ModalOption) => void;

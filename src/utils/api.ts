@@ -1,4 +1,4 @@
-import { Task } from "./types";
+import { Task } from "../types/types";
 
 const API_URL = process.env.URL;
 

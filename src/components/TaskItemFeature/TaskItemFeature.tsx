@@ -1,4 +1,4 @@
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import React from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";

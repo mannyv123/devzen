@@ -1,6 +1,6 @@
 "use client";
 
-import { Message, ModalDetails, ModalOption } from "@/utils/types";
+import { Message, ModalDetails, ModalOption } from "@/types/types";
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import ChatModalUI from "../ChatModalUI/ChatModalUI";

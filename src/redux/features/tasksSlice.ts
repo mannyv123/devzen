@@ -1,5 +1,5 @@
 import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus } from "@/utils/api";
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import { SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 

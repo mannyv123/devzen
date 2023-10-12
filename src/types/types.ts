@@ -35,3 +35,10 @@ export interface UserDocument extends Document {
    password?: string;
    accountType: "credentials" | "oauth";
 }
+
+export interface NewUser {
+   name: string;
+   email: string;
+   password?: string;
+   accountType: "credentials" | "oauth";
+}

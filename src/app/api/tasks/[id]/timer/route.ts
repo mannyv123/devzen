@@ -1,5 +1,5 @@
 import TaskModel from "@/models/TaskModel";
-import { TaskDocument } from "@/utils/types";
+import { TaskDocument } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 
 //Change elapsed time for a specific task

@@ -1,4 +1,4 @@
-import { UserDocument } from "@/utils/types";
+import { UserDocument } from "@/types/types";
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
@@ -22,6 +22,6 @@ const userSchema = new Schema(
    { timestamps: true },
 );
 
-const UserModel = mongoose.models.User || mongoose.model<UserDocument>("User", userSchema);
+const UserModel = mongoose.model<UserDocument>("User", userSchema);
 
 export default UserModel;

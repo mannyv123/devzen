@@ -1,4 +1,4 @@
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import { formatTime } from "@/utils/utils";
 import React from "react";
 import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";

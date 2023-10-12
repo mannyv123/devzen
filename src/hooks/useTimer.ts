@@ -1,4 +1,4 @@
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import { useEffect, useState } from "react";
 
 interface TimerProps {

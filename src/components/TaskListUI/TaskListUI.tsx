@@ -1,6 +1,6 @@
 import React from "react";
 import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import TaskItemFeature from "../TaskItemFeature/TaskItemFeature";
 
 interface TaskListUIProps {

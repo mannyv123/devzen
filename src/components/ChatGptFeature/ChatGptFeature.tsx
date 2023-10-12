@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import ChatModalFeature from "../ChatModalFeature/ChatModalFeature";
 import ChatGptUI from "../ChatGptUI/ChatGptUI";
-import { ModalOption } from "@/utils/types";
+import { ModalOption } from "@/types/types";
 
 function ChatGptFeature() {
    const [isComplexityModal, setIsComplexityModal] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import { Message, ModalDetails, ModalOption } from "@/utils/types";
+import { Message, ModalDetails, ModalOption } from "@/types/types";
 import React, { ChangeEvent, FormEvent, RefObject } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
 

@@ -1,5 +1,5 @@
 import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus } from "@/utils/api";
-import { Task } from "@/utils/types";
+import { Task } from "@/types/types";
 import { useEffect, useState } from "react";
 
 //TODO: add error state where results revert back to previous data if error
