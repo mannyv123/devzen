@@ -1,8 +1,8 @@
-import AuthTest from "@/components/AuthTest/AuthTest";
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
+import UserAuth from "@/components/UserAuth/UserAuth";
 
 //TODO: use redux for global state management
 //TODO: use next-auth for authentication
@@ -20,9 +20,8 @@ export default function Home() {
                <div>
                   <TasksFeature />
                </div>
-
                <div>
-                  <AuthTest />
+                  <UserAuth />
                </div>
             </div>
             <div></div>
