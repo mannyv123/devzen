@@ -1,4 +1,4 @@
-import { Task } from "@/types/types";
+import { Task, UserTask } from "@/types/types";
 import React from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";
@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { removeTask, updateStatus, updateTaskElapsedTime } from "@/redux/features/tasksSlice";
 
 interface TaskItemFeatureProps {
-   task: Task;
+   task: Task | UserTask;
 }
 
 const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {

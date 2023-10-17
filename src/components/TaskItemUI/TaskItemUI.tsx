@@ -1,4 +1,4 @@
-import { Task } from "@/types/types";
+import { Task, UserTask } from "@/types/types";
 import { formatTime } from "@/utils/utils";
 import React from "react";
 import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-icons/md";
@@ -6,7 +6,7 @@ import { MdRemoveCircleOutline, MdOutlineTimer, MdOutlineTimerOff } from "react-
 // TODO: add delete option to completed tasks
 
 interface TaskItemUIProps {
-   task: Task;
+   task: Task | UserTask;
    handleTaskCompletion: (taskId: string) => Promise<void>;
    handleTaskDelete: (taskId: string) => Promise<void>;
    toggleTimer: () => void;

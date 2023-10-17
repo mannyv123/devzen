@@ -1,4 +1,4 @@
-import { Task } from "../types/types";
+import { NewTask, UserTask } from "../types/types";
 
 const API_URL = process.env.URL;
 
@@ -33,16 +33,14 @@ export const getTasks = async () => {
 };
 
 //Create new task
-export const createTask = async (taskData: string) => {
+export const createTask = async (taskData: NewTask) => {
    if (!taskData) {
       throw new Error("No task content provided.");
    }
    try {
       const response = await fetch("/api/tasks", {
          method: "POST",
-         body: JSON.stringify({
-            taskData,
-         }),
+         body: JSON.stringify(taskData),
          headers: {
             "Content-Type": "application/json",
          },
@@ -54,7 +52,7 @@ export const createTask = async (taskData: string) => {
 
       const result = await response.json();
 
-      return result as Task;
+      return result as UserTask;
    } catch (err) {
       console.log(err);
    }
@@ -77,7 +75,7 @@ export const deleteTask = async (taskId: string) => {
 
       const result = await response.json();
 
-      return result as { taskId: Task["_id"] };
+      return result as { taskId: UserTask["_id"] };
    } catch (err) {
       console.error(err);
    }
@@ -100,7 +98,7 @@ export const updateTaskStatus = async (taskId: string) => {
 
       const result = await response.json();
 
-      return result as Task;
+      return result as UserTask;
    } catch (err) {
       console.error(err);
    }

@@ -1,8 +1,8 @@
-import { Task } from "@/types/types";
+import { Task, UserTask } from "@/types/types";
 import { useEffect, useState } from "react";
 
 interface TimerProps {
-   task: Task;
+   task: Task | UserTask;
    handleElapsedTimeUpdate: (taskDetails: { taskId: string; elapsedTime: number }) => Promise<void>;
 }
 

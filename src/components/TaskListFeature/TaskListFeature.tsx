@@ -2,6 +2,7 @@ import React, { RefObject, useEffect } from "react";
 import TaskListUI from "../TaskListUI/TaskListUI";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksSlice";
+import { useSession } from "next-auth/react";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -13,16 +14,20 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    const tasks = useAppSelector(selectAllTasks);
    const tasksCurrentStatus = useAppSelector(tasksStatus);
 
+   const { data: session } = useSession();
+
    useEffect(() => {
-      if (tasksCurrentStatus === "idle") {
+      if (tasksCurrentStatus === "idle" && session) {
          dispatch(fetchTasks());
       }
-   }, [tasksCurrentStatus, dispatch]);
+   }, [tasksCurrentStatus, dispatch, session]);
 
    const completedTasks = tasks.filter((task) => task.completed);
-   const incompleteTasks = tasks
-      .filter((task) => !task.completed)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+   const incompleteTasks = session
+      ? tasks
+           .filter((task) => !task.completed)
+           .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      : tasks.filter((task) => !task.completed);
 
    return (
       <dialog

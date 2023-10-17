@@ -2,16 +2,19 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import InputUI from "../InputUI/InputUI";
 import { addTask } from "@/redux/features/tasksSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
+import { NewTask } from "@/types/types";
 
 function AddTaskFeature() {
-   const [newTask, setNewTask] = useState<string>("");
+   const [taskInput, setTaskInput] = useState<string>("");
    const [isBlank, setIsBlank] = useState<boolean>(false);
 
+   const { data: session } = useSession();
    const dispatch = useAppDispatch();
 
    //handles input of new task
    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setNewTask(e.target.value);
+      setTaskInput(e.target.value);
 
       if (isBlank) {
          setIsBlank(false);
@@ -23,13 +26,22 @@ function AddTaskFeature() {
       e.preventDefault();
 
       //input validation
-      if (newTask === "") {
+      if (taskInput === "") {
          return setIsBlank(true);
       }
 
-      await dispatch(addTask(newTask));
+      if (session) {
+         const newTask: NewTask = {
+            task: taskInput,
+            userId: session.user.id,
+         };
 
-      setNewTask("");
+         await dispatch(addTask(newTask));
+      } else {
+         // dispatch(addGuestTask({ task: taskInput }));
+      }
+
+      setTaskInput("");
    };
 
    return (
@@ -37,7 +49,7 @@ function AddTaskFeature() {
          <InputUI
             isBlank={isBlank}
             handleInputChange={handleInputChange}
-            inputValue={newTask}
+            inputValue={taskInput}
             identifier='newTask'
             placeholderText='New task ...'
          />

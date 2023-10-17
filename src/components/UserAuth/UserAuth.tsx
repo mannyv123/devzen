@@ -7,7 +7,7 @@ import Image from "next/image";
 
 function UserAuth() {
    const { data: session } = useSession();
-   console.log(session);
+
    const handleSignIn = () => {
       if (!session) {
          signIn();

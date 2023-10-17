@@ -5,12 +5,13 @@ export type Task = {
    task: string;
    completed: boolean;
    elapsedTime: number;
-   createdAt: Date;
+   createdAt: number;
 };
 
-export type UserTask = Required<Task> & {
+export type UserTask = Omit<Task, "createdAt"> & {
    userId: string;
    updatedAt: Date;
+   createdAt: Date;
 };
 
 export type ModalOption = "complexity" | "bug" | "explain";
@@ -26,6 +27,11 @@ export interface Message {
    content: string;
 }
 
+export interface NewTask {
+   task: string;
+   userId: string;
+}
+
 //API TYPES
 export interface TaskDocument extends Document {
    userId: string;
@@ -37,13 +43,6 @@ export interface TaskDocument extends Document {
 export interface UserDocument extends Document {
    name: string;
    email: string;
-   password?: string;
-   accountType: "credentials" | "oauth";
-}
-
-export interface NewUser {
-   name: string;
-   email: string;
-   password?: string;
-   accountType: "credentials" | "oauth";
+   image: string;
+   emailVerified: string;
 }
