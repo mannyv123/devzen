@@ -89,10 +89,11 @@ const tasksSlice = createSlice({
          })
          .addCase(updateStatus.fulfilled, (state, action) => {
             if (action.payload) {
-               const { _id, completed } = action.payload;
+               const { _id, completed, elapsedTime } = action.payload;
                const existingTask = state.data.find((task) => task._id === _id);
                if (existingTask) {
                   existingTask.completed = completed;
+                  existingTask.elapsedTime = elapsedTime;
                }
             }
          })
