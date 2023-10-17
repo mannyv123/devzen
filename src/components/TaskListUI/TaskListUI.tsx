@@ -1,11 +1,11 @@
 import React from "react";
 import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
-import { Task } from "@/types/types";
+import { Task, UserTask } from "@/types/types";
 import TaskItemFeature from "../TaskItemFeature/TaskItemFeature";
 
 interface TaskListUIProps {
-   incompleteTasks: Task[];
-   completedTasks: Task[];
+   incompleteTasks: Task[] | UserTask[];
+   completedTasks: Task[] | UserTask[];
 }
 
 function TaskListUI({ incompleteTasks, completedTasks }: TaskListUIProps) {

@@ -7,14 +7,14 @@ import Image from "next/image";
 
 function UserAuth() {
    const { data: session } = useSession();
-
+   console.log(session);
    const handleSignIn = () => {
       if (!session) {
          signIn();
       }
    };
    return (
-      <div className='group relative text-white flex flex-col items-center gap-2 mr-4 mt-3 cursor-pointer z-10 '>
+      <div className='group relative text-white flex flex-col items-center gap-3 mr-4 mt-3 cursor-pointer z-10 lg:opacity-40 hover:opacity-100'>
          <div
             onClick={handleSignIn}
             className='relative w-fit flex items-center border rounded-full pr-2 lg:pr-0 group-hover:pr-2'
@@ -25,7 +25,7 @@ function UserAuth() {
                      src={session.user.image}
                      width={24}
                      height={24}
-                     alt='user'
+                     alt='current user'
                      className='rounded-full'
                   />
                ) : (
@@ -33,11 +33,11 @@ function UserAuth() {
                )}
             </div>
             {session ? (
-               <div className='overflow-hidden transition-width duration-300 text-center flex-1 group-hover:w-40 group-hover:h-fit lg:w-0 lg:h-0'>
+               <div className='overflow-hidden transition-width duration-300 text-center flex-1 group-hover:w-40 group-hover:h-fit w-40 lg:w-0 lg:h-0'>
                   <p className='truncate'>{session.user?.name}</p>
                </div>
             ) : (
-               <div className='overflow-hidden transition-width duration-300 text-center flex-1 group-hover:w-[2.625rem] group-hover:h-fit lg:w-0 lg:h-0'>
+               <div className='overflow-hidden transition-width duration-300 text-center flex-1 group-hover:w-[2.625rem] group-hover:h-fit w-[2.625rem] lg:w-0 lg:h-0'>
                   <p>Login</p>
                </div>
             )}
@@ -45,7 +45,7 @@ function UserAuth() {
          {session ? (
             <div
                onClick={() => signOut()}
-               className='overflow-hidden transition-width duration-300 flex flex-1 justify-center items-center lg:w-0 lg:h-0 group-hover:w-[12.625rem] rounded-full bg-white'
+               className='overflow-hidden transition-width duration-300 flex flex-1 justify-center items-center w-[12.625rem] lg:w-0 lg:h-0 group-hover:w-[12.625rem] rounded-full bg-white'
             >
                <p className='whitespace-nowrap text-black'>Sign Out</p>
             </div>

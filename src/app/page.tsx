@@ -17,7 +17,7 @@ export default function Home() {
          </div>
          <div className='absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout'>
             <div className='flex justify-between'>
-               <div>
+               <div className='z-20'>
                   <TasksFeature />
                </div>
                <div>

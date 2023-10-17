@@ -1,6 +1,8 @@
 import TaskModel from "@/models/TaskModel";
 import { TaskDocument } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 //Get all tasks
 export const GET = async () => {
@@ -16,8 +18,12 @@ export const GET = async () => {
 
 //Post a new task
 export const POST = async (req: NextRequest) => {
-   const task = await req.json();
+   const session = await getServerSession(authOptions);
+   if (!session) {
+      return new NextResponse("User not authorized", { status: 401 });
+   }
 
+   const task = await req.json();
    if (!task) {
       return new NextResponse("Incomplete fields", { status: 400 });
    }

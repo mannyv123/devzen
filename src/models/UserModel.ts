@@ -11,12 +11,13 @@ const userSchema = new Schema(
          type: String,
          required: true,
       },
-      password: {
+      image: {
          type: String,
+         required: true,
       },
-      accountType: {
+      emailVerified: {
          type: String,
-         enum: ["credentials", "oauth"],
+         required: true,
       },
    },
    { timestamps: true },

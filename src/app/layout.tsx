@@ -5,6 +5,7 @@ import { Roboto } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/SessionProvider/SessionProvider";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -15,13 +16,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-   const session = await getServerSession();
+   const session = await getServerSession(authOptions);
 
    //Connect to the db when the application starts
-   try {
-      await connectToDb();
-   } catch (err) {
-      throw new Error(`Error connecting to the database: ${err}`);
+   if (session) {
+      try {
+         await connectToDb();
+      } catch (err) {
+         throw new Error(`Error connecting to the database: ${err}`);
+      }
    }
 
    //Handle disconnection from db on app exit
