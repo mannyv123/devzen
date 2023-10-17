@@ -4,8 +4,8 @@ import { Task, UserTask } from "@/types/types";
 import TaskItemFeature from "../TaskItemFeature/TaskItemFeature";
 
 interface TaskListUIProps {
-   incompleteTasks: Task[] | UserTask[];
-   completedTasks: Task[] | UserTask[];
+   incompleteTasks: (Task | UserTask)[];
+   completedTasks: (Task | UserTask)[];
 }
 
 function TaskListUI({ incompleteTasks, completedTasks }: TaskListUIProps) {

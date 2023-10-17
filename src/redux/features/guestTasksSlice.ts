@@ -1,6 +1,7 @@
 import { Task } from "@/types/types";
 import { SerializedError, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { RootState } from "../store";
 
 interface TasksState {
    data: Task[];
@@ -16,7 +17,7 @@ const initialState: TasksState = {
 
 //guestTasksSlice
 const guestTasksSlice = createSlice({
-   name: "tasks",
+   name: "guestTasks",
    initialState,
    reducers: {
       addGuestTask(state, action) {
@@ -36,3 +37,6 @@ const guestTasksSlice = createSlice({
 export const { addGuestTask } = guestTasksSlice.actions;
 
 export default guestTasksSlice.reducer;
+
+//Selectors
+export const selectAllGuestTasks = (state: RootState): Task[] => state.guestTasks.data;

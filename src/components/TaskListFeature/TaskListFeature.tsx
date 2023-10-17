@@ -3,6 +3,7 @@ import TaskListUI from "../TaskListUI/TaskListUI";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksSlice";
 import { useSession } from "next-auth/react";
+import { selectAllGuestTasks } from "@/redux/features/guestTasksSlice";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -10,11 +11,13 @@ interface TaskListFeatureProps {
 }
 
 function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
-   const dispatch = useAppDispatch();
-   const tasks = useAppSelector(selectAllTasks);
-   const tasksCurrentStatus = useAppSelector(tasksStatus);
-
    const { data: session } = useSession();
+
+   const dispatch = useAppDispatch();
+   const userTasks = useAppSelector(selectAllTasks);
+   const guestTasks = useAppSelector(selectAllGuestTasks);
+   const tasks = session ? userTasks : guestTasks;
+   const tasksCurrentStatus = useAppSelector(tasksStatus);
 
    useEffect(() => {
       if (tasksCurrentStatus === "idle" && session) {

@@ -4,6 +4,7 @@ import { addTask } from "@/redux/features/tasksSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useSession } from "next-auth/react";
 import { NewTask } from "@/types/types";
+import { addGuestTask } from "@/redux/features/guestTasksSlice";
 
 function AddTaskFeature() {
    const [taskInput, setTaskInput] = useState<string>("");
@@ -38,7 +39,7 @@ function AddTaskFeature() {
 
          await dispatch(addTask(newTask));
       } else {
-         // dispatch(addGuestTask({ task: taskInput }));
+         dispatch(addGuestTask({ task: taskInput }));
       }
 
       setTaskInput("");
