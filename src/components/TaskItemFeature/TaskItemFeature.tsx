@@ -4,6 +4,8 @@ import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeTask, updateStatus, updateTaskElapsedTime } from "@/redux/features/tasksSlice";
+import { useSession } from "next-auth/react";
+import { deleteGuestTask, updateGuestTaskStatus } from "@/redux/features/guestTasksSlice";
 
 interface TaskItemFeatureProps {
    task: Task | UserTask;
@@ -11,7 +13,7 @@ interface TaskItemFeatureProps {
 
 const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
    const dispatch = useAppDispatch();
-
+   const { data: session } = useSession();
    const handleElapsedTimeUpdate = async (taskDetails: { taskId: string; elapsedTime: number }) => {
       await dispatch(updateTaskElapsedTime(taskDetails));
    };
@@ -22,7 +24,12 @@ const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
       if (task.completed === false && isTimerRunning === true) {
          await toggleTimer();
       }
-      await dispatch(removeTask(taskId));
+
+      if (session) {
+         await dispatch(removeTask(taskId));
+      } else {
+         dispatch(deleteGuestTask({ taskId }));
+      }
    };
 
    const handleTaskCompletion = async (taskId: string) => {
@@ -30,7 +37,11 @@ const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
          await toggleTimer();
       }
 
-      await dispatch(updateStatus(taskId));
+      if (session) {
+         await dispatch(updateStatus(taskId));
+      } else {
+         dispatch(updateGuestTaskStatus({ taskId }));
+      }
    };
 
    return (

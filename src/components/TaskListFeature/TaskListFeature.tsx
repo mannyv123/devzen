@@ -26,11 +26,9 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    }, [tasksCurrentStatus, dispatch, session]);
 
    const completedTasks = tasks.filter((task) => task.completed);
-   const incompleteTasks = session
-      ? tasks
-           .filter((task) => !task.completed)
-           .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      : tasks.filter((task) => !task.completed);
+   const incompleteTasks = tasks
+      .filter((task) => !task.completed)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
    return (
       <dialog

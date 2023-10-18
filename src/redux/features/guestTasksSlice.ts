@@ -31,10 +31,22 @@ const guestTasksSlice = createSlice({
          };
          state.data.push(newTask);
       },
+      deleteGuestTask(state, action) {
+         const { taskId } = action.payload;
+         const updatedTasks = state.data.filter((task) => task._id !== taskId);
+         state.data = updatedTasks;
+      },
+      updateGuestTaskStatus(state, action) {
+         const { taskId } = action.payload;
+         const taskToUpdate = state.data.find((task) => task._id === taskId);
+         if (taskToUpdate) {
+            taskToUpdate.completed = !taskToUpdate?.completed;
+         }
+      },
    },
 });
 
-export const { addGuestTask } = guestTasksSlice.actions;
+export const { addGuestTask, deleteGuestTask, updateGuestTaskStatus } = guestTasksSlice.actions;
 
 export default guestTasksSlice.reducer;
 
