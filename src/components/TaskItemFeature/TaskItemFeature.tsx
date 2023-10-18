@@ -5,7 +5,11 @@ import useTimer from "@/hooks/useTimer";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeTask, updateStatus, updateTaskElapsedTime } from "@/redux/features/tasksSlice";
 import { useSession } from "next-auth/react";
-import { deleteGuestTask, updateGuestTaskStatus } from "@/redux/features/guestTasksSlice";
+import {
+   deleteGuestTask,
+   updateGuestTaskStatus,
+   updateGuestTaskTime,
+} from "@/redux/features/guestTasksSlice";
 
 interface TaskItemFeatureProps {
    task: Task | UserTask;
@@ -15,7 +19,11 @@ const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
    const dispatch = useAppDispatch();
    const { data: session } = useSession();
    const handleElapsedTimeUpdate = async (taskDetails: { taskId: string; elapsedTime: number }) => {
-      await dispatch(updateTaskElapsedTime(taskDetails));
+      if (session) {
+         await dispatch(updateTaskElapsedTime(taskDetails));
+      } else {
+         dispatch(updateGuestTaskTime(taskDetails));
+      }
    };
 
    const { toggleTimer, elapsedTime, isTimerRunning } = useTimer({ task, handleElapsedTimeUpdate });

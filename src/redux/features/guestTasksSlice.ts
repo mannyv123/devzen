@@ -43,10 +43,18 @@ const guestTasksSlice = createSlice({
             taskToUpdate.completed = !taskToUpdate?.completed;
          }
       },
+      updateGuestTaskTime(state, action) {
+         const { taskId, elapsedTime } = action.payload;
+         const taskToUpdate = state.data.find((task) => task._id === taskId);
+         if (taskToUpdate) {
+            taskToUpdate.elapsedTime = elapsedTime;
+         }
+      },
    },
 });
 
-export const { addGuestTask, deleteGuestTask, updateGuestTaskStatus } = guestTasksSlice.actions;
+export const { addGuestTask, deleteGuestTask, updateGuestTaskStatus, updateGuestTaskTime } =
+   guestTasksSlice.actions;
 
 export default guestTasksSlice.reducer;
 

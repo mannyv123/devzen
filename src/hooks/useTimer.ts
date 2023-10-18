@@ -1,5 +1,4 @@
 import { Task, UserTask } from "@/types/types";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface TimerProps {
@@ -8,7 +7,6 @@ interface TimerProps {
 }
 
 function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
-   const { data: session } = useSession();
    const [isTimerRunning, setIsTimerRunning] = useState(false);
    const [elapsedTime, setElapsedTime] = useState(task.elapsedTime);
 
@@ -19,7 +17,7 @@ function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
          ? JSON.parse(savedTimerJSON)
          : { running: false, startTime: 0, elapsedTime: task.elapsedTime };
 
-      if (savedTimerLocal.running) {
+      if (savedTimerLocal.running && task.elapsedTime <= savedTimerLocal.elapsedTime) {
          setIsTimerRunning(true);
          const currentTime = new Date().getTime();
          const elapsedTimeTotal =
@@ -51,9 +49,8 @@ function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
             taskId: task._id,
             elapsedTime: elapsedTime,
          };
-         if (session) {
-            await handleElapsedTimeUpdate(taskDetails);
-         }
+
+         await handleElapsedTimeUpdate(taskDetails);
 
          //Remove timer from local storage
          localStorage.removeItem(`timer_${task._id}`);
