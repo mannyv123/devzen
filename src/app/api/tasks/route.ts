@@ -6,8 +6,13 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 //Get all tasks
 export const GET = async () => {
+   const session = await getServerSession(authOptions);
+   if (!session) {
+      return new NextResponse("User not authorized", { status: 401 });
+   }
+
    try {
-      const result: TaskDocument[] = await TaskModel.find().sort({
+      const result: TaskDocument[] = await TaskModel.find({ userId: session.user.id }).sort({
          createdAt: "desc",
       });
 

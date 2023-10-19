@@ -25,10 +25,8 @@ export const getTasks = async () => {
             "Content-Type": "application/json",
          },
       });
-      console.log(result);
-      const resp = await result.json();
-      console.log("resp", resp);
-      return resp;
+
+      return await result.json();
    } catch (err) {
       console.error(err);
    }
