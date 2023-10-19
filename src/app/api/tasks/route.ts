@@ -1,5 +1,5 @@
 import TaskModel from "@/models/TaskModel";
-import { NewTask, TaskDocument } from "@/types/types";
+import { TaskDocument } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -10,6 +10,7 @@ export const GET = async () => {
       const result: TaskDocument[] = await TaskModel.find().sort({
          createdAt: "desc",
       });
+
       return new NextResponse(JSON.stringify(result), { status: 200 });
    } catch (err) {
       return new NextResponse(`Error getting tasks: ${err}`, { status: 500 });
@@ -23,15 +24,15 @@ export const POST = async (req: NextRequest) => {
       return new NextResponse("User not authorized", { status: 401 });
    }
 
-   const task: NewTask = await req.json();
+   const { task } = (await req.json()) as { task: string };
    if (!task) {
       return new NextResponse("Incomplete fields", { status: 400 });
    }
 
    try {
       const newTask: TaskDocument = new TaskModel({
-         task: task.task,
-         userId: task.userId,
+         task: task,
+         userId: session.user.id,
       });
 
       await newTask.save();

@@ -27,11 +27,6 @@ export interface Message {
    content: string;
 }
 
-export interface NewTask {
-   task: string;
-   userId: string;
-}
-
 //API TYPES
 export interface TaskDocument extends Document {
    userId: string;

@@ -16,14 +16,20 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    const dispatch = useAppDispatch();
    const userTasks = useAppSelector(selectAllTasks);
    const guestTasks = useAppSelector(selectAllGuestTasks);
-   const tasks = session ? userTasks : guestTasks;
+
    const tasksCurrentStatus = useAppSelector(tasksStatus);
 
    useEffect(() => {
+      const getAllTasks = async () => {
+         await dispatch(fetchTasks());
+      };
+
       if (tasksCurrentStatus === "idle" && session) {
-         dispatch(fetchTasks());
+         getAllTasks();
       }
    }, [tasksCurrentStatus, dispatch, session]);
+
+   const tasks = session ? userTasks : guestTasks;
 
    const completedTasks = tasks.filter((task) => task.completed);
    const incompleteTasks = tasks

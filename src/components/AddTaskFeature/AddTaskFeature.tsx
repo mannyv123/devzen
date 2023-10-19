@@ -3,7 +3,6 @@ import InputUI from "../InputUI/InputUI";
 import { addTask } from "@/redux/features/tasksSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useSession } from "next-auth/react";
-import { NewTask } from "@/types/types";
 import { addGuestTask } from "@/redux/features/guestTasksSlice";
 
 function AddTaskFeature() {
@@ -32,9 +31,8 @@ function AddTaskFeature() {
       }
 
       if (session) {
-         const newTask: NewTask = {
+         const newTask: { task: string } = {
             task: taskInput,
-            userId: session.user.id,
          };
 
          await dispatch(addTask(newTask));

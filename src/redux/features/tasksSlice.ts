@@ -1,5 +1,5 @@
 import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus } from "@/utils/api";
-import { NewTask, UserTask } from "@/types/types";
+import { UserTask } from "@/types/types";
 import { SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -25,7 +25,7 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
    }
 });
 
-export const addTask = createAsyncThunk("tasks/addTask", async (taskData: NewTask) => {
+export const addTask = createAsyncThunk("tasks/addTask", async (taskData: { task: string }) => {
    try {
       const response = await createTask(taskData);
       return response;

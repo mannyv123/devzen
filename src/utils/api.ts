@@ -1,4 +1,4 @@
-import { NewTask, UserTask } from "../types/types";
+import { UserTask } from "../types/types";
 
 const API_URL = process.env.URL;
 
@@ -25,15 +25,17 @@ export const getTasks = async () => {
             "Content-Type": "application/json",
          },
       });
-
-      return await result.json();
+      console.log(result);
+      const resp = await result.json();
+      console.log("resp", resp);
+      return resp;
    } catch (err) {
       console.error(err);
    }
 };
 
 //Create new task
-export const createTask = async (taskData: NewTask) => {
+export const createTask = async (taskData: { task: string }) => {
    if (!taskData) {
       throw new Error("No task content provided.");
    }
