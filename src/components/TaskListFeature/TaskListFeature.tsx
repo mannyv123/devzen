@@ -18,7 +18,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    const guestTasks = useAppSelector(selectAllGuestTasks);
 
    const tasksCurrentStatus = useAppSelector(tasksStatus);
-
+   console.log(session);
    useEffect(() => {
       const getAllTasks = async () => {
          await dispatch(fetchTasks());

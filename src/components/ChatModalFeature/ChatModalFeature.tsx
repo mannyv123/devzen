@@ -11,6 +11,7 @@ import ChatModalUI from "../ChatModalUI/ChatModalUI";
 //TODO: form validation
 //TODO: feature to save conversations
 //TODO: feature to reset conversations
+//TODO: look into non unique ID issue
 
 const modalInfo: ModalDetails[] = [
    {
