@@ -2,14 +2,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { MongoClient } from "mongodb";
-
-//MongoDB connection for adapter
-if (!process.env.MONGODB_URI) {
-   throw new Error("No MongoDB URI provided");
-}
-const client = new MongoClient(process.env.MONGODB_URI);
-const clientPromise = client.connect();
+import clientPromise from "@/utils/mongodb";
 
 export const authOptions: NextAuthOptions = {
    providers: [

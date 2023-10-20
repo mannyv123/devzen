@@ -18,15 +18,6 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
    const session = await getServerSession(authOptions);
 
-   //Connect to the db when the application starts
-   if (session) {
-      try {
-         await connectToDb();
-      } catch (err) {
-         throw new Error(`Error connecting to the database: ${err}`);
-      }
-   }
-
    //Handle disconnection from db on app exit
    const handleAppExit = async () => {
       try {
@@ -38,8 +29,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       }
    };
 
+   //Connect to the db when the application starts
+   if (session) {
+      try {
+         await connectToDb();
+      } catch (err) {
+         throw new Error(`Error connecting to the database: ${err}`);
+      }
+   }
+
    process.on("exit", handleAppExit);
-   process.on("SIGINT", handleAppExit);
+   process.on("SIGINT", () => {
+      handleAppExit;
+      console.log("exited on app termination");
+      process.exit(0);
+   });
    process.on("SIGTERM", handleAppExit);
 
    return (

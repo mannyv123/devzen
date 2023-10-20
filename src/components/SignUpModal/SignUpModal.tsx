@@ -33,23 +33,36 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
             <form className='flex flex-col gap-8 w-full'>
                <div className='flex flex-col w-full gap-2'>
                   <label htmlFor='name'>Name:</label>
-                  <input className='border rounded-md h-9' type='text' name='name' id='name' />
+                  <input
+                     className='border rounded-md h-9 px-2'
+                     type='text'
+                     name='name'
+                     id='name'
+                     placeholder='Enter your full name'
+                  />
                   <label htmlFor='email'>Email:</label>
-                  <input className='border rounded-md h-9' type='text' name='email' id='email' />
+                  <input
+                     className='border rounded-md h-9 px-2'
+                     type='text'
+                     name='email'
+                     id='email'
+                     placeholder='Enter your email'
+                  />
                   <label htmlFor='password'>Password:</label>
                   <input
-                     className='border rounded-md h-9'
+                     className='border rounded-md h-9 px-2'
                      type='password'
                      name='password'
                      id='password'
+                     placeholder='Enter a new password'
                   />
                   <label htmlFor='confirmPassword'>Confirm Password:</label>
                   <input
-                     className='border rounded-md h-9'
-                     rounded-md
+                     className='border rounded-md h-9 px-2'
                      type='password'
                      name='confirmPassword'
                      id='confirmPassword'
+                     placeholder='Confirm your new password'
                   />
                </div>
                <button className='border w-full p-2 rounded-full' type='submit'>
