@@ -33,13 +33,9 @@ export const authOptions: NextAuthOptions = {
                email: "email@manjot.com",
             };
 
-            console.log(credentials);
-
             if (credentials?.username === user.username && credentials.password === user.password) {
-               console.log("user", user);
                return user;
             } else {
-               console.log("wrong");
                return null;
             }
          },
@@ -72,9 +68,6 @@ export const authOptions: NextAuthOptions = {
       //    return true;
       // },
       session({ session, user, token }) {
-         console.log(user);
-         console.log(session);
-         console.log(token);
          if (user) {
             session.user.id = user.id;
          } else {

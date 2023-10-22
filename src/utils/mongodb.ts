@@ -21,12 +21,15 @@ if (process.env.NODE_ENV === "development") {
       client = new MongoClient(uri, options);
       globalWithMongo._mongoClientPromise = client.connect();
    }
-   console.log("Using existing mongodb connection");
+
    clientPromise = globalWithMongo._mongoClientPromise;
+   // eslint-disable-next-line no-console
+   console.log("Using existing mongodb connection");
 } else {
    // In production mode, it's best to not use a global variable.
    client = new MongoClient(uri, options);
    clientPromise = client.connect();
+   // eslint-disable-next-line no-console
    console.log("New mongodb connection");
 }
 
