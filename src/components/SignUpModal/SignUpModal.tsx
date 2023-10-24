@@ -6,7 +6,8 @@ import { MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import ErrorIcon from "../ErrorIcon/ErrorIcon";
 
-const INPUT_ERROR_MSG = "Field cannot be blank";
+const ERROR_MSG = "Field cannot be blank";
+const ERROR_MSG_MOBILE = "Fields cannot be blank";
 
 const initialValues = {
    name: "",
@@ -117,17 +118,24 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
          </div>
          <div className='flex flex-col items-center gap-8'>
             <h1 className='text-3xl font-bold'>Sign Up</h1>
+            {inputErrors !== initialInputErrors ? (
+               <div className='lg:hidden absolute left-4 top-[4.75rem] w-full flex justify-center items-center'>
+                  <ErrorIcon errorMsg={ERROR_MSG_MOBILE} />
+               </div>
+            ) : null}
             <form className='flex flex-col gap-8 w-full' onSubmit={handleSubmit}>
                <div className='flex flex-col w-full gap-2'>
                   <label htmlFor='name'>Name:</label>
                   <div className='relative flex items-center w-full'>
                      {inputErrors.name ? (
-                        <div className='absolute lg:-left-9 whitespace-nowrap'>
-                           <ErrorIcon errorMsg={INPUT_ERROR_MSG} />
+                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                           <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className='border rounded-md h-9 px-2 w-full'
+                        className={`border rounded-md h-9 px-2 w-full ${
+                           inputErrors.name ? "border-red-600" : ""
+                        }`}
                         type='text'
                         name='name'
                         id='name'
@@ -139,12 +147,14 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
                   <label htmlFor='email'>Email:</label>
                   <div className='relative flex items-center w-full'>
                      {inputErrors.email ? (
-                        <div className='absolute lg:-left-9 whitespace-nowrap'>
-                           <ErrorIcon errorMsg={INPUT_ERROR_MSG} />
+                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                           <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className='border rounded-md h-9 px-2 w-full'
+                        className={`border rounded-md h-9 px-2 w-full ${
+                           inputErrors.email ? "border-red-600" : ""
+                        }`}
                         type='text'
                         name='email'
                         id='email'
@@ -156,12 +166,14 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
                   <label htmlFor='password'>Password:</label>
                   <div className='relative flex items-center w-full'>
                      {inputErrors.password ? (
-                        <div className='absolute lg:-left-9 whitespace-nowrap'>
-                           <ErrorIcon errorMsg={INPUT_ERROR_MSG} />
+                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                           <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className='border rounded-md h-9 px-2 w-full'
+                        className={`border rounded-md h-9 px-2 w-full ${
+                           inputErrors.password ? "border-red-600" : ""
+                        }`}
                         type='password'
                         name='password'
                         id='password'
@@ -173,12 +185,14 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
                   <label htmlFor='confirmPassword'>Confirm Password:</label>
                   <div className='relative flex items-center w-full'>
                      {inputErrors.confirmPassword ? (
-                        <div className='absolute lg:-left-9 whitespace-nowrap'>
-                           <ErrorIcon errorMsg={INPUT_ERROR_MSG} />
+                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                           <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className='border rounded-md h-9 px-2 w-full'
+                        className={`border rounded-md h-9 px-2 w-full ${
+                           inputErrors.confirmPassword ? "border-red-600" : ""
+                        }`}
                         type='password'
                         name='confirmPassword'
                         id='confirmPassword'
@@ -187,8 +201,14 @@ function SignUpModal({ isModalOpen, handleSignUpModal }: SignUpModalProps) {
                      />
                   </div>
                </div>
-               <button className='border w-full p-2 rounded-full' type='submit'>
-                  Create Account
+               <button
+                  className='relative border p-2 w-full rounded-full overflow-hidden group flex justify-center'
+                  type='submit'
+               >
+                  <div className='absolute inset-0 bg-[#2267F2] transition-width duration-500 w-0 group-hover:w-full h-full'></div>
+                  <span className='relative group-hover:text-white transition-colors duration-300'>
+                     Create Account
+                  </span>
                </button>
             </form>
          </div>
