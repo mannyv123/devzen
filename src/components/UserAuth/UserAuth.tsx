@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { MdLogin } from "react-icons/md";
 import Image from "next/image";
-import SignUpModal from "../SignUpModal/SignUpModal";
+import SignUpModalFeature from "../SignUpModalFeature/SignUpModalFeature";
 
 //TODO: update UI to have under login the email and github logo while under sign up just the email logo
 
@@ -18,7 +18,7 @@ function UserAuth() {
 
    return (
       <>
-         <SignUpModal isModalOpen={isModalOpen} handleSignUpModal={handleSignUpModal} />
+         <SignUpModalFeature isModalOpen={isModalOpen} handleSignUpModal={handleSignUpModal} />
          <div className='group relative text-white flex flex-col items-center gap-3 mr-4 mt-3 z-10 lg:opacity-40 hover:opacity-100'>
             <div className='relative w-fit flex items-center border rounded-full pr-2 lg:pr-0 group-hover:pr-2'>
                <div className='relative w-10 h-10 p-2'>

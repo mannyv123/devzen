@@ -45,6 +45,20 @@ export interface Message {
    content: string;
 }
 
+export interface SignUpFormInputs {
+   name: string;
+   email: string;
+   password: string;
+   confirmPassword: string;
+}
+
+export interface SignUpFormErrors {
+   name: boolean;
+   email: boolean;
+   password: boolean;
+   confirmPassword: boolean;
+}
+
 //API TYPES
 export interface TaskDocument extends Document {
    userId: string;
