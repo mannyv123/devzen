@@ -1,13 +1,7 @@
 import UserModel from "@/models/UserModel";
-import { UserDocument } from "@/types/types";
+import { NewUserData, UserDocument } from "@/types/types";
+import { connectToDb, disconnectFromDb } from "@/utils/db";
 import { NextRequest, NextResponse } from "next/server";
-
-interface NewUserData {
-   newUser: {
-      name: string;
-      email: string;
-   };
-}
 
 //Create new user
 export const POST = async (req: NextRequest) => {
@@ -18,10 +12,13 @@ export const POST = async (req: NextRequest) => {
    }
 
    try {
-      const user: UserDocument = new UserModel(newUser);
+      await connectToDb();
+
+      const user: UserDocument = new UserModel({ ...newUser, accountType: "credentials" });
 
       await user.save();
 
+      await disconnectFromDb();
       return new NextResponse(JSON.stringify(user), { status: 201 });
    } catch (err) {
       return new NextResponse(`Error creating user: ${err}`, { status: 500 });

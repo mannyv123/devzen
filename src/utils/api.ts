@@ -1,4 +1,4 @@
-import { UserTask } from "../types/types";
+import { NewUserData, User, UserTask } from "../types/types";
 
 const API_URL = process.env.URL;
 
@@ -11,6 +11,32 @@ export const getImage = async () => {
       });
 
       return await result.json();
+   } catch (err) {
+      console.error(err);
+   }
+};
+
+//Create new user
+export const createUser = async (newUser: NewUserData) => {
+   if (!newUser) {
+      throw new Error("No user data provided.");
+   }
+   try {
+      const response = await fetch(`/api/user/`, {
+         method: "POST",
+         body: JSON.stringify(newUser),
+         headers: {
+            "Content-Type": "application/json",
+         },
+      });
+
+      if (!response.ok) {
+         throw new Error("Failed to create user.");
+      }
+
+      const result: User = await response.json();
+
+      return result;
    } catch (err) {
       console.error(err);
    }

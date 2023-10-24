@@ -1,5 +1,23 @@
 import { Document } from "mongoose";
 
+export interface NewUserData {
+   newUser: {
+      name: string;
+      email: string;
+      password: string;
+   };
+}
+
+export interface User {
+   _id: string;
+   name: string;
+   email: string;
+   password?: string;
+   accountType?: string;
+   image: string;
+   emailVerified: string;
+}
+
 export type Task = {
    _id: string;
    task: string;

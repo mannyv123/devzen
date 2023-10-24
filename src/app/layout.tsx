@@ -15,36 +15,36 @@ export const metadata: Metadata = {
    description: "DevZen App",
 };
 
+// Handle disconnection from db on app exit
+const handleAppExit = async () => {
+   try {
+      await disconnectFromDb();
+   } catch (err) {
+      throw new Error(`Error disconnecting from the database: ${err}`);
+   }
+};
+
+process.on("exit", handleAppExit);
+process.on("SIGINT", () => {
+   handleAppExit;
+   console.log("exited on app termination");
+   process.exit(0);
+});
+process.on("SIGTERM", handleAppExit);
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
    const session = await getServerSession(authOptions);
 
-   //Handle disconnection from db on app exit
-   const handleAppExit = async () => {
-      try {
-         await disconnectFromDb();
-         // eslint-disable-next-line no-console
-         console.log("Disconnected from the database");
-      } catch (err) {
-         throw new Error(`Error disconnecting from the database: ${err}`);
-      }
-   };
-
-   //Connect to the db when the application starts
+   // Connect to the db when the application starts
    if (session) {
       try {
          await connectToDb();
       } catch (err) {
          throw new Error(`Error connecting to the database: ${err}`);
       }
+   } else {
+      await disconnectFromDb();
    }
-
-   process.on("exit", handleAppExit);
-   process.on("SIGINT", () => {
-      handleAppExit;
-      console.log("exited on app termination");
-      process.exit(0);
-   });
-   process.on("SIGTERM", handleAppExit);
 
    return (
       <html lang='en'>

@@ -31,6 +31,7 @@ const disconnectFromDb = async () => {
    if (dbConnection) {
       await dbConnection.close();
       dbConnection = null;
+      console.log("Disconnected from the database");
    }
 };
 
