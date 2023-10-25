@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-
 import SignUpModalFeature from "../SignUpModalFeature/SignUpModalFeature";
 import UserAuthUI from "../UserAuthUI/UserAuthUI";
 
