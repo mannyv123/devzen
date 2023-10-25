@@ -53,7 +53,7 @@ function UserAuthUI({
                   </div>
                   <div className='h-[2.75rem] transition-height duration-500 group-hover/options:h-[2.75rem] lg:h-0'>
                      <svg width='2' height='100%' xmlns='http://www.w3.org/2000/svg'>
-                        <line x1='1' y1='0' x2='1' y2='100%' stroke='white' stroke-width='2' />
+                        <line x1='1' y1='0' x2='1' y2='100%' stroke='white' strokeWidth='2' />
                      </svg>
                   </div>
                   <div
@@ -71,9 +71,12 @@ function UserAuthUI({
          {sessionData ? (
             <div
                onClick={handleSignOut}
-               className='flex w-[12.625rem] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white transition-width duration-300 group-hover:w-[12.625rem] lg:h-0 lg:w-0'
+               className='relative flex w-[12.625rem] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white transition-width duration-300 group-hover/options:w-[12.625rem] lg:h-0 lg:w-0'
             >
-               <p className='whitespace-nowrap text-black'>Sign Out</p>
+               <div className='absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 group-hover/options:w-full'></div>
+               <p className='relative whitespace-nowrap text-black transition-colors duration-300 group-hover/options:text-white'>
+                  Sign Out
+               </p>
             </div>
          ) : null}
       </div>
