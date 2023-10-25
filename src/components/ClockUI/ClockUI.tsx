@@ -6,7 +6,7 @@ interface ClockUIProps {
 
 function ClockUI({ currentTime }: ClockUIProps) {
    return (
-      <div suppressHydrationWarning className='text-6xl md:text-9xl text-white'>
+      <div suppressHydrationWarning className='text-6xl text-white md:text-9xl'>
          {currentTime}
       </div>
    );

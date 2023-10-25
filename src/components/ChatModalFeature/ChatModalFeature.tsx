@@ -123,7 +123,7 @@ const ChatModalFeature = ({ handleModal, selectedModal, isModalOpen }: ChatModal
                handleModal(selectedModal);
             }
          }}
-         className='w-full h-full max-h-full max-w-full lg:w-modal lg:h-modal rounded-lg p-2 md:p-6'
+         className='h-full max-h-full w-full max-w-full rounded-lg p-2 md:p-6 lg:h-modal lg:w-modal'
       >
          <ChatModalUI
             handleModal={handleModal}

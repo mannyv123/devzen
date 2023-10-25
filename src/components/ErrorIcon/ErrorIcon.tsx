@@ -7,9 +7,9 @@ interface ErrorIconProps {
 
 function ErrorIcon({ errorMsg }: ErrorIconProps) {
    return (
-      <div className='text-red-600 relative flex items-center w-full cursor-pointer'>
+      <div className='relative flex w-full cursor-pointer items-center text-red-600'>
          <MdErrorOutline size={"1.25rem"} className='peer' />
-         <span className='shadow-lg absolute left-11 px-2 bg-white border text-sm pointer-events-none transition-opacity lg:opacity-0 peer-hover:opacity-100 '>
+         <span className='pointer-events-none absolute left-11 border bg-white px-2 text-sm shadow-lg transition-opacity peer-hover:opacity-100 lg:opacity-0 '>
             {errorMsg}
          </span>
       </div>

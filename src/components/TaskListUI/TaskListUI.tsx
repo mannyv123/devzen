@@ -10,7 +10,7 @@ interface TaskListUIProps {
 
 function TaskListUI({ incompleteTasks, completedTasks }: TaskListUIProps) {
    return (
-      <div className='h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto'>
+      <div className='h-full w-full overflow-y-auto rounded-lg bg-white bg-opacity-90'>
          <div className='flex flex-col gap-4 p-4'>
             <section>
                <AddTaskFeature />

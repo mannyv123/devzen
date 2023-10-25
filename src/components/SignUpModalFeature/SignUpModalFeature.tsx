@@ -111,7 +111,7 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
                handleSignUpModal();
             }
          }}
-         className='relative rounded-lg px-4 lg:px-14 py-8 w-full lg:w-1/3'
+         className='relative w-full rounded-lg px-4 py-8 lg:w-1/3 lg:px-14'
       >
          <SignUpModalUI
             handleSignUpModal={handleSignUpModal}

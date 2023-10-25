@@ -30,21 +30,21 @@ function SignUpModalUI({
          <div className='flex flex-col items-center gap-8'>
             <h1 className='text-3xl font-bold'>Sign Up</h1>
             {inputErrors !== initialInputErrors ? (
-               <div className='lg:hidden absolute left-4 top-[4.75rem] w-full flex justify-center items-center'>
+               <div className='absolute left-4 top-[4.75rem] flex w-full items-center justify-center lg:hidden'>
                   <ErrorIcon errorMsg={ERROR_MSG_MOBILE} />
                </div>
             ) : null}
-            <form className='flex flex-col gap-8 w-full' onSubmit={handleSubmit}>
-               <div className='flex flex-col w-full gap-2'>
+            <form className='flex w-full flex-col gap-8' onSubmit={handleSubmit}>
+               <div className='flex w-full flex-col gap-2'>
                   <label htmlFor='name'>Name:</label>
-                  <div className='relative flex items-center w-full'>
+                  <div className='relative flex w-full items-center'>
                      {inputErrors.name ? (
-                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                        <div className='absolute hidden whitespace-nowrap lg:-left-9 lg:block'>
                            <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className={`border rounded-md h-9 px-2 w-full ${
+                        className={`h-9 w-full rounded-md border px-2 ${
                            inputErrors.name ? "border-red-600" : ""
                         }`}
                         type='text'
@@ -56,14 +56,14 @@ function SignUpModalUI({
                   </div>
 
                   <label htmlFor='email'>Email:</label>
-                  <div className='relative flex items-center w-full'>
+                  <div className='relative flex w-full items-center'>
                      {inputErrors.email ? (
-                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                        <div className='absolute hidden whitespace-nowrap lg:-left-9 lg:block'>
                            <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className={`border rounded-md h-9 px-2 w-full ${
+                        className={`h-9 w-full rounded-md border px-2 ${
                            inputErrors.email ? "border-red-600" : ""
                         }`}
                         type='text'
@@ -75,14 +75,14 @@ function SignUpModalUI({
                   </div>
 
                   <label htmlFor='password'>Password:</label>
-                  <div className='relative flex items-center w-full'>
+                  <div className='relative flex w-full items-center'>
                      {inputErrors.password ? (
-                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                        <div className='absolute hidden whitespace-nowrap lg:-left-9 lg:block'>
                            <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className={`border rounded-md h-9 px-2 w-full ${
+                        className={`h-9 w-full rounded-md border px-2 ${
                            inputErrors.password ? "border-red-600" : ""
                         }`}
                         type='password'
@@ -94,14 +94,14 @@ function SignUpModalUI({
                   </div>
 
                   <label htmlFor='confirmPassword'>Confirm Password:</label>
-                  <div className='relative flex items-center w-full'>
+                  <div className='relative flex w-full items-center'>
                      {inputErrors.confirmPassword ? (
-                        <div className='hidden lg:block absolute lg:-left-9 whitespace-nowrap'>
+                        <div className='absolute hidden whitespace-nowrap lg:-left-9 lg:block'>
                            <ErrorIcon errorMsg={ERROR_MSG} />
                         </div>
                      ) : null}
                      <input
-                        className={`border rounded-md h-9 px-2 w-full ${
+                        className={`h-9 w-full rounded-md border px-2 ${
                            inputErrors.confirmPassword ? "border-red-600" : ""
                         }`}
                         type='password'
@@ -113,11 +113,11 @@ function SignUpModalUI({
                   </div>
                </div>
                <button
-                  className='relative border p-2 w-full rounded-full overflow-hidden group flex justify-center'
+                  className='group relative flex w-full justify-center overflow-hidden rounded-full border p-2'
                   type='submit'
                >
-                  <div className='absolute inset-0 bg-[#2267F2] transition-width duration-500 w-0 group-hover:w-full h-full'></div>
-                  <span className='relative group-hover:text-white transition-colors duration-300'>
+                  <div className='absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 group-hover:w-full'></div>
+                  <span className='relative transition-colors duration-300 group-hover:text-white'>
                      Create Account
                   </span>
                </button>

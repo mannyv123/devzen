@@ -11,13 +11,13 @@ interface ChatGPTUIProps {
 
 function ChatGptUI({ handleModal }: ChatGPTUIProps) {
    return (
-      <div className='flex flex-col lg:flex-row gap-2 md:gap-4 text-white'>
+      <div className='flex flex-col gap-2 text-white md:gap-4 lg:flex-row'>
          <div
-            className='cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group'
+            className='group flex cursor-pointer items-center rounded-full border border-white pr-2 hover:pr-2 hover:opacity-100 lg:pr-0 lg:opacity-40'
             onClick={() => handleModal("complexity")}
          >
             <div className='p-2'>
-               <div className='relative w-8 h-8'>
+               <div className='relative h-8 w-8'>
                   <Image
                      src={timeComplexityIcon}
                      fill={true}
@@ -26,31 +26,31 @@ function ChatGptUI({ handleModal }: ChatGPTUIProps) {
                   />
                </div>
             </div>
-            <p className='whitespace-nowrap overflow-hidden transition-width duration-300 text-center w-[7.5rem] lg:w-0 lg:h-0 group-hover:w-[7.5rem] group-hover:h-fit'>
+            <p className='w-[7.5rem] overflow-hidden whitespace-nowrap text-center transition-width duration-300 group-hover:h-fit group-hover:w-[7.5rem] lg:h-0 lg:w-0'>
                Time Complexity
             </p>
          </div>
 
          <div
-            className='cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group'
+            className='group flex cursor-pointer items-center rounded-full border border-white pr-2 hover:pr-2 hover:opacity-100 lg:pr-0 lg:opacity-40'
             onClick={() => handleModal("bug")}
          >
             <div className='p-2'>
-               <div className='relative w-8 h-8'>
+               <div className='relative h-8 w-8'>
                   <Image src={bugIcon} fill={true} alt='find bugs' className='object-center' />
                </div>
             </div>
-            <p className='whitespace-nowrap overflow-hidden transition-width duration-300 text-center flex-1 lg:w-0 lg:h-0 group-hover:w-[4.4375rem] group-hover:h-fit'>
+            <p className='flex-1 overflow-hidden whitespace-nowrap text-center transition-width duration-300 group-hover:h-fit group-hover:w-[4.4375rem] lg:h-0 lg:w-0'>
                Find Bugs
             </p>
          </div>
 
          <div
-            className='cursor-pointer flex items-center border border-white rounded-full lg:opacity-40 hover:opacity-100 pr-2 lg:pr-0 hover:pr-2 group'
+            className='group flex cursor-pointer items-center rounded-full border border-white pr-2 hover:pr-2 hover:opacity-100 lg:pr-0 lg:opacity-40'
             onClick={() => handleModal("explain")}
          >
             <div className='p-2'>
-               <div className='relative w-8 h-8'>
+               <div className='relative h-8 w-8'>
                   <Image
                      src={explainIcon}
                      fill={true}
@@ -59,7 +59,7 @@ function ChatGptUI({ handleModal }: ChatGPTUIProps) {
                   />
                </div>
             </div>
-            <p className='whitespace-nowrap overflow-hidden transition-width duration-300 text-center flex-1 lg:w-0 lg:h-0 group-hover:w-[5.8125rem] group-hover:h-fit'>
+            <p className='flex-1 overflow-hidden whitespace-nowrap text-center transition-width duration-300 group-hover:h-fit group-hover:w-[5.8125rem] lg:h-0 lg:w-0'>
                Explain Code
             </p>
          </div>
