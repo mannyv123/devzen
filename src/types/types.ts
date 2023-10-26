@@ -70,6 +70,8 @@ export interface TaskDocument extends Document {
 export interface UserDocument extends Document {
    name: string;
    email: string;
+   password: string;
+   accountType: string;
    image: string;
    emailVerified: string;
 }

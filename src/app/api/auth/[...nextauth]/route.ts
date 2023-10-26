@@ -3,6 +3,9 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/utils/mongodb";
+import { connectToDb, disconnectFromDb } from "@/utils/db";
+import UserModel from "@/models/UserModel";
+import { User } from "@/types/types";
 
 export const authOptions: NextAuthOptions = {
    providers: [
@@ -13,29 +16,40 @@ export const authOptions: NextAuthOptions = {
       CredentialsProvider({
          name: "Credentials",
          credentials: {
-            username: {
-               label: "Username:",
-               type: "text",
-               placeholder: "Enter your username",
+            email: {
+               label: "Email:",
+               type: "email",
+               placeholder: "Enter your email",
             },
             password: {
                label: "Password",
                type: "password",
+               placeholder: "Enter your password",
             },
          },
-         authorize(credentials) {
-            //temp user
-            const user = {
-               id: "123",
-               name: "Email Manjot",
-               username: "email_manjot",
-               password: "password",
-               email: "email@manjot.com",
-            };
+         async authorize(credentials) {
+            await connectToDb();
 
-            if (credentials?.username === user.username && credentials.password === user.password) {
-               return user;
+            const existingUser: User | null = await UserModel.findOne({
+               email: credentials?.email,
+            });
+
+            if (
+               existingUser &&
+               credentials?.email === existingUser.email &&
+               credentials?.password === existingUser.password
+            ) {
+               const { _id, name, email, image } = existingUser;
+
+               await disconnectFromDb();
+               return {
+                  id: _id,
+                  name,
+                  email,
+                  image,
+               };
             } else {
+               await disconnectFromDb();
                return null;
             }
          },
@@ -47,31 +61,21 @@ export const authOptions: NextAuthOptions = {
    secret: process.env.NEXTAUTH_SECRET,
    adapter: MongoDBAdapter(clientPromise),
    callbacks: {
-      // async signIn({ account, profile }) {
-      //    await connectToDb();
-      //    if (account?.type === "oauth") {
-      //       const githubEmail = profile?.email;
-      //       const existingUser = await UserModel.findOne({ email: githubEmail });
-      //       console.log(existingUser);
-      //       console.log(profile);
-      //       if (existingUser === null) {
-      //          console.log("creating new user");
-      //          const newUser = {
-      //             name: profile?.name!,
-      //             email: profile?.email!,
-      //             image: profile?.image!,
-      //             emailVerified: null,
-      //          };
-      //          await UserModel.create(newUser);
-      //       }
-      //    }
-      //    return true;
-      // },
-      session({ session, user, token }) {
+      async jwt({ token, user }) {
          if (user) {
-            session.user.id = user.id;
-         } else {
-            session.user.id = token.sub!;
+            token.user = {
+               id: user.id,
+               email: user.email,
+               name: user.name,
+               image: user.image,
+            };
+         }
+
+         return token;
+      },
+      session({ session, token }) {
+         if (token) {
+            session.user = token.user as { id: string; email: string; name: string; image: string };
          }
 
          return session;

@@ -29,12 +29,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
       }
    }, [tasksCurrentStatus, dispatch, session]);
 
-   console.log("tasks user", userTasks);
-   console.log("tasks guest", guestTasks);
-
    const tasks = session ? userTasks : guestTasks;
-
-   console.log("tasks after", tasks);
 
    const completedTasks = tasks.filter((task) => task.completed);
    const incompleteTasks = tasks

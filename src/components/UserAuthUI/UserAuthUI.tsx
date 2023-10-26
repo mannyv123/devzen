@@ -71,10 +71,10 @@ function UserAuthUI({
          {sessionData ? (
             <div
                onClick={handleSignOut}
-               className='relative flex w-[12.625rem] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white transition-width duration-300 group-hover/options:w-[12.625rem] lg:h-0 lg:w-0'
+               className='group/signout relative flex w-[12.625rem] flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white transition-width duration-300 group-hover/options:w-[12.625rem] lg:h-0 lg:w-0'
             >
-               <div className='absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 group-hover/options:w-full'></div>
-               <p className='relative whitespace-nowrap text-black transition-colors duration-300 group-hover/options:text-white'>
+               <div className='peer absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 group-hover/signout:w-full'></div>
+               <p className='relative whitespace-nowrap text-black transition-colors duration-300 group-hover/signout:text-white'>
                   Sign Out
                </p>
             </div>
