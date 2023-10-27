@@ -1,8 +1,8 @@
-import { Task } from "@/utils/types";
+import { Task, UserTask } from "@/types/types";
 import { useEffect, useState } from "react";
 
 interface TimerProps {
-   task: Task;
+   task: Task | UserTask;
    handleElapsedTimeUpdate: (taskDetails: { taskId: string; elapsedTime: number }) => Promise<void>;
 }
 
@@ -17,7 +17,7 @@ function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
          ? JSON.parse(savedTimerJSON)
          : { running: false, startTime: 0, elapsedTime: task.elapsedTime };
 
-      if (savedTimerLocal.running) {
+      if (savedTimerLocal.running && task.elapsedTime <= savedTimerLocal.elapsedTime) {
          setIsTimerRunning(true);
          const currentTime = new Date().getTime();
          const elapsedTimeTotal =
@@ -49,6 +49,7 @@ function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
             taskId: task._id,
             elapsedTime: elapsedTime,
          };
+
          await handleElapsedTimeUpdate(taskDetails);
 
          //Remove timer from local storage

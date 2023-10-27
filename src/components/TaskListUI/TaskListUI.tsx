@@ -1,16 +1,16 @@
 import React from "react";
 import AddTaskFeature from "../AddTaskFeature/AddTaskFeature";
-import { Task } from "@/utils/types";
+import { Task, UserTask } from "@/types/types";
 import TaskItemFeature from "../TaskItemFeature/TaskItemFeature";
 
 interface TaskListUIProps {
-   incompleteTasks: Task[];
-   completedTasks: Task[];
+   incompleteTasks: (Task | UserTask)[];
+   completedTasks: (Task | UserTask)[];
 }
 
 function TaskListUI({ incompleteTasks, completedTasks }: TaskListUIProps) {
    return (
-      <div className='h-full w-full bg-white rounded-lg bg-opacity-90 overflow-y-auto'>
+      <div className='h-full w-full overflow-y-auto rounded-lg bg-white bg-opacity-90'>
          <div className='flex flex-col gap-4 p-4'>
             <section>
                <AddTaskFeature />

@@ -1,4 +1,4 @@
-import { Task } from "./types";
+import { NewUserData, User, UserTask } from "../types/types";
 
 const API_URL = process.env.URL;
 
@@ -11,6 +11,32 @@ export const getImage = async () => {
       });
 
       return await result.json();
+   } catch (err) {
+      console.error(err);
+   }
+};
+
+//Create new user
+export const createUser = async (newUser: NewUserData) => {
+   if (!newUser) {
+      throw new Error("No user data provided.");
+   }
+   try {
+      const response = await fetch(`/api/user/`, {
+         method: "POST",
+         body: JSON.stringify(newUser),
+         headers: {
+            "Content-Type": "application/json",
+         },
+      });
+
+      if (!response.ok) {
+         throw new Error("Failed to create user.");
+      }
+
+      const result: User = await response.json();
+
+      return result;
    } catch (err) {
       console.error(err);
    }
@@ -33,16 +59,14 @@ export const getTasks = async () => {
 };
 
 //Create new task
-export const createTask = async (taskData: string) => {
+export const createTask = async (taskData: { task: string }) => {
    if (!taskData) {
       throw new Error("No task content provided.");
    }
    try {
       const response = await fetch("/api/tasks", {
          method: "POST",
-         body: JSON.stringify({
-            taskData,
-         }),
+         body: JSON.stringify(taskData),
          headers: {
             "Content-Type": "application/json",
          },
@@ -54,7 +78,7 @@ export const createTask = async (taskData: string) => {
 
       const result = await response.json();
 
-      return result as Task;
+      return result as UserTask;
    } catch (err) {
       console.log(err);
    }
@@ -77,7 +101,7 @@ export const deleteTask = async (taskId: string) => {
 
       const result = await response.json();
 
-      return result as { taskId: Task["_id"] };
+      return result as { taskId: UserTask["_id"] };
    } catch (err) {
       console.error(err);
    }
@@ -100,7 +124,7 @@ export const updateTaskStatus = async (taskId: string) => {
 
       const result = await response.json();
 
-      return result as Task;
+      return result as UserTask;
    } catch (err) {
       console.error(err);
    }

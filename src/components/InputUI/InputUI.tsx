@@ -17,7 +17,7 @@ function InputUI({
 }: InputUIProps) {
    return (
       <input
-         className={`rounded-lg w-full px-2 py-1 focus:outline-none ${
+         className={`w-full rounded-lg px-2 py-1 focus:outline-none ${
             isBlank ? "ring-2 ring-red-600" : "focus:ring-2"
          }`}
          placeholder={placeholderText}

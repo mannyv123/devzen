@@ -1,10 +1,10 @@
 import { createTask, deleteTask, getTasks, updateElapsedTime, updateTaskStatus } from "@/utils/api";
-import { Task } from "@/utils/types";
+import { UserTask } from "@/types/types";
 import { SerializedError, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface TasksState {
-   data: Task[];
+   data: UserTask[];
    status: "idle" | "loading" | "succeeded" | "failed";
    error: SerializedError | null;
 }
@@ -25,7 +25,7 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
    }
 });
 
-export const addTask = createAsyncThunk("tasks/addTask", async (taskData: string) => {
+export const addTask = createAsyncThunk("tasks/addTask", async (taskData: { task: string }) => {
    try {
       const response = await createTask(taskData);
       return response;
@@ -89,10 +89,11 @@ const tasksSlice = createSlice({
          })
          .addCase(updateStatus.fulfilled, (state, action) => {
             if (action.payload) {
-               const { _id, completed } = action.payload;
+               const { _id, completed, elapsedTime } = action.payload;
                const existingTask = state.data.find((task) => task._id === _id);
                if (existingTask) {
                   existingTask.completed = completed;
+                  existingTask.elapsedTime = elapsedTime;
                }
             }
          })
@@ -109,5 +110,5 @@ const tasksSlice = createSlice({
 export default tasksSlice.reducer;
 
 //Selectors
-export const selectAllTasks = (state: RootState): Task[] => state.tasks.data;
+export const selectAllTasks = (state: RootState): UserTask[] => state.tasks.data;
 export const tasksStatus = (state: RootState) => state.tasks.status;

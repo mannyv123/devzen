@@ -2,6 +2,8 @@ import React, { RefObject, useEffect } from "react";
 import TaskListUI from "../TaskListUI/TaskListUI";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksSlice";
+import { useSession } from "next-auth/react";
+import { selectAllGuestTasks } from "@/redux/features/guestTasksSlice";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -9,15 +11,25 @@ interface TaskListFeatureProps {
 }
 
 function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
+   const { data: session } = useSession();
+
    const dispatch = useAppDispatch();
-   const tasks = useAppSelector(selectAllTasks);
+   const userTasks = useAppSelector(selectAllTasks);
+   const guestTasks = useAppSelector(selectAllGuestTasks);
+
    const tasksCurrentStatus = useAppSelector(tasksStatus);
 
    useEffect(() => {
-      if (tasksCurrentStatus === "idle") {
-         dispatch(fetchTasks());
+      const getAllTasks = async () => {
+         await dispatch(fetchTasks());
+      };
+
+      if (tasksCurrentStatus === "idle" && session) {
+         getAllTasks();
       }
-   }, [tasksCurrentStatus, dispatch]);
+   }, [tasksCurrentStatus, dispatch, session]);
+
+   const tasks = session ? userTasks : guestTasks;
 
    const completedTasks = tasks.filter((task) => task.completed);
    const incompleteTasks = tasks
@@ -27,7 +39,7 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
    return (
       <dialog
          ref={tasksRef}
-         className={`w-full lg:w-1/3 ml-0 bg-transparent pb-6 pt-16 px-4 focus:outline-none overflow-hidden transition-taskContainer duration-500 ease-in-out ${
+         className={`ml-0 w-full overflow-hidden bg-transparent px-4 pb-6 pt-16 transition-taskContainer duration-500 ease-in-out focus:outline-none lg:w-1/3 ${
             expanded ? "h-full opacity-100" : "h-0 opacity-0"
          }`}
       >

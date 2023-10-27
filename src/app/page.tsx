@@ -2,6 +2,7 @@ import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
+import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
 
 //TODO: use redux for global state management
 //TODO: use next-auth for authentication
@@ -14,12 +15,17 @@ export default function Home() {
          <div className='absolute inset-x-0 inset-y-0 z-0'>
             <BackgroundImage />
          </div>
-         <div className='absolute z-10 h-full w-full grid grid-cols-1 grid-rows-layout'>
-            <div>
-               <TasksFeature />
+         <div className='absolute z-10 grid h-full w-full grid-cols-1 grid-rows-layout'>
+            <div className='flex justify-between'>
+               <div className='z-20'>
+                  <TasksFeature />
+               </div>
+               <div>
+                  <UserAuthFeature />
+               </div>
             </div>
             <div></div>
-            <div className='flex flex-col w-full justify-center items-center gap-2'>
+            <div className='flex w-full flex-col items-center justify-center gap-2'>
                <ClockFeature />
                <ChatGptFeature />
             </div>
