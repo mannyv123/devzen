@@ -5,9 +5,7 @@ import TasksFeature from "../components/TasksFeature/TasksFeature";
 import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
 
 //TODO: use redux for global state management
-//TODO: use next-auth for authentication
 //TODO: display current timers in the corner
-//TODO: figure out bug where it could be 40min in for timer but shows only 4min --- it might be that when computer goes to sleep it gets paused; might need to have something that refreshes on refocus????
 
 export default function Home() {
    return (

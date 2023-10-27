@@ -16,6 +16,19 @@ export const getImage = async () => {
    }
 };
 
+//Check if email is in use
+export const checkEmail = async (email: string) => {
+   try {
+      const response = await fetch(`/api/user/${email}`, {
+         method: "GET",
+      });
+
+      return (await response.json()) as { isEmailInUse: boolean };
+   } catch (error) {
+      throw new Error("Failed to check email.");
+   }
+};
+
 //Create new user
 export const createUser = async (newUser: NewUserData) => {
    if (!newUser) {

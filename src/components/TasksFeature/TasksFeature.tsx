@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import TasksHeaderUI from "../TasksHeaderUI/TasksHeaderUI";
 import TaskListFeature from "../TaskListFeature/TaskListFeature";
 
-//TODO: make const variable for animation time
+const ANIMATION_TIME = 700;
 
 const TasksFeature = () => {
    const [expanded, setExpanded] = useState<boolean>(false);
@@ -20,7 +20,7 @@ const TasksFeature = () => {
          } else {
             setTimeout(() => {
                tasksRef.current?.close();
-            }, 700);
+            }, ANIMATION_TIME);
          }
       }
    };

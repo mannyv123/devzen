@@ -1,6 +1,6 @@
 "use client";
 
-import { createUser } from "@/utils/api";
+import { checkEmail, createUser } from "@/utils/api";
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SignUpModalUI from "../SignUpModalUI/SignUpModalUI";
@@ -8,6 +8,7 @@ import { SignUpFormErrors, SignUpFormInputs } from "@/types/types";
 
 const ERROR_MSG = "Field cannot be blank";
 const ERROR_MSG_MOBILE = "Fields cannot be blank";
+const ERROR_MSG_EMAIL = "Email is already in use";
 
 const initialValues: SignUpFormInputs = {
    name: "",
@@ -31,18 +32,29 @@ interface SignUpModalFeatureProps {
 function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatureProps) {
    const [inputValues, setInputValues] = useState(initialValues);
    const [inputErrors, setInputErrors] = useState(initialInputErrors);
+   const [emailErrorMessage, setEmailErrorMessage] = useState(ERROR_MSG);
 
    const signUpModalRef = useRef<HTMLDialogElement>(null);
 
    const router = useRouter();
 
-   const validateInputs = () => {
+   const validateInputs = async () => {
       const errors = initialInputErrors;
 
       errors.name = inputValues.name === "" ? true : false;
-      errors.email = inputValues.email === "" ? true : false;
       errors.password = inputValues.password === "" ? true : false;
       errors.confirmPassword = inputValues.confirmPassword === "" ? true : false;
+      errors.email = inputValues.email === "" ? true : false;
+
+      if (inputValues.email === "") {
+         errors.email = true;
+      } else {
+         const { isEmailInUse } = await checkEmail(inputValues.email);
+         if (isEmailInUse) {
+            errors.email = true;
+            setEmailErrorMessage(ERROR_MSG_EMAIL);
+         }
+      }
 
       return errors;
    };
@@ -60,19 +72,17 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
       setInputValues({ ...inputValues, [name]: value });
    };
 
-   //TODO: Check if email already used for an existing account
-   // const emailCheck = () => {};
-
    //Check if any fields are valid
-   const isFormValid = () => {
+   const formValidation = async () => {
       let isValid = true;
 
-      const errors = validateInputs();
+      const errors = await validateInputs();
 
       setInputErrors({ ...errors });
       if (Object.values(errors).some((error) => error)) {
          isValid = false;
       }
+
       return isValid;
    };
 
@@ -81,10 +91,10 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
       e.preventDefault();
 
       //Form validation
-      if (!isFormValid()) {
+      const isFormValid = await formValidation();
+      if (!isFormValid) {
          return;
       }
-      //TODO: validate if email already used
 
       const { name, email, password } = inputValues;
 
@@ -93,7 +103,6 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
 
          //Reset values and close modal
          setInputValues(initialValues);
-
          handleSignUpModal();
 
          //Redirect to login
@@ -119,6 +128,7 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
             initialInputErrors={initialInputErrors}
             ERROR_MSG={ERROR_MSG}
             ERROR_MSG_MOBILE={ERROR_MSG_MOBILE}
+            ERROR_MSG_EMAIL={emailErrorMessage}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}
          />

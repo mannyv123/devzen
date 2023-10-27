@@ -9,6 +9,7 @@ interface SignUpModalUIProps {
    initialInputErrors: SignUpFormErrors;
    ERROR_MSG: string;
    ERROR_MSG_MOBILE: string;
+   ERROR_MSG_EMAIL: string;
    handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
    handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -19,6 +20,7 @@ function SignUpModalUI({
    initialInputErrors,
    ERROR_MSG,
    ERROR_MSG_MOBILE,
+   ERROR_MSG_EMAIL,
    handleSubmit,
    handleInputChange,
 }: SignUpModalUIProps) {
@@ -59,7 +61,7 @@ function SignUpModalUI({
                   <div className='relative flex w-full items-center'>
                      {inputErrors.email ? (
                         <div className='absolute hidden whitespace-nowrap lg:-left-9 lg:block'>
-                           <ErrorIcon errorMsg={ERROR_MSG} />
+                           <ErrorIcon errorMsg={ERROR_MSG_EMAIL} />
                         </div>
                      ) : null}
                      <input

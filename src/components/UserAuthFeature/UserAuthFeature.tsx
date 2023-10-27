@@ -5,8 +5,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import SignUpModalFeature from "../SignUpModalFeature/SignUpModalFeature";
 import UserAuthUI from "../UserAuthUI/UserAuthUI";
 
-//TODO: update UI to have under login the email and github logo while under sign up just the email logo
-
 function UserAuthFeature() {
    const [isModalOpen, setIsModalOpen] = useState(false);
 
