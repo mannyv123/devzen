@@ -25,8 +25,6 @@ function UserAuthFeature() {
       signOut();
    };
 
-   console.log(session);
-
    return (
       <>
          <SignUpModalFeature isModalOpen={isModalOpen} handleSignUpModal={handleSignUpModal} />

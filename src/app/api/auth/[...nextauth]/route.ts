@@ -6,6 +6,7 @@ import clientPromise from "@/utils/mongodb";
 import { connectToDb, disconnectFromDb } from "@/utils/db";
 import UserModel from "@/models/UserModel";
 import { User } from "@/types/types";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
    providers: [
@@ -30,24 +31,36 @@ export const authOptions: NextAuthOptions = {
          async authorize(credentials) {
             await connectToDb();
 
+            if (
+               credentials === null ||
+               credentials?.password === undefined ||
+               credentials.email === undefined
+            ) {
+               return null;
+            }
+
             const existingUser: User | null = await UserModel.findOne({
-               email: credentials?.email,
+               email: credentials.email,
+               accountType: "credentials",
             });
 
-            if (
-               existingUser &&
-               credentials?.email === existingUser.email &&
-               credentials?.password === existingUser.password
-            ) {
-               const { _id, name, email, image } = existingUser;
+            if (existingUser && existingUser.password) {
+               const isMatch = await bcrypt.compare(credentials.password, existingUser.password);
 
-               await disconnectFromDb();
-               return {
-                  id: _id,
-                  name,
-                  email,
-                  image,
-               };
+               if (isMatch) {
+                  const { _id, name, email, image } = existingUser;
+
+                  await disconnectFromDb();
+                  return {
+                     id: _id,
+                     name,
+                     email,
+                     image,
+                  };
+               } else {
+                  await disconnectFromDb();
+                  return null;
+               }
             } else {
                await disconnectFromDb();
                return null;
