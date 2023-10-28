@@ -53,10 +53,22 @@ export interface SignUpFormInputs {
 }
 
 export interface SignUpFormErrors {
-   name: boolean;
-   email: boolean;
-   password: boolean;
-   confirmPassword: boolean;
+   name: {
+      error: boolean;
+      errorMessage: string;
+   };
+   email: {
+      error: boolean;
+      errorMessage: string;
+   };
+   password: {
+      error: boolean;
+      errorMessage: string;
+   };
+   confirmPassword: {
+      error: boolean;
+      errorMessage: string;
+   };
 }
 
 //API TYPES
