@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksSlice";
 import { useSession } from "next-auth/react";
 import { selectAllGuestTasks } from "@/redux/features/guestTasksSlice";
+import { Task, UserTask } from "@/types/types";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -29,12 +30,15 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
       }
    }, [tasksCurrentStatus, dispatch, session]);
 
-   const tasks = session ? userTasks : guestTasks;
+   const tasks: (UserTask | Task)[] = session ? userTasks : guestTasks;
 
-   const completedTasks = tasks.filter((task) => task.completed);
+   const completedTasks = tasks.filter((task: UserTask | Task) => task.completed);
    const incompleteTasks = tasks
-      .filter((task) => !task.completed)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      .filter((task: UserTask | Task) => !task.completed)
+      .sort(
+         (a: UserTask | Task, b: UserTask | Task) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
 
    return (
       <dialog
