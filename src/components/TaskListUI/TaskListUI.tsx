@@ -31,7 +31,7 @@ function TaskListUI({ incompleteTasks, completedTasks }: TaskListUIProps) {
                )}
             </section>
 
-            <section className='text-slate-500'>
+            <section className='text-gray-400'>
                {completedTasks.length > 0 ? (
                   <>
                      <h3>Completed</h3>
