@@ -1,17 +1,14 @@
 "use client";
 
 import { Message, ModalDetails, ModalOption } from "@/types/types";
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FocusEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import ChatModalUI from "../ChatModalUI/ChatModalUI";
 
 //TODO: disable submit while waiting for api response
 //TODO: message timestamps
-//TODO: hover states
-//TODO: form validation
 //TODO: feature to save conversations
 //TODO: feature to reset conversations
-//TODO: look into non unique ID issue
 
 const modalInfo: ModalDetails[] = [
    {
@@ -44,6 +41,11 @@ const initialValues = {
    code: "",
 };
 
+const initialInputErrors = {
+   language: false,
+   code: false,
+};
+
 const ChatModalFeature = ({
    handleModal,
    selectedModal,
@@ -52,6 +54,17 @@ const ChatModalFeature = ({
    handleMessages,
 }: ChatModalProps) => {
    const [isInfoOpen, setIsInfoOpen] = useState(false);
+   const [inputValues, setInputValues] = useState(initialValues);
+   const [inputErrors, setInputErrors] = useState(initialInputErrors);
+   const [inputsValid, setInputsValid] = useState(false);
+
+   useEffect(() => {
+      if (Object.values(inputErrors).some((errorState) => errorState)) {
+         setInputsValid(false);
+      } else if (inputValues.code !== "" && inputValues.language !== "Select a language") {
+         setInputsValid(true);
+      }
+   }, [inputErrors, inputsValid]);
 
    const handleInfoBox = (isOpen: boolean) => {
       setIsInfoOpen(isOpen);
@@ -74,8 +87,6 @@ const ChatModalFeature = ({
       }
    }, [isModalOpen]);
 
-   const [inputValues, setInputValues] = useState(initialValues);
-
    const messagesEndRef = useRef<HTMLDivElement>(null);
 
    const scrollToBottom = () => {
@@ -94,6 +105,18 @@ const ChatModalFeature = ({
    const handleInputs = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.currentTarget;
       setInputValues({ ...inputValues, [name]: value });
+
+      if (value !== "") {
+         setInputErrors({ ...inputErrors, [name]: false });
+      }
+   };
+
+   const handleInputValidation = (e: FocusEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
+      const { name, value } = e.currentTarget;
+
+      if (value === "" || value === "Select a language") {
+         setInputErrors({ ...inputErrors, [name]: true });
+      }
    };
 
    const handleSubmit = async (e: FormEvent) => {
@@ -135,6 +158,9 @@ const ChatModalFeature = ({
             handleInputs={handleInputs}
             inputValues={inputValues}
             messagesEndRef={messagesEndRef}
+            handleInputValidation={handleInputValidation}
+            inputErrors={inputErrors}
+            inputsValid={inputsValid}
          />
       </dialog>
    );
