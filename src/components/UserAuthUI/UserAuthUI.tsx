@@ -1,5 +1,5 @@
 import React from "react";
-import { MdLogin, MdOutlineEmail } from "react-icons/md";
+import { MdLogin, MdOutlineEmail, MdPerson } from "react-icons/md";
 import { VscGithubInverted } from "react-icons/vsc";
 import Image from "next/image";
 import { Session } from "next-auth";
@@ -23,7 +23,7 @@ function UserAuthUI({
       <div className='group/options relative z-10 mr-4 mt-3 flex flex-col items-center gap-3 text-white hover:opacity-100 lg:opacity-40'>
          <div className='relative flex w-fit items-center rounded-full border pr-4 group-hover/options:pr-4 lg:pr-0'>
             <div className='relative h-10 w-10 p-2'>
-               {typeof userImageExists === "string" ? (
+               {sessionData && typeof userImageExists === "string" ? (
                   <Image
                      src={userImageExists}
                      width={24}
@@ -31,9 +31,11 @@ function UserAuthUI({
                      alt='current user'
                      className='rounded-full'
                   />
-               ) : (
-                  <MdLogin size={"1.5rem"} />
-               )}
+               ) : null}
+               {sessionData && typeof userImageExists !== "string" ? (
+                  <MdPerson size={"1.5rem"} />
+               ) : null}
+               {!sessionData ? <MdLogin size={"1.5rem"} /> : null}
             </div>
             {sessionData ? (
                <div className='w-40 flex-1 overflow-hidden text-center transition-width duration-300 group-hover/options:h-fit group-hover/options:w-40 lg:h-0 lg:w-0'>

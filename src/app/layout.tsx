@@ -1,6 +1,5 @@
 import { connectToDb, disconnectFromDb } from "@/utils/db";
 import "./globals.css";
-import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import { getServerSession } from "next-auth";
@@ -10,10 +9,20 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
-export const metadata: Metadata = {
-   title: "DevZen",
-   description: "DevZen App",
-};
+export async function generateMetadata() {
+   const session = await getServerSession(authOptions);
+   if (session) {
+      return {
+         title: `${session.user.name}'s DevZen`,
+         description: `${session.user.name} is in zen`,
+      };
+   } else {
+      return {
+         title: "DevZen",
+         description: "DevZen App",
+      };
+   }
+}
 
 // Handle disconnection from db on app exit
 const handleAppExit = async () => {

@@ -1,13 +1,16 @@
 "use client";
 
-import { createUser } from "@/utils/api";
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { checkEmail, createUser } from "@/utils/api";
+import React, { ChangeEvent, FocusEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SignUpModalUI from "../SignUpModalUI/SignUpModalUI";
 import { SignUpFormErrors, SignUpFormInputs } from "@/types/types";
 
-const ERROR_MSG = "Field cannot be blank";
-const ERROR_MSG_MOBILE = "Fields cannot be blank";
+const ERROR_MSG_BLANK = "Field cannot be blank";
+const ERROR_MSG_EMAIL_USED = "Email is already in use";
+const ERROR_MSG_EMAIL = "Please input a valid email";
+const ERROR_MSG_PASSWORD = "Passwords must match";
+const ERROR_MSG_PASSWORD_LENGTH = "Must be at least 8 or more characters";
 
 const initialValues: SignUpFormInputs = {
    name: "",
@@ -17,10 +20,22 @@ const initialValues: SignUpFormInputs = {
 };
 
 const initialInputErrors: SignUpFormErrors = {
-   name: false,
-   email: false,
-   password: false,
-   confirmPassword: false,
+   name: {
+      error: false,
+      errorMessage: "",
+   },
+   email: {
+      error: false,
+      errorMessage: "",
+   },
+   password: {
+      error: false,
+      errorMessage: "",
+   },
+   confirmPassword: {
+      error: false,
+      errorMessage: "",
+   },
 };
 
 interface SignUpModalFeatureProps {
@@ -31,21 +46,11 @@ interface SignUpModalFeatureProps {
 function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatureProps) {
    const [inputValues, setInputValues] = useState(initialValues);
    const [inputErrors, setInputErrors] = useState(initialInputErrors);
+   const [inputsValid, setInputsValid] = useState(false);
 
    const signUpModalRef = useRef<HTMLDialogElement>(null);
 
    const router = useRouter();
-
-   const validateInputs = () => {
-      const errors = initialInputErrors;
-
-      errors.name = inputValues.name === "" ? true : false;
-      errors.email = inputValues.email === "" ? true : false;
-      errors.password = inputValues.password === "" ? true : false;
-      errors.confirmPassword = inputValues.confirmPassword === "" ? true : false;
-
-      return errors;
-   };
 
    useEffect(() => {
       if (isModalOpen) {
@@ -55,36 +60,86 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
       }
    }, [isModalOpen]);
 
+   useEffect(() => {
+      if (Object.values(inputErrors).some((errorState) => errorState.error)) {
+         setInputsValid(false);
+      } else if (Object.values(inputValues).every((input) => input !== "")) {
+         setInputsValid(true);
+      }
+   }, [inputErrors, inputsValid]);
+
    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.currentTarget;
       setInputValues({ ...inputValues, [name]: value });
+
+      if (value !== "") {
+         const removeError = {
+            error: false,
+            errorMessage: "",
+         };
+         setInputErrors({ ...inputErrors, [name]: removeError });
+      }
    };
 
-   //TODO: Check if email already used for an existing account
-   // const emailCheck = () => {};
+   const handleInputValidation = async (e: FocusEvent<HTMLInputElement>) => {
+      const { name, value } = e.currentTarget;
 
-   //Check if any fields are valid
-   const isFormValid = () => {
-      let isValid = true;
-
-      const errors = validateInputs();
-
-      setInputErrors({ ...errors });
-      if (Object.values(errors).some((error) => error)) {
-         isValid = false;
+      if (value === "") {
+         const error = {
+            error: true,
+            errorMessage: ERROR_MSG_BLANK,
+         };
+         setInputErrors({ ...inputErrors, [name]: error });
       }
-      return isValid;
+
+      if (name === "email") {
+         const emailRegex = /^\S+@\S+\.\S+/;
+         if (!emailRegex.test(value)) {
+            const error = {
+               error: true,
+               errorMessage: ERROR_MSG_EMAIL,
+            };
+            setInputErrors({ ...inputErrors, [name]: error });
+         } else {
+            setInputsValid(false);
+            const { isEmailInUse } = await checkEmail(inputValues.email);
+
+            if (isEmailInUse) {
+               const error = {
+                  error: true,
+                  errorMessage: ERROR_MSG_EMAIL_USED,
+               };
+               setInputErrors({ ...inputErrors, [name]: error });
+            } else {
+               setInputsValid(true);
+            }
+         }
+      }
+
+      if (name === "password") {
+         if (value.length < 8) {
+            const error = {
+               error: true,
+               errorMessage: ERROR_MSG_PASSWORD_LENGTH,
+            };
+            setInputErrors({ ...inputErrors, [name]: error });
+         }
+      }
+
+      if (name === "confirmPassword") {
+         if (inputValues.password !== value) {
+            const error = {
+               error: true,
+               errorMessage: ERROR_MSG_PASSWORD,
+            };
+            setInputErrors({ ...inputErrors, [name]: error });
+         }
+      }
    };
 
    //Handle new user form submission
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
-      //Form validation
-      if (!isFormValid()) {
-         return;
-      }
-      //TODO: validate if email already used
 
       const { name, email, password } = inputValues;
 
@@ -93,7 +148,6 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
 
          //Reset values and close modal
          setInputValues(initialValues);
-
          handleSignUpModal();
 
          //Redirect to login
@@ -115,12 +169,12 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
       >
          <SignUpModalUI
             handleSignUpModal={handleSignUpModal}
-            inputErrors={inputErrors}
-            initialInputErrors={initialInputErrors}
-            ERROR_MSG={ERROR_MSG}
-            ERROR_MSG_MOBILE={ERROR_MSG_MOBILE}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}
+            inputsValid={inputsValid}
+            handleInputValidation={handleInputValidation}
+            inputErrors={inputErrors}
+            inputValues={inputValues}
          />
       </dialog>
    );

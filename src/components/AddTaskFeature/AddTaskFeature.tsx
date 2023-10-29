@@ -4,6 +4,7 @@ import { addTask } from "@/redux/features/tasksSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useSession } from "next-auth/react";
 import { addGuestTask } from "@/redux/features/guestTasksSlice";
+import { MdAdd } from "react-icons/md";
 
 function AddTaskFeature() {
    const [taskInput, setTaskInput] = useState<string>("");
@@ -44,7 +45,7 @@ function AddTaskFeature() {
    };
 
    return (
-      <form action='submit' onSubmit={handleNewTaskSubmit}>
+      <form action='submit' onSubmit={handleNewTaskSubmit} className='flex justify-between gap-4'>
          <InputUI
             isBlank={isBlank}
             handleInputChange={handleInputChange}
@@ -52,6 +53,9 @@ function AddTaskFeature() {
             identifier='newTask'
             placeholderText='New task ...'
          />
+         <button type='submit' className='rounded-md bg-[#2267F2] p-1 text-white'>
+            <MdAdd size={"1.5rem"} />
+         </button>
       </form>
    );
 }

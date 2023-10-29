@@ -1,6 +1,7 @@
 import { Message, ModalDetails, ModalOption } from "@/types/types";
-import React, { ChangeEvent, FormEvent, RefObject } from "react";
+import React, { ChangeEvent, FocusEvent, FormEvent, RefObject } from "react";
 import { MdClose, MdInfoOutline } from "react-icons/md";
+import ErrorIcon from "../ErrorIcon/ErrorIcon";
 
 interface ChatModalUIProps {
    handleModal: (option: ModalOption) => void;
@@ -16,6 +17,9 @@ interface ChatModalUIProps {
       code: string;
    };
    messagesEndRef: RefObject<HTMLDivElement>;
+   handleInputValidation: (e: FocusEvent<HTMLTextAreaElement | HTMLSelectElement>) => void;
+   inputErrors: { language: boolean; code: boolean };
+   inputsValid: boolean;
 }
 
 function ChatModalUI({
@@ -29,6 +33,9 @@ function ChatModalUI({
    handleInputs,
    inputValues,
    messagesEndRef,
+   handleInputValidation,
+   inputErrors,
+   inputsValid,
 }: ChatModalUIProps) {
    return (
       <>
@@ -76,12 +83,18 @@ function ChatModalUI({
                   onSubmit={handleSubmit}
                   className='flex flex-col gap-2 text-sm md:text-base'
                >
-                  <label htmlFor='language'>Language:</label>
+                  <div className='flex gap-2'>
+                     <label htmlFor='language'>Language:</label>
+                     {inputErrors.language ? (
+                        <ErrorIcon errorMsg='Please select a language' />
+                     ) : null}
+                  </div>
                   <select
                      name='language'
                      id='language'
                      className='w-fit rounded-md border p-[.125rem]'
                      onChange={handleInputs}
+                     onBlur={handleInputValidation}
                   >
                      <option>Select a language</option>
                      <option value='c++'>C++</option>
@@ -104,7 +117,10 @@ function ChatModalUI({
                      <option value='elixir'>Elixir</option>
                      <option value='dart'>Dart</option>
                   </select>
-                  <label htmlFor='code'>Function:</label>
+                  <div className='flex gap-2'>
+                     <label htmlFor='code'>Function:</label>
+                     {inputErrors.code ? <ErrorIcon errorMsg='Field cannot be blank' /> : null}
+                  </div>
                   <textarea
                      name='code'
                      id='code'
@@ -112,8 +128,14 @@ function ChatModalUI({
                      onChange={handleInputs}
                      value={inputValues.code}
                      placeholder='Enter a function here'
+                     onBlur={handleInputValidation}
                   ></textarea>
-                  <button className='w-fit rounded-lg border p-2'>Submit</button>
+                  <button
+                     disabled={!inputsValid}
+                     className='w-fit rounded-lg border p-2 transition-colors duration-300 hover:bg-[#2267F2] hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-none disabled:hover:text-black'
+                  >
+                     Submit
+                  </button>
                </form>
             </div>
          </div>
