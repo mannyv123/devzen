@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent, FormEvent } from "react";
 import { MdClose } from "react-icons/md";
 import ErrorIcon from "../ErrorIcon/ErrorIcon";
-import { SignUpFormErrors } from "@/types/types";
+import { SignUpFormErrors, SignUpFormInputs } from "@/types/types";
 
 interface SignUpModalUIProps {
    handleSignUpModal: () => void;
@@ -10,6 +10,7 @@ interface SignUpModalUIProps {
    inputsValid: boolean;
    handleInputValidation: (e: FocusEvent<HTMLInputElement>) => void;
    inputErrors: SignUpFormErrors;
+   inputValues: SignUpFormInputs;
 }
 
 function SignUpModalUI({
@@ -19,6 +20,7 @@ function SignUpModalUI({
    inputsValid,
    handleInputValidation,
    inputErrors,
+   inputValues,
 }: SignUpModalUIProps) {
    return (
       <>
@@ -27,11 +29,7 @@ function SignUpModalUI({
          </div>
          <div className='flex flex-col items-center gap-8'>
             <h1 className='text-3xl font-bold'>Sign Up</h1>
-            {/* {inputErrors !== initialInputErrors ? (
-               <div className='absolute left-4 top-[4.75rem] flex w-full items-center justify-center lg:hidden'>
-                  <ErrorIcon errorMsg={ERROR_MSG_MOBILE} />
-               </div>
-            ) : null} */}
+
             <form className='flex w-full flex-col gap-8' onSubmit={handleSubmit}>
                <div className='flex w-full flex-col gap-2'>
                   <label htmlFor='name'>Name:</label>
@@ -51,6 +49,7 @@ function SignUpModalUI({
                         placeholder='Enter your full name'
                         onChange={handleInputChange}
                         onBlur={handleInputValidation}
+                        value={inputValues.name}
                      />
                   </div>
 
@@ -71,6 +70,7 @@ function SignUpModalUI({
                         placeholder='Enter your email'
                         onChange={handleInputChange}
                         onBlur={handleInputValidation}
+                        value={inputValues.email}
                      />
                   </div>
 
@@ -91,6 +91,7 @@ function SignUpModalUI({
                         placeholder='Enter a new password'
                         onChange={handleInputChange}
                         onBlur={handleInputValidation}
+                        value={inputValues.password}
                      />
                   </div>
 
@@ -111,16 +112,25 @@ function SignUpModalUI({
                         placeholder='Confirm your new password'
                         onChange={handleInputChange}
                         onBlur={handleInputValidation}
+                        value={inputValues.confirmPassword}
                      />
                   </div>
                </div>
                <button
-                  className='group relative flex w-full justify-center overflow-hidden rounded-full border p-2 disabled:bg-gray-400'
+                  className='group relative flex w-full justify-center overflow-hidden rounded-full border p-2 disabled:cursor-not-allowed disabled:bg-gray-400'
                   type='submit'
                   disabled={!inputsValid}
                >
-                  <div className='absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 group-hover:w-full'></div>
-                  <span className='relative transition-colors duration-300 group-hover:text-white'>
+                  <div
+                     className={`absolute inset-0 h-full w-0 bg-[#2267F2] transition-width duration-500 ${
+                        inputsValid ? "group-hover:w-full" : ""
+                     }`}
+                  ></div>
+                  <span
+                     className={`relative transition-colors duration-300 ${
+                        inputsValid ? "group-hover:text-white" : ""
+                     }`}
+                  >
                      Create Account
                   </span>
                </button>

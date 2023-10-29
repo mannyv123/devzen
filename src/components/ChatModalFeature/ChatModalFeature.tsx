@@ -35,6 +35,8 @@ interface ChatModalProps {
    handleModal: (option: ModalOption) => void;
    selectedModal: ModalOption;
    isModalOpen: boolean;
+   messages: Message[];
+   handleMessages: (message: string, role: "chatbot" | "user") => void;
 }
 
 const initialValues = {
@@ -42,14 +44,14 @@ const initialValues = {
    code: "",
 };
 
-const ChatModalFeature = ({ handleModal, selectedModal, isModalOpen }: ChatModalProps) => {
+const ChatModalFeature = ({
+   handleModal,
+   selectedModal,
+   isModalOpen,
+   messages,
+   handleMessages,
+}: ChatModalProps) => {
    const [isInfoOpen, setIsInfoOpen] = useState(false);
-   const [messages, setMessages] = useState<Message[]>([
-      {
-         role: "chatbot",
-         content: "Welcome! Please enter your code and language.",
-      },
-   ]);
 
    const handleInfoBox = (isOpen: boolean) => {
       setIsInfoOpen(isOpen);
@@ -97,7 +99,7 @@ const ChatModalFeature = ({ handleModal, selectedModal, isModalOpen }: ChatModal
    const handleSubmit = async (e: FormEvent) => {
       e.preventDefault();
 
-      setMessages((prevMessages) => [...prevMessages, { role: "user", content: inputValues.code }]);
+      handleMessages(inputValues.code, "user");
 
       const result = await fetch(`/api/chatgpt/${currentModalDetails.option}`, {
          method: "POST",
@@ -109,10 +111,7 @@ const ChatModalFeature = ({ handleModal, selectedModal, isModalOpen }: ChatModal
 
       const chatbotMessage: string = await result.json();
 
-      setMessages((prevMessages) => [
-         ...prevMessages,
-         { role: "chatbot", content: chatbotMessage },
-      ]);
+      handleMessages(chatbotMessage, "chatbot");
    };
 
    return (

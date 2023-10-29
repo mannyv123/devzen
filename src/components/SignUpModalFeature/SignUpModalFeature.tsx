@@ -52,27 +52,6 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
 
    const router = useRouter();
 
-   // const validateInputs = async () => {
-   //    const errors = initialInputErrors;
-
-   //    errors.name = inputValues.name === "" ? true : false;
-   //    errors.password = inputValues.password === "" ? true : false;
-   //    errors.confirmPassword = inputValues.confirmPassword === "" ? true : false;
-   //    errors.email = inputValues.email === "" ? true : false;
-
-   //    if (inputValues.email === "") {
-   //       errors.email = true;
-   //    } else {
-   //       const { isEmailInUse } = await checkEmail(inputValues.email);
-   //       if (isEmailInUse) {
-   //          errors.email = true;
-   //          // setEmailErrorMessage(ERROR_MSG_EMAIL);
-   //       }
-   //    }
-
-   //    return errors;
-   // };
-
    useEffect(() => {
       if (isModalOpen) {
          signUpModalRef.current?.showModal();
@@ -195,6 +174,7 @@ function SignUpModalFeature({ isModalOpen, handleSignUpModal }: SignUpModalFeatu
             inputsValid={inputsValid}
             handleInputValidation={handleInputValidation}
             inputErrors={inputErrors}
+            inputValues={inputValues}
          />
       </dialog>
    );
