@@ -19,6 +19,7 @@ export const GET = async () => {
       console.log("result", result);
       return new NextResponse(JSON.stringify(result), { status: 200 });
    } catch (err) {
+      console.log(err);
       return new NextResponse(`Error getting tasks: ${err}`, { status: 500 });
    }
 };
