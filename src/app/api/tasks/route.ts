@@ -10,7 +10,7 @@ export const GET = async () => {
    if (!session) {
       return new NextResponse("User not authorized", { status: 401 });
    }
-
+   console.log("session", session);
    try {
       const result: TaskDocument[] = await TaskModel.find({ userId: session.user.id }).sort({
          createdAt: "desc",
