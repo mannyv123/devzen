@@ -15,7 +15,8 @@ export const GET = async () => {
       const result: TaskDocument[] = await TaskModel.find({ userId: session.user.id }).sort({
          createdAt: "desc",
       });
-
+      console.log("session", session);
+      console.log("result", result);
       return new NextResponse(JSON.stringify(result), { status: 200 });
    } catch (err) {
       return new NextResponse(`Error getting tasks: ${err}`, { status: 500 });
