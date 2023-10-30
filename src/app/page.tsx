@@ -1,8 +1,13 @@
 import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
-import ClockFeature from "../components/ClockFeature/ClockFeature";
+// import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
+import dynamic from "next/dynamic";
+
+const ClockFeature = dynamic(() => import("@/components/ClockFeature/ClockFeature"), {
+   ssr: false,
+});
 
 //TODO: use redux for global state management
 //TODO: display current timers in the corner
