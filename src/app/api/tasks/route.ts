@@ -3,16 +3,20 @@ import { TaskDocument } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { connectToDb } from "@/utils/db";
 
 //Get all tasks
 export const GET = async () => {
+   await connectToDb();
    const session = await getServerSession(authOptions);
    if (!session) {
       return new NextResponse("User not authorized", { status: 401 });
    }
    console.log("session", session);
    try {
-      const result: TaskDocument[] = await TaskModel.find({ userId: session.user.id }).sort({
+      const user = session.user.id;
+      console.log("user", user);
+      const result: TaskDocument[] = await TaskModel.find({ userId: user }).maxTimeMS(20000).sort({
          createdAt: "desc",
       });
       console.log("session", session);
