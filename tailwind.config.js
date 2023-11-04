@@ -8,7 +8,7 @@ module.exports = {
    theme: {
       extend: {
          gridTemplateRows: {
-            layout: "5rem minmax(0, 18rem) auto minmax(auto, 1fr) auto",
+            layout: "5rem minmax(auto, 1fr) auto minmax(auto, 1fr) 5rem",
          },
          transitionProperty: {
             width: "width",
