@@ -12,18 +12,15 @@ export const GET = async () => {
    if (!session) {
       return new NextResponse("User not authorized", { status: 401 });
    }
-   console.log("session", session);
+
    try {
       const user = session.user.id;
-      console.log("user", user);
       const result: TaskDocument[] = await TaskModel.find({ userId: user }).maxTimeMS(20000).sort({
          createdAt: "desc",
       });
-      console.log("session", session);
-      console.log("result", result);
+
       return new NextResponse(JSON.stringify(result), { status: 200 });
    } catch (err) {
-      console.log(err);
       return new NextResponse(`Error getting tasks: ${err}`, { status: 500 });
    }
 };
