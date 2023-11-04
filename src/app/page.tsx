@@ -9,7 +9,6 @@ const ClockFeature = dynamic(() => import("@/components/ClockFeature/ClockFeatur
    ssr: false,
 });
 
-//TODO: use redux for global state management
 //TODO: display current timers in the corner
 
 export default function Home() {
