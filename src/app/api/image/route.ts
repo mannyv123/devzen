@@ -3,8 +3,10 @@ import { NextResponse } from "next/server";
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 interface UnsplashResponse {
+   blur_hash: string;
    urls: {
       full: string;
+      small: string;
    };
 }
 
@@ -32,7 +34,7 @@ export const GET = async () => {
 
       const data: UnsplashResponse = await result.json();
 
-      return NextResponse.json(data.urls.full, {
+      return NextResponse.json(data, {
          status: 200,
       });
    } catch (err) {
