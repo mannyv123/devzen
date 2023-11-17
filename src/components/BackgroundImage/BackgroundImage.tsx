@@ -1,18 +1,23 @@
 import { getImage } from "@/utils/api";
 import Image from "next/image";
 import React from "react";
+import { blurhashToBase64 } from "blurhash-base64";
+
+export const revalidate = 3600;
 
 const BackgroundImage = async () => {
-   const image = await getImage();
+   const image: { blur_hash: string; urls: { full: string; thumb: string } } = await getImage();
 
    return (
       <div className='relative h-full w-full'>
          <Image
-            priority
-            src={`${image}`}
+            priority={true}
+            src={`${image.urls.full}`}
             fill={true}
             alt='background'
-            className='object-cover object-center'
+            className='object-cover object-center opacity-100 transition-opacity duration-200'
+            placeholder='blur'
+            blurDataURL={blurhashToBase64(`${image.blur_hash}`)}
          />
          <div className='absolute inset-x-0 inset-y-0 bg-black opacity-[15%]'></div>
       </div>
