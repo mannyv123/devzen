@@ -15,7 +15,7 @@ const BackgroundImage = async () => {
             src={`${image.urls.full}`}
             fill={true}
             alt='background'
-            className='object-cover object-center opacity-100 transition-opacity duration-200'
+            className='animate-fadeIn object-cover object-center'
             placeholder='blur'
             blurDataURL={blurhashToBase64(`${image.blur_hash}`)}
          />
