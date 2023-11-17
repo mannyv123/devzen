@@ -20,7 +20,7 @@ export const GET = async () => {
                Authorization: "Client-ID " + ACCESS_KEY,
             },
             next: {
-               revalidate: 10,
+               revalidate: 3600,
             },
          },
       );
