@@ -1,4 +1,4 @@
-import BackgroundImage from "../components/BackgroundImage/BackgroundImage";
+import BgImageFeature from "../components/BgImageFeature/BgImageFeature";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 // import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
@@ -15,7 +15,7 @@ export default function Home() {
    return (
       <main>
          <div className='absolute inset-x-0 inset-y-0 z-0'>
-            <BackgroundImage />
+            <BgImageFeature />
          </div>
          <div className='absolute z-10 grid h-full w-full grid-cols-1 grid-rows-layout'>
             <div className='flex justify-between'>
