@@ -1,6 +1,5 @@
-import BgImageFeature from "../components/BgImageFeature/BgImageFeature";
+import ImageFeature from "../components/ImageFeature/ImageFeature";
 import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
-// import ClockFeature from "../components/ClockFeature/ClockFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
 import dynamic from "next/dynamic";
@@ -14,8 +13,8 @@ const ClockFeature = dynamic(() => import("@/components/ClockFeature/ClockFeatur
 export default function Home() {
    return (
       <main>
-         <div className='absolute inset-x-0 inset-y-0 z-0'>
-            <BgImageFeature />
+         <div className='absolute inset-x-0 inset-y-0'>
+            <ImageFeature />
          </div>
          <div className='absolute z-10 grid h-full w-full grid-cols-1 grid-rows-layout'>
             <div className='flex justify-between'>

@@ -1,14 +1,7 @@
+import { UnsplashResponse } from "@/types/types";
 import { NextResponse } from "next/server";
 
 const ACCESS_KEY = process.env.ACCESS_KEY;
-
-interface UnsplashResponse {
-   blur_hash: string;
-   urls: {
-      full: string;
-      small: string;
-   };
-}
 
 export const GET = async () => {
    try {

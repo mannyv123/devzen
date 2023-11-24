@@ -3,28 +3,21 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { blurhashToBase64 } from "blurhash-base64";
+import { UnsplashResponse } from "@/types/types";
 
-//need to add width and height
-//need to add sizes = 100vw
-//set quality to 100
-
-function BgImageUI({
-   image,
-}: {
-   image: { blur_hash: string; urls: { full: string; thumb: string } };
-}) {
+function ImageUI({ image }: { image: UnsplashResponse }) {
    const [isReady, setIsReady] = useState(false);
 
    return (
       <Image
          priority={true}
          src={`${image.urls.full}`}
+         sizes='100vw'
          fill={true}
-         alt='background'
+         alt={image.alt_description}
          className={`object-cover object-center transition-all duration-500 ${
             isReady ? "blur-none" : "blur-3xl"
          }`}
-         // onLoad={(image) => image.currentTarget.classList.add("opacity-50")}
          onLoad={() => setIsReady(true)}
          placeholder='blur'
          blurDataURL={blurhashToBase64(`${image.blur_hash}`)}
@@ -32,4 +25,4 @@ function BgImageUI({
    );
 }
 
-export default BgImageUI;
+export default ImageUI;
