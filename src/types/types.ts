@@ -106,4 +106,7 @@ export interface UnsplashResponse {
          html: string;
       };
    };
+   location: {
+      name: string;
+   };
 }

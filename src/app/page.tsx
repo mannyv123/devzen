@@ -3,6 +3,7 @@ import ChatGptFeature from "../components/ChatGptFeature/ChatGptFeature";
 import TasksFeature from "../components/TasksFeature/TasksFeature";
 import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
 import dynamic from "next/dynamic";
+import HighlightFeature from "@/components/HighlightFeature/HighlightFeature";
 
 const ClockFeature = dynamic(() => import("@/components/ClockFeature/ClockFeature"), {
    ssr: false,
@@ -15,6 +16,9 @@ export default function Home() {
       <main>
          <div className='absolute inset-x-0 inset-y-0'>
             <ImageFeature />
+         </div>
+         <div className='absolute inset-x-0 inset-y-0'>
+            <HighlightFeature />
          </div>
          <div className='absolute z-10 grid h-full w-full grid-cols-1 grid-rows-layout'>
             <div className='flex justify-between'>

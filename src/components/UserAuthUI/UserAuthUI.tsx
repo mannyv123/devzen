@@ -45,26 +45,24 @@ function UserAuthUI({
                <div className='flex items-center gap-3 p-2 group-hover/options:gap-3 group-hover/options:p-2 lg:gap-0 lg:p-0'>
                   <div
                      onClick={handleSignIn}
-                     className='group/login flex w-[4.75rem] flex-1 cursor-pointer flex-col items-center justify-between gap-1 overflow-hidden text-center transition-width duration-300 group-hover/options:h-fit group-hover/options:w-[4.75rem] lg:h-0 lg:w-0'
+                     className='flex w-[6rem] cursor-pointer items-center justify-between gap-1 overflow-hidden border-b border-b-white border-opacity-0 text-center transition-[width,border] duration-300 hover:border-opacity-100 group-hover/options:h-fit group-hover/options:w-[6rem] lg:h-0 lg:w-0'
                   >
-                     <p className='underline-offset-[.375rem] group-hover/login:underline'>Login</p>
+                     <p>Login</p>
                      <div className='flex w-full justify-center gap-2'>
                         <VscGithubInverted size={"1.3rem"} />
                         <MdOutlineEmail size={"1.3rem"} />
                      </div>
                   </div>
-                  <div className='h-[2.75rem] transition-height duration-500 group-hover/options:h-[2.75rem] lg:h-0'>
+                  <div className='h-[1.5rem] transition-height duration-500 group-hover/options:h-[1.5rem] lg:h-0'>
                      <svg width='2' height='100%' xmlns='http://www.w3.org/2000/svg'>
                         <line x1='1' y1='0' x2='1' y2='100%' stroke='white' strokeWidth='2' />
                      </svg>
                   </div>
                   <div
                      onClick={handleSignUpModal}
-                     className='group/signup flex w-[4.75rem] flex-1 cursor-pointer flex-col items-center justify-between gap-1 overflow-hidden whitespace-nowrap text-center transition-width duration-300 group-hover/options:h-fit group-hover/options:w-[4.75rem] lg:h-0 lg:w-0'
+                     className='flex w-[6rem] cursor-pointer flex-row-reverse items-center justify-around gap-1 overflow-hidden whitespace-nowrap border-b border-b-white border-opacity-0 text-center transition-[width,border] duration-300 hover:border-opacity-100 group-hover/options:h-fit group-hover/options:w-[6rem] lg:h-0 lg:w-0'
                   >
-                     <p className='underline-offset-[.375rem] group-hover/signup:underline'>
-                        Sign Up
-                     </p>
+                     <p>Sign Up</p>
                      <MdOutlineEmail size={"1.3rem"} />
                   </div>
                </div>
