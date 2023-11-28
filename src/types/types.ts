@@ -87,3 +87,26 @@ export interface UserDocument extends Document {
    image: string;
    emailVerified: string;
 }
+
+export interface UnsplashResponse {
+   width: number;
+   height: number;
+   blur_hash: string;
+   alt_description: string;
+   urls: {
+      full: string;
+      regular: string;
+   };
+   links: {
+      html: string;
+   };
+   user: {
+      name: string;
+      links: {
+         html: string;
+      };
+   };
+   location: {
+      name: string;
+   };
+}

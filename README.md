@@ -16,24 +16,14 @@ DevZen is your ultimate companion in the world of software development. As an in
 
 -  Dynamic Experience: Experience aesthetic delight with DevZen's changing backgrounds. Every hour, the background transforms, adding a touch of inspiration to your coding journey.
 
-## Screenshots
+## Demo
 
-![Main Section](https://github.com/mannyv123/devzen/assets/123426666/9cf5186a-beb8-47c5-bde5-e9c310b106d8)
-
-![Main Section with Hover Example](https://github.com/mannyv123/devzen/assets/123426666/b06942e8-2ebe-4001-a648-4573761d0803)
-
-![Tasklist Example](https://github.com/mannyv123/devzen/assets/123426666/90a2655a-5b64-4e7b-abb6-a52e8803f608)
-
-![ChatGPT Example](https://github.com/mannyv123/devzen/assets/123426666/86b6031e-cc5a-4ef1-b9a0-e09a38ded3cb)
+devzen.vercel.app
 
 ## Tech Stack
 
-Nextjs, React, TypeScript, TailwindCSS, MongoDB, OpenAI API, Unsplash API
+Nextjs, React, TypeScript, TailwindCSS, MongoDB, Next-Auth, Redux Toolkit, OpenAI API, Unsplash API
 
 ## Roadmap
 
--  Add task timer
-
--  Add Pomodoro timer
-
--  Incorporate NextAuth
+-  Pomodoro timer

@@ -1,26 +1,20 @@
+import { UnsplashResponse } from "@/types/types";
 import { NextResponse } from "next/server";
 
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
-interface UnsplashResponse {
-   blur_hash: string;
-   urls: {
-      full: string;
-      small: string;
-   };
-}
-
 export const GET = async () => {
    try {
       const result = await fetch(
-         "https://api.unsplash.com/photos/random?orientation=landscape&query=nature",
+         "https://api.unsplash.com/photos/random?orientation=landscape&query=landscape",
+         // "https://api.unsplash.com/photos/-nYBR0LFTvQ",
          {
             method: "GET",
             headers: {
                Authorization: "Client-ID " + ACCESS_KEY,
             },
             next: {
-               revalidate: 3600,
+               revalidate: 10,
             },
          },
       );
