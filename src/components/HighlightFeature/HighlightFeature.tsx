@@ -14,7 +14,7 @@ function HighlightFeature() {
 
          mouseMoveTimer = setTimeout(() => {
             setIsMouseMoving(false);
-         }, 1000); // Set your desired delay time in milliseconds
+         }, 1000);
       };
 
       window.addEventListener("mousemove", handleMouseMoveWithDelay);
