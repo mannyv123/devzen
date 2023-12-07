@@ -3,13 +3,14 @@ import React from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";
 import { useAppDispatch } from "@/redux/hooks";
-import { removeTask, updateStatus, updateTaskElapsedTime } from "@/redux/features/tasksSlice";
+import { removeTask, updateStatus } from "@/redux/features/tasksSlice";
 import { useSession } from "next-auth/react";
+import { deleteGuestTask, updateGuestTaskStatus } from "@/redux/features/guestTasksSlice";
 import {
-   deleteGuestTask,
-   updateGuestTaskStatus,
-   updateGuestTaskTime,
-} from "@/redux/features/guestTasksSlice";
+   pausePomodoroTimer,
+   startPomodoroTimer,
+   stopPomodoroTimer,
+} from "@/redux/features/timerSlice";
 
 interface TaskItemFeatureProps {
    task: Task | UserTask;
@@ -18,15 +19,8 @@ interface TaskItemFeatureProps {
 const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
    const dispatch = useAppDispatch();
    const { data: session } = useSession();
-   const handleElapsedTimeUpdate = async (taskDetails: { taskId: string; elapsedTime: number }) => {
-      if (session) {
-         await dispatch(updateTaskElapsedTime(taskDetails));
-      } else {
-         dispatch(updateGuestTaskTime(taskDetails));
-      }
-   };
 
-   const { toggleTimer, elapsedTime, isTimerRunning } = useTimer({ task, handleElapsedTimeUpdate });
+   const { toggleTimer, elapsedTime, isTimerRunning } = useTimer({ task });
 
    const handleTaskDelete = async (taskId: string) => {
       if (task.completed === false && isTimerRunning === true) {
@@ -52,17 +46,27 @@ const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
       }
    };
 
+   const handleTimerToggle = (timerState: "run" | "stop" | "pause") => {
+      toggleTimer();
+      console.log(timerState);
+      if (timerState === "run") {
+         dispatch(startPomodoroTimer({ taskId: task._id, workTime: 25, breakTime: 5 }));
+      } else if (timerState === "pause") {
+         dispatch(pausePomodoroTimer({}));
+      } else if (timerState === "stop") {
+         dispatch(stopPomodoroTimer({}));
+      }
+   };
+
    return (
-      <>
-         <TaskItemUI
-            task={task}
-            handleTaskCompletion={handleTaskCompletion}
-            handleTaskDelete={handleTaskDelete}
-            toggleTimer={toggleTimer}
-            timerRunning={isTimerRunning}
-            elapsedTime={elapsedTime}
-         />
-      </>
+      <TaskItemUI
+         task={task}
+         handleTaskCompletion={handleTaskCompletion}
+         handleTaskDelete={handleTaskDelete}
+         toggleTimer={handleTimerToggle}
+         timerRunning={isTimerRunning}
+         elapsedTime={elapsedTime}
+      />
    );
 };
 

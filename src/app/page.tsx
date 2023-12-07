@@ -4,6 +4,7 @@ import TasksFeature from "../components/TasksFeature/TasksFeature";
 import UserAuthFeature from "@/components/UserAuthFeature/UserAuthFeature";
 import dynamic from "next/dynamic";
 import HighlightFeature from "@/components/HighlightFeature/HighlightFeature";
+import PomodoroFeature from "@/components/PomodoroFeature/PomodoroFeature";
 
 const ClockFeature = dynamic(() => import("@/components/ClockFeature/ClockFeature"), {
    ssr: false,
@@ -30,7 +31,8 @@ export default function Home() {
                </div>
             </div>
             <div></div>
-            <div className='flex w-full flex-col items-center justify-center gap-2'>
+            <div className='relative flex w-full flex-col items-center justify-center gap-2'>
+               <PomodoroFeature />
                <ClockFeature />
                <ChatGptFeature />
             </div>

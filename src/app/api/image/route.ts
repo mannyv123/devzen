@@ -6,8 +6,8 @@ const ACCESS_KEY = process.env.ACCESS_KEY;
 export const GET = async () => {
    try {
       const result = await fetch(
-         "https://api.unsplash.com/photos/random?orientation=landscape&query=landscape",
-         // "https://api.unsplash.com/photos/-nYBR0LFTvQ",
+         // "https://api.unsplash.com/photos/random?orientation=landscape&query=landscape",
+         "https://api.unsplash.com/photos/PdGBci-4jR8",
          {
             method: "GET",
             headers: {

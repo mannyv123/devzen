@@ -48,6 +48,9 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
          }`}
       >
          <TaskListUI incompleteTasks={incompleteTasks} completedTasks={completedTasks} />
+         <div className='relative w-full '>
+            <div className='absolute bottom-0 h-10 w-full rounded-lg bg-slate-400'>hi</div>
+         </div>
       </dialog>
    );
 }
