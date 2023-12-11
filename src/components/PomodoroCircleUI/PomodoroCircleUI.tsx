@@ -88,7 +88,7 @@ function PomodoroCircleUI() {
                   trailColor: "rgba(255,255,255,.2)",
                })}
             >
-               <div className='mb-10 flex w-full items-center justify-evenly text-white'>
+               <div className='mb-44 flex w-full flex-col items-center justify-evenly text-white lg:mb-10 lg:flex-row'>
                   <div className='text-4xl'>
                      <div className='flex items-center gap-2'>
                         {mode === "work" ? (
