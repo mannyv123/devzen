@@ -22,8 +22,8 @@ export default function Home() {
             <HighlightFeature />
          </div>
          <div className='absolute z-10 grid h-full w-full grid-cols-1 grid-rows-layout'>
-            <div className='flex justify-between'>
-               <div className='z-20'>
+            <div className='flex w-full justify-between'>
+               <div className='z-20 w-full'>
                   <TasksFeature />
                </div>
                <div>

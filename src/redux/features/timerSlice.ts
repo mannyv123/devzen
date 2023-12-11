@@ -20,7 +20,12 @@ const timerSlice = createSlice({
       startPomodoroTimer(state, action) {
          const { taskId, workTime, breakTime } = action.payload;
          const newTimer: PomodoroTimer = {
-            timer: { timerStatus: "running", taskId, workTime, breakTime },
+            timer: {
+               timerStatus: "running",
+               taskId,
+               workTime,
+               breakTime,
+            },
          };
          state.data = newTimer;
       },

@@ -2,7 +2,7 @@ import { Task, UserTask } from "@/types/types";
 import React from "react";
 import TaskItemUI from "../TaskItemUI/TaskItemUI";
 import useTimer from "@/hooks/useTimer";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeTask, updateStatus } from "@/redux/features/tasksSlice";
 import { useSession } from "next-auth/react";
 import { deleteGuestTask, updateGuestTaskStatus } from "@/redux/features/guestTasksSlice";
@@ -11,12 +11,15 @@ import {
    startPomodoroTimer,
    stopPomodoroTimer,
 } from "@/redux/features/timerSlice";
+import { getTimerSettings } from "@/redux/features/timerSettingsSlice";
 
 interface TaskItemFeatureProps {
    task: Task | UserTask;
 }
 
 const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
+   const timerSettings = useAppSelector(getTimerSettings);
+   console.log(timerSettings);
    const dispatch = useAppDispatch();
    const { data: session } = useSession();
 
@@ -48,13 +51,23 @@ const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
 
    const handleTimerToggle = (timerState: "run" | "stop" | "pause") => {
       toggleTimer();
-      console.log(timerState);
-      if (timerState === "run") {
-         dispatch(startPomodoroTimer({ taskId: task._id, workTime: 25, breakTime: 5 }));
-      } else if (timerState === "pause") {
-         dispatch(pausePomodoroTimer({}));
+
+      if (timerSettings.timerEnabled) {
+         if (timerState === "run") {
+            dispatch(
+               startPomodoroTimer({
+                  taskId: task._id,
+                  workTime: timerSettings.workTime,
+                  breakTime: timerSettings.breakTime,
+               }),
+            );
+         }
+      }
+
+      if (timerState === "pause") {
+         dispatch(pausePomodoroTimer());
       } else if (timerState === "stop") {
-         dispatch(stopPomodoroTimer({}));
+         dispatch(stopPomodoroTimer());
       }
    };
 

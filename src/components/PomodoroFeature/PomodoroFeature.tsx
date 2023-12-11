@@ -1,25 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
 import PomodoroCircleUI from "../PomodoroCircleUI/PomodoroCircleUI";
-import PomodoroSettingsFeature from "../PomodoroSettingsFeature/PomodoroSettingsFeature";
+import { getTimerSettings } from "@/redux/features/timerSettingsSlice";
 
 function PomodoroFeature() {
-   const [showSettings, setShowSettings] = useState(false);
+   const timerSettings = useAppSelector(getTimerSettings);
 
-   const handleSettingsModal = () => {
-      setShowSettings((prev) => !prev);
-   };
-
-   return (
-      <>
-         <PomodoroSettingsFeature
-            showSettings={showSettings}
-            handleSettingsModal={handleSettingsModal}
-         />
-         <PomodoroCircleUI handleSettingsModal={handleSettingsModal} />
-      </>
-   );
+   return <>{timerSettings.timerEnabled ? <PomodoroCircleUI /> : null}</>;
 }
 
 export default PomodoroFeature;

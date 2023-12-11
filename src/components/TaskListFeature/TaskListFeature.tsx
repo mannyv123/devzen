@@ -5,6 +5,7 @@ import { fetchTasks, selectAllTasks, tasksStatus } from "@/redux/features/tasksS
 import { useSession } from "next-auth/react";
 import { selectAllGuestTasks } from "@/redux/features/guestTasksSlice";
 import { Task, UserTask } from "@/types/types";
+import PomodoroSettingsFeature from "../PomodoroSettingsFeature/PomodoroSettingsFeature";
 
 interface TaskListFeatureProps {
    tasksRef: RefObject<HTMLDialogElement>;
@@ -44,13 +45,11 @@ function TaskListFeature({ tasksRef, expanded }: TaskListFeatureProps) {
       <dialog
          ref={tasksRef}
          className={`ml-0 w-full overflow-hidden bg-transparent px-4 pb-6 pt-16 transition-taskContainer duration-500 ease-in-out focus:outline-none lg:w-1/3 ${
-            expanded ? "h-full opacity-100" : "h-0 opacity-0"
+            expanded ? "h-[95%] opacity-100" : "h-0 opacity-0"
          }`}
       >
          <TaskListUI incompleteTasks={incompleteTasks} completedTasks={completedTasks} />
-         <div className='relative w-full '>
-            <div className='absolute bottom-0 h-10 w-full rounded-lg bg-slate-400'>hi</div>
-         </div>
+         <PomodoroSettingsFeature />
       </dialog>
    );
 }
