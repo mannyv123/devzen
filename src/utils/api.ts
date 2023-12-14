@@ -3,9 +3,8 @@ import { NewUserData, User, UserTask } from "../types/types";
 const API_URL = process.env.URL;
 
 //Get background image
-export const getImage = async () => {
+export const getUnsplashImage = async () => {
    try {
-      //Relative API urls only working using client component in nextjs; however using server side component which requires absolute url
       const result = await fetch(`${API_URL}/api/image/`, {
          method: "GET",
       });

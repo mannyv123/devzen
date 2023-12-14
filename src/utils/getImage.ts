@@ -1,36 +1,23 @@
-import { cache } from "react";
+import { redisCache } from "@/redis/redisCache";
+import type { Cache } from "@epic-web/cachified";
+import { redisClient } from "@/redis/redisClient";
+import { cachified } from "@epic-web/cachified";
+import { getUnsplashImage } from "./api";
 
-interface UnsplashResponse {
-   urls: {
-      full: string;
-   };
+let cache: Cache;
+
+if (redisClient) {
+   cache = redisCache(redisClient);
 }
 
-const ACCESS_KEY = process.env.ACCESS_KEY;
-
-export const revalidate = 3600;
-export const fetchCache = "default-cache";
-
-export const getImage = cache(async () => {
-   const result = await fetch(
-      "https://api.unsplash.com/photos/random?orientation=landscape&query=nature",
-      {
-         method: "GET",
-         headers: {
-            Authorization: "Client-ID " + ACCESS_KEY,
-         },
-         next: {
-            revalidate: 3600,
-         },
+export async function getImage() {
+   return await cachified({
+      key: "image",
+      cache: cache,
+      async getFreshValue() {
+         const response = await getUnsplashImage();
+         console.log("got fresh value");
+         return response;
       },
-   );
-
-   if (!result.ok) {
-      const errorMessage = await result.text();
-      throw new Error(`Unsplash error: ${result.statusText}, ${errorMessage}`);
-   }
-
-   const data: UnsplashResponse = await result.json();
-
-   return data.urls.full;
-});
+   });
+}
