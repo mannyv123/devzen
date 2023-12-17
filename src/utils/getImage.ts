@@ -1,23 +1,18 @@
-import { redisCache } from "@/redis/redisCache";
-import type { Cache } from "@epic-web/cachified";
+import { redisCacheAdapter } from "@/redis/redisCacheAdapter";
 import { redisClient } from "@/redis/redisClient";
 import { cachified } from "@epic-web/cachified";
 import { getUnsplashImage } from "./api";
 
-let cache: Cache;
-
-if (redisClient) {
-   cache = redisCache(redisClient);
-}
+const cache = redisCacheAdapter(redisClient);
 
 export async function getImage() {
-   return await cachified({
+   return cachified({
       key: "image",
-      cache: cache,
+      cache,
       async getFreshValue() {
          const response = await getUnsplashImage();
-         console.log("got fresh value");
          return response;
       },
+      ttl: 3600000,
    });
 }

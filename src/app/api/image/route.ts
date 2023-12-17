@@ -13,6 +13,7 @@ export const GET = async () => {
             headers: {
                Authorization: "Client-ID " + ACCESS_KEY,
             },
+            cache: "no-store",
          },
       );
 

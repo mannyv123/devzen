@@ -2,9 +2,9 @@ import type { Cache } from "@epic-web/cachified";
 import { totalTtl, RedisLikeCache } from "@epic-web/cachified";
 
 //Adapter function to use redis cache with cachified
-export function redisCache(redisCache: RedisLikeCache): Cache {
+export function redisCacheAdapter(redisCache: RedisLikeCache): Cache {
    return {
-      name: redisCache.name || "Redis",
+      name: "Redis",
       set(key, value) {
          const ttl = totalTtl(value?.metadata);
          const createdTime = value?.metadata?.createdTime;

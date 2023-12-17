@@ -9,7 +9,13 @@ export const getUnsplashImage = async () => {
          method: "GET",
       });
 
-      return await result.json();
+      if (!result.ok) {
+         throw new Error("Failed to get image data.");
+      }
+
+      const data = await result.json();
+
+      return JSON.stringify(data);
    } catch (err) {
       console.error(err);
    }
