@@ -17,16 +17,17 @@ function HighlightFeature() {
          }, 1000);
       };
 
-      window.addEventListener("mousemove", handleMouseMoveWithDelay);
+      document.addEventListener("mousemove", handleMouseMoveWithDelay);
 
       return () => {
-         window.removeEventListener("mousemove", handleMouseMoveWithDelay);
+         document.removeEventListener("mousemove", handleMouseMoveWithDelay);
          clearTimeout(mouseMoveTimer);
       };
    }, []);
+
    return (
       <div
-         className={`relative h-full w-full shadow-[inset_0px_0px_150px_10px_rgba(0,0,0,0.6)] transition-opacity duration-500 ${
+         className={` h-full w-full shadow-[inset_0px_0px_150px_10px_rgba(0,0,0,0.6)] transition-opacity duration-500 ${
             isMouseMoving ? "opacity-100" : "opacity-0"
          }`}
       ></div>
