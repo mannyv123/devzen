@@ -6,16 +6,9 @@ interface TimerOptions {
    workTime: number;
    breakTime: number;
    initialMode?: Modes;
-   //    onSwitchMode?: (mode: Modes) => void;
-   //    onTimerComplete?: () => void;
 }
 
-const usePomodoroTimer = ({
-   workTime,
-   breakTime,
-   initialMode = "work", //    onSwitchMode,
-} //    onTimerComplete,
-: TimerOptions) => {
+const usePomodoroTimer = ({ workTime, breakTime, initialMode = "work" }: TimerOptions) => {
    const [isPaused, setIsPaused] = useState(true);
    const [mode, setMode] = useState<Modes>(initialMode);
 
@@ -37,19 +30,10 @@ const usePomodoroTimer = ({
       if (mode === "break") setSecondsLeft(breakTime);
    }, [breakTime]);
 
-   //  useEffect(() => {
-   //     if (onSwitchMode) {
-   //       onSwitchMode(mode);
-   //     }
-   //   }, [mode, onSwitchMode]);
-
    useEffect(() => {
       const switchMode = () => {
          setMode((prevMode) => (prevMode === "work" ? "break" : "work"));
          setSecondsLeft(mode === "work" ? breakTime : workTime); //setSecondsLeft gets executed before setMode is complete; therefore, times have been switched
-         //    if (onTimerComplete) {
-         //     onTimerComplete();
-         //   }
       };
 
       // eslint-disable-next-line prefer-const
