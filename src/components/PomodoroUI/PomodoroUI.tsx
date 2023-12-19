@@ -23,7 +23,7 @@ function PomodoroUI({
 }: PomodoroUIProps) {
    return (
       <div className='absolute animate-fadeIn'>
-         <div className='h-[27rem] w-[27rem]'>
+         <div className='h-[26rem] w-[26rem]'>
             <CircularProgressbarWithChildren
                value={remainingPercent}
                styles={buildStyles({
