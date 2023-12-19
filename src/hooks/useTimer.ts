@@ -1,14 +1,28 @@
+import { updateGuestTaskTime } from "@/redux/features/guestTasksSlice";
+import { updateTaskElapsedTime } from "@/redux/features/tasksSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Task, UserTask } from "@/types/types";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface TimerProps {
    task: Task | UserTask;
-   handleElapsedTimeUpdate: (taskDetails: { taskId: string; elapsedTime: number }) => Promise<void>;
 }
 
-function useTimer({ task, handleElapsedTimeUpdate }: TimerProps) {
+function useTimer({ task }: TimerProps) {
    const [isTimerRunning, setIsTimerRunning] = useState(false);
    const [elapsedTime, setElapsedTime] = useState(task.elapsedTime);
+
+   const dispatch = useAppDispatch();
+   const { data: session } = useSession();
+
+   const handleElapsedTimeUpdate = async (taskDetails: { taskId: string; elapsedTime: number }) => {
+      if (session) {
+         await dispatch(updateTaskElapsedTime(taskDetails));
+      } else {
+         dispatch(updateGuestTaskTime(taskDetails));
+      }
+   };
 
    //Check if local storage has timer; if it does and it's running, update elapsed time
    useEffect(() => {

@@ -11,7 +11,7 @@ interface ChatGPTUIProps {
 
 function ChatGptUI({ handleModal }: ChatGPTUIProps) {
    return (
-      <div className='flex flex-col gap-2 text-white md:gap-4 lg:flex-row'>
+      <div className='z-20 flex flex-col gap-2 text-white md:gap-4 lg:flex-row'>
          <div
             className='group flex cursor-pointer items-center rounded-full border border-white pr-2 hover:pr-2 hover:opacity-100 lg:pr-0 lg:opacity-40'
             onClick={() => handleModal("complexity")}

@@ -23,8 +23,8 @@ module.exports = {
          },
          keyframes: {
             fadeIn: {
-               "0%": { filter: "blur(64px)" },
-               "100%": { filter: "blur(0)" },
+               "0%": { opacity: "0" },
+               "100%": { opacity: "100%" },
             },
          },
          animation: {
