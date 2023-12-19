@@ -1,48 +1,31 @@
-import { getTimerSettings } from "@/redux/features/timerSettingsSlice";
-import { getPomodoroDetails } from "@/redux/features/timerSlice";
-import { useAppSelector } from "@/redux/hooks";
-import React, { useEffect } from "react";
+import React from "react";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { RiFocus2Line } from "react-icons/ri";
 import { FiCoffee } from "react-icons/fi";
-import usePomodoroTimer from "@/hooks/usePomodoroTimer";
 
-const WORK_COLOR = "#FF3338aa";
-const BREAK_COLOR = "#06B235aa";
+interface PomodoroUIProps {
+   remainingPercent: number;
+   remainingMinutes: number;
+   remainingSeconds: number;
+   secondsDigit: string;
+   pathColor: string;
+   mode: "work" | "break";
+}
 
-function PomodoroCircleUI() {
-   const timer = useAppSelector(getPomodoroDetails);
-   const { timerStatus } = timer.timer;
-   const timerSettings = useAppSelector(getTimerSettings);
-   const { workTime, breakTime } = timerSettings; // in minutes
-
-   const WORK_TIME_SECONDS = workTime * 60;
-   const BREAK_TIME_SECONDS = breakTime * 60;
-
-   const { togglePause, secondsLeft, mode } = usePomodoroTimer({
-      workTime: WORK_TIME_SECONDS,
-      breakTime: BREAK_TIME_SECONDS,
-   });
-
-   const pathColor = mode === "work" ? WORK_COLOR : BREAK_COLOR;
-
-   useEffect(() => {
-      togglePause(timerStatus);
-   }, [timerStatus]);
-
-   const totalSeconds = mode === "work" ? WORK_TIME_SECONDS : BREAK_TIME_SECONDS;
-   const percentage = Math.round((secondsLeft / totalSeconds) * 100);
-   const minutes = Math.floor(secondsLeft / 60);
-   const seconds = secondsLeft % 60;
-   let secondsDigit = "";
-   if (seconds < 10) secondsDigit = "0";
-
+function PomodoroUI({
+   remainingMinutes,
+   remainingPercent,
+   remainingSeconds,
+   secondsDigit,
+   pathColor,
+   mode,
+}: PomodoroUIProps) {
    return (
       <div className='absolute animate-fadeIn'>
          <div className='h-[27rem] w-[27rem]'>
             <CircularProgressbarWithChildren
-               value={percentage}
+               value={remainingPercent}
                styles={buildStyles({
                   textColor: "#fff",
                   pathColor,
@@ -66,7 +49,7 @@ function PomodoroCircleUI() {
                         )}
                      </div>
                   </div>
-                  <div className='text-6xl'>{`${minutes}:${secondsDigit}${seconds}`}</div>
+                  <div className='text-6xl'>{`${remainingMinutes}:${secondsDigit}${remainingSeconds}`}</div>
                </div>
             </CircularProgressbarWithChildren>
          </div>
@@ -74,4 +57,4 @@ function PomodoroCircleUI() {
    );
 }
 
-export default PomodoroCircleUI;
+export default PomodoroUI;
