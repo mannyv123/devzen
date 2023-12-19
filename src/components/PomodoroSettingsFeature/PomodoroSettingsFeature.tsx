@@ -35,8 +35,8 @@ function PomodoroSettingsFeature() {
 
    return (
       <div className='relative w-full'>
-         <div className='absolute bottom-0 w-full rounded-lg bg-black/10'>
-            <div className='flex h-full w-full flex-col'>
+         <div className='absolute bottom-0 w-full rounded-lg bg-white'>
+            <div className='flex h-full w-full flex-col bg-black/10'>
                <div
                   onClick={handleSettingsDrawer}
                   className='flex w-full cursor-pointer justify-center'
