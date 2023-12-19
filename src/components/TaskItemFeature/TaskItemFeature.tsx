@@ -19,7 +19,7 @@ interface TaskItemFeatureProps {
 
 const TaskItemFeature = ({ task }: TaskItemFeatureProps) => {
    const timerSettings = useAppSelector(getTimerSettings);
-   console.log(timerSettings);
+
    const dispatch = useAppDispatch();
    const { data: session } = useSession();
 

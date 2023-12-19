@@ -1,76 +1,37 @@
 import { getTimerSettings } from "@/redux/features/timerSettingsSlice";
 import { getPomodoroDetails } from "@/redux/features/timerSlice";
 import { useAppSelector } from "@/redux/hooks";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { RiFocus2Line } from "react-icons/ri";
 import { FiCoffee } from "react-icons/fi";
+import usePomodoroTimer from "@/hooks/usePomodoroTimer";
 
-type Modes = "work" | "break";
+const WORK_COLOR = "#FF3338aa";
+const BREAK_COLOR = "#06B235aa";
 
 function PomodoroCircleUI() {
-   const [isPaused, setIsPaused] = useState(true);
-   const [mode, setMode] = useState<Modes>("work");
-
    const timer = useAppSelector(getPomodoroDetails);
+   const { timerStatus } = timer.timer;
    const timerSettings = useAppSelector(getTimerSettings);
+   const { workTime, breakTime } = timerSettings; // in minutes
 
-   const [secondsLeft, setSecondsLeft] = useState(timerSettings.workTime * 60);
+   const WORK_TIME_SECONDS = workTime * 60;
+   const BREAK_TIME_SECONDS = breakTime * 60;
 
-   const secondsLeftRef = useRef(secondsLeft);
-   const isPausedRef = useRef(isPaused);
-   const modeRef = useRef(mode);
+   const { togglePause, secondsLeft, mode } = usePomodoroTimer({
+      workTime: WORK_TIME_SECONDS,
+      breakTime: BREAK_TIME_SECONDS,
+   });
 
-   useEffect(() => {
-      setSecondsLeft(timerSettings.workTime * 60);
-      secondsLeftRef.current = timerSettings.workTime * 60;
-   }, [timerSettings.workTime]);
-
-   const tick = () => {
-      secondsLeftRef.current--;
-      setSecondsLeft(secondsLeftRef.current);
-   };
+   const pathColor = mode === "work" ? WORK_COLOR : BREAK_COLOR;
 
    useEffect(() => {
-      const status = timer.timer.timerStatus;
-      if (status === "running") {
-         setIsPaused(false);
-         isPausedRef.current = false;
-      } else if (status === "stopped" || status === "paused") {
-         setIsPaused(true);
-         isPausedRef.current = true;
-      }
-   }, [timer.timer.timerStatus]);
+      togglePause(timerStatus);
+   }, [timerStatus]);
 
-   useEffect(() => {
-      const switchMode = () => {
-         const nextMode = modeRef.current === "work" ? "break" : "work";
-         const nextSeconds =
-            (nextMode === "work" ? timerSettings.workTime : timerSettings.breakTime) * 60;
-
-         setMode(nextMode);
-         modeRef.current = nextMode;
-
-         setSecondsLeft(nextSeconds);
-         secondsLeftRef.current = nextSeconds;
-      };
-
-      const interval = setInterval(() => {
-         if (isPausedRef.current) {
-            return;
-         }
-         if (secondsLeftRef.current === 0) {
-            return switchMode();
-         }
-         tick();
-      }, 1000);
-
-      return () => clearInterval(interval);
-   }, [isPaused]);
-
-   const totalSeconds =
-      mode === "work" ? timerSettings.workTime * 60 : timerSettings.breakTime * 60;
+   const totalSeconds = mode === "work" ? WORK_TIME_SECONDS : BREAK_TIME_SECONDS;
    const percentage = Math.round((secondsLeft / totalSeconds) * 100);
    const minutes = Math.floor(secondsLeft / 60);
    const seconds = secondsLeft % 60;
@@ -79,14 +40,15 @@ function PomodoroCircleUI() {
 
    return (
       <div className='absolute animate-fadeIn'>
-         <div className='h-[28rem] w-[28rem]'>
+         <div className='h-[27rem] w-[27rem]'>
             <CircularProgressbarWithChildren
                value={percentage}
                styles={buildStyles({
                   textColor: "#fff",
-                  pathColor: "#f54e4e",
+                  pathColor,
                   trailColor: "rgba(255,255,255,.2)",
                })}
+               strokeWidth={4}
             >
                <div className='mb-44 flex w-full flex-col items-center justify-evenly text-white lg:mb-10 lg:flex-row'>
                   <div className='text-4xl'>
