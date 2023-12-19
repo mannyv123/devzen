@@ -71,6 +71,29 @@ export interface SignUpFormErrors {
    };
 }
 
+type TimerRunning = {
+   timerStatus: "running" | "paused";
+   taskId: string;
+   workTime: number;
+   breakTime: number;
+};
+
+type TimerStopped = {
+   timerStatus: "stopped";
+};
+
+export type PomodoroTimer = {
+   timer: TimerRunning | TimerStopped;
+};
+
+export interface TimerSettings {
+   timerSettings: {
+      timerEnabled: boolean;
+      workTime: number;
+      breakTime: number;
+   };
+}
+
 //API TYPES
 export interface TaskDocument extends Document {
    userId: string;

@@ -11,14 +11,14 @@ function ImageDetailUI({ imageDetails }: ImageDetailUIProps) {
       <div className='group absolute bottom-3 left-4 z-20 capitalize text-white'>
          <div className='relative flex flex-col'>
             <Link href={imageDetails.links.html} target='_blank'>
-               <p className='translate-y-3 opacity-40 transition-all duration-500 hover:underline group-hover:-translate-y-0 group-hover:opacity-100'>
+               <p className='-translate-y-0 opacity-40 transition-all duration-500 hover:underline group-hover:-translate-y-0 group-hover:opacity-100 lg:translate-y-3'>
                   {imageDetails.location.name === null
                      ? imageDetails.alt_description
                      : imageDetails.location.name}
                </p>
             </Link>
             <Link href={imageDetails.user.links.html} target='_blank'>
-               <p className='-translate-y-3 whitespace-nowrap opacity-0 transition-all duration-500 hover:underline group-hover:translate-y-0 group-hover:opacity-100'>
+               <p className='translate-y-0 whitespace-nowrap opacity-40 transition-all duration-500 hover:underline group-hover:translate-y-0 group-hover:opacity-100 lg:-translate-y-3 lg:opacity-0'>
                   {imageDetails.user.name}
                </p>
             </Link>

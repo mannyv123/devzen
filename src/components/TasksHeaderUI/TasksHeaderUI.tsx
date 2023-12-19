@@ -9,7 +9,7 @@ interface TasksHeaderUIProps {
 function TasksHeaderUI({ expanded, handleTaskOpenToggle }: TasksHeaderUIProps) {
    return (
       <div
-         className={`group relative ml-4 mt-3 flex w-fit cursor-pointer items-center justify-center rounded-full border pr-2 text-white hover:pr-2 hover:opacity-100 ${
+         className={`group relative z-30 ml-4 mt-3 flex w-fit cursor-pointer items-center justify-center rounded-full border pr-2 text-white hover:pr-2 hover:opacity-100 ${
             expanded ? "lg:pr-2 lg:opacity-100" : "lg:pr-0 lg:opacity-40"
          }`}
          onClick={handleTaskOpenToggle}

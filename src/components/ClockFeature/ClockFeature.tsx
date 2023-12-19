@@ -2,11 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import ClockUI from "../ClockUI/ClockUI";
+import { useAppSelector } from "@/redux/hooks";
+import { getTimerSettings } from "@/redux/features/timerSettingsSlice";
 
 const CLOCK_UPDATE_INTERVAL = 60000; //60000 ms = 1 min
 
 const ClockFeature = () => {
    const [currentTime, setCurrentTime] = useState(getTime());
+
+   const timerSettings = useAppSelector(getTimerSettings);
 
    //Function to get the current time in "hh:mm" format
    function getTime() {
@@ -27,7 +31,11 @@ const ClockFeature = () => {
 
    return (
       <>
-         <ClockUI currentTime={currentTime} />
+         {timerSettings.timerEnabled ? (
+            <div className='h-32'></div>
+         ) : (
+            <ClockUI currentTime={currentTime} />
+         )}
       </>
    );
 };

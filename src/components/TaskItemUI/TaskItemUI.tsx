@@ -9,7 +9,7 @@ interface TaskItemUIProps {
    task: Task | UserTask;
    handleTaskCompletion: (taskId: string) => Promise<void>;
    handleTaskDelete: (taskId: string) => Promise<void>;
-   toggleTimer: () => void;
+   toggleTimer: (timerState: "run" | "stop" | "pause") => void;
    timerRunning: boolean;
    elapsedTime: number;
 }
@@ -51,12 +51,12 @@ function TaskItemUI({
                   <>
                      {timerRunning ? (
                         <MdOutlineTimerOff
-                           onClick={toggleTimer}
+                           onClick={() => toggleTimer("stop")}
                            className='h-10 w-10 cursor-pointer lg:h-5 lg:w-5'
                         />
                      ) : (
                         <MdOutlineTimer
-                           onClick={toggleTimer}
+                           onClick={() => toggleTimer("run")}
                            className='h-10 w-10 cursor-pointer lg:h-5 lg:w-5'
                         />
                      )}
