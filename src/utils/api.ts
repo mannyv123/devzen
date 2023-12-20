@@ -7,6 +7,7 @@ export const getUnsplashImage = async () => {
    try {
       const result = await fetch(`${API_URL}/api/image/`, {
          method: "GET",
+         cache: "no-store",
       });
 
       if (!result.ok) {
