@@ -1,5 +1,3 @@
-export const fetchCache = "force-no-store";
-
 import { NewUserData, User, UserTask } from "../types/types";
 
 const API_URL = process.env.URL;
@@ -9,8 +7,6 @@ export const getUnsplashImage = async () => {
    try {
       const result = await fetch(`${API_URL}/api/image/`, {
          method: "GET",
-         cache: "no-store",
-         next: { revalidate: 0 },
       });
 
       if (!result.ok) {
