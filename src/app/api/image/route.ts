@@ -1,3 +1,5 @@
+export const fetchCache = "force-no-store";
+
 import { UnsplashResponse } from "@/types/types";
 import { NextResponse } from "next/server";
 
