@@ -14,6 +14,7 @@ export const GET = async () => {
                Authorization: "Client-ID " + ACCESS_KEY,
             },
             cache: "no-store",
+            next: { revalidate: 0 },
          },
       );
 
