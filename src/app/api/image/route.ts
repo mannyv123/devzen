@@ -1,5 +1,3 @@
-export const fetchCache = "force-no-store";
-
 import { UnsplashResponse } from "@/types/types";
 import { NextResponse } from "next/server";
 
@@ -15,8 +13,8 @@ export const GET = async () => {
             headers: {
                Authorization: "Client-ID " + ACCESS_KEY,
             },
-            cache: "no-store",
-            next: { revalidate: 0 },
+
+            next: { revalidate: 10 },
          },
       );
 
